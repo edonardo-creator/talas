@@ -228,6 +228,7 @@ function panelBox(p,o){
   if(o.lid==='flat'){A('lid','Kapak',m,0,H,0,W,t,D);A('cleat','Kapak çıtası',m,t+1,H-t,t+1,W-2*t-2,t,20);A('cleat','Kapak çıtası',m,t+1,H-t,D-t-21,W-2*t-2,t,20);}
   if(o.lid==='hinged') A('lid','Kapak',m,0,H,0,W,t,D);
   if(o.roof) A('roof','Çatı',m,-25,H,-30,W+50,t,D+50);
+  if(o.hole) PART(parts,'hole','Giriş deliği','hole',prism('z',circlePoly(W/2,H*.68,o.hole/2,28),D,1),{deco:true,smooth:true});
   const small=W<300&&H<200;
   const hw=[small?['Ahşap tutkalı + 1,2×20 çivi','1 paket','']:[(o.outdoor?'Paslanmaz':'Sunta')+' vidası 3,5×30','1 kutu','']];
   if(o.lid==='hinged') hw.push(['Küçük menteşe 30 mm',(W>350?3:2)+' adet','vidasıyla'],W>250?['Kapak zinciri / stay','1 adet','']:null);

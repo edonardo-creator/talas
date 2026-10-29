@@ -211,7 +211,7 @@ function gableHouse(p,o){
    F) EĞİK SIRTLI SANDALYE / BANK
    ====================================================================== */
 function recline(p,o){
-  const parts=[], W=p.W, D=p.D, H=p.H, A=deg(p.BA||18), BL=o.BL||560, sp=o.sp||'emp', lk=LM(sp,45,70), fk=LM(sp,28,95), sk=LM(sp,20,95), arms=!!o.arms, tA=Math.tan(A);
+  const parts=[], W=p.W, D=p.D, H=p.H, A=deg(p.BA||18), BL=o.BL||(o.indoor?420:560), sp=o.sp||'emp', lk=LM(sp,45,70), fk=LM(sp,28,95), sk=LM(sp,20,95), arms=!!o.arms, tA=Math.tan(A);
   for(const x of [22.5,W-22.5]){
     const B=[x,0,35+H*tA], T=[x,H+BL*Math.cos(A),35-BL*Math.sin(A)];
     PART(parts,'legB','Arka ayak (eğik)',lk,barRings(B,T,70,45,[1,0,0]),{cut:[R(v3.len(v3.sub(T,B))+20),70,45],cutNote:`uçlar ${p.BA||18}° açılı`});}
@@ -227,17 +227,19 @@ function recline(p,o){
     const pts=[[-1,-1],[1,-1],[1,1],[-1,1]].map(([a,b])=>{const P=v3.add(v3.add(C,v3.mul(dir,a*47.5)),v3.mul(nf,b*10));return[P[2],P[1]];});
     PART(parts,'backS','Sırt çıtası',sk,prism('x',pts,0,W),{cut:[W,95,20]});});
   if(arms) for(const x of [-25,W-70]) BOX(parts,'arm','Kolçak',fk,x,H-20+220,110,95,28,D-90,{cut:[D-90,95,28]});
-  const hw=[['Paslanmaz vida 4×50','1 kutu',(ns+nb)*4+(arms?8:0)+' tane gerekiyor'],['Galvaniz cıvata M8×110 + somun + pul','8 takım','ayak-kasa'],['Ahşap tutkalı (D3)','1 şişe',''],['Dış mekân ahşap yağı','1 L',''],['Plastik ayak pabucu','4 adet','']];
-  const c={parts,hw,join:'Cıvata + paslanmaz vida',notes:[{t:'tip',x:`Sırt ${p.BA||18}° geriye yatık; ${nb} sırt çıtası, ${ns} oturma çıtası.`},W>1600?{t:'warn',x:'1600 mm üstü bankta oturma çıtaları ortada esneyebilir; 28 mm çıta kullan.'}:null]};
+  const ind=!!o.indoor;
+  const hw=ind?[['Sunta vidası 4×50','1 kutu',(ns+nb)*4+' tane gerekiyor'],['Mobilya cıvatası M8×100 + gömme somun','8 takım','ayak-kasa'],['Ahşap tutkalı','1 şişe',''],['Su bazlı vernik veya sert yağ','0,5 L',''],['Keçe ayak','4 adet','']]
+    :[['Paslanmaz vida 4×50','1 kutu',(ns+nb)*4+(arms?8:0)+' tane gerekiyor'],['Galvaniz cıvata M8×110 + somun + pul','8 takım','ayak-kasa'],['Ahşap tutkalı (D3)','1 şişe',''],['Dış mekân ahşap yağı','1 L',''],['Plastik ayak pabucu','4 adet','']];
+  const c={parts,hw,join:ind?'Cıvata + vida':'Cıvata + paslanmaz vida',notes:[{t:'tip',x:`Sırt ${p.BA||18}° geriye yatık; ${nb} sırt çıtası, ${ns} oturma çıtası.`},W>1600?{t:'warn',x:'1600 mm üstü bankta oturma çıtaları ortada esneyebilir; 28 mm çıta kullan.'}:null]};
   c.tools=stdTools(['gonyeT','aciOlcer','metre','gonye','kalem','matkap','havsa',['isk','4 adet'],'zimMak','zimKag','firca']);
   c.mkSteps=K=>{const S=[];
     S.push({t:'Parçaları kes',tools:['gonyeT','aciOlcer'],x:`${cutUL(c,K)}<p>${K('legB')} arka ayakların iki ucunu da <b class="mono">${p.BA||18}°</b> açıyla paralel kes; ayak yere düz basar.</p>`});
     S.push({t:'Yan çerçeveleri kur',add:['legB','legF','sideR'],tools:['matkap','isk','aciOlcer'],x:`<p>Bir ${K('legB')} arka ve bir ${K('legF')} ön ayağı yere yatır; arka ayağın tabanı ön ayaktan <b class="mono">${R(D-70-(35+H*tA))} mm</b> geride olsun. ${K('sideR')} yan kasayı iki ayağın iç yüzüne, üst kenarı yerden <b class="mono">${H-20} mm</b> olacak şekilde işkencele ve her ayağa 2 adet M8 cıvatayla bağla. İkinci çerçeveyi ayna simetrisiyle yap.</p>`});
     S.push({t:'Çerçeveleri birleştir',add:only(c,['fbR','midR']),tools:['matkap','metre'],x:`<p>${K('fbR')} ön ve arka kasaları yan kasaların arasına tutkal ve vidayla bağla${has(c,'midR')?`; ${K('midR')} orta kasayı ortaya ekle`:''}. Çaprazları eşitle.</p>`});
-    S.push({t:'Oturma çıtaları',add:['seatS'],tools:['matkap','havsa'],x:`<p>${ns} ${K('seatS')} çıtayı 8 mm aralıkla diz, kasalara 2'şer paslanmaz vidayla bağla.</p>`});
+    S.push({t:'Oturma çıtaları',add:['seatS'],tools:['matkap','havsa'],x:`<p>${ns} ${K('seatS')} çıtayı 8 mm aralıkla diz, kasalara 2'şer ${ind?'':'paslanmaz '}vidayla bağla.</p>`});
     S.push({t:'Sırt çıtaları',add:['backS'],tools:['matkap','metre'],x:`<p>${nb} ${K('backS')} çıtayı arka ayakların ön yüzüne, oturma yüzeyinden 90 mm yukarıdan başlayıp 10 mm aralıkla vidala. Çıtalar ayaklarla birlikte geriye yatık durur.</p>`});
     if(arms) S.push({t:'Kolçaklar',add:['arm'],tools:['matkap'],x:`<p>${K('arm')} kolçakları ön ayakların üstüne ve arka ayağın yan yüzüne vidala; kenarlarını yuvarlat.</p>`});
-    S.push(finishStep({outdoor:1}));
+    S.push(finishStep(ind?{}:{outdoor:1}));
     return S;};
   return c;
 }

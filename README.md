@@ -4,7 +4,7 @@
 
 Ahşap ürünler için ölçüsü ayarlanabilir yapım kılavuzu. Her ürünün kesim listesi, kereste ve plaka yerleşimi, hırdavat ve ekipman listesi, ölçülü plan görünüşleri ve adım adım montaj anlatımı seçilen ölçüye göre hesaplanır.
 
-Katalogda toplam 2.132 ürün var: elle yazılmış 7 öne çıkan proje ve 115 ürün ailesinden üretilen varyantlar. Kategoriler: ev mobilyası, bahçe ve dış mekân, mutfak, çocuk, atölye ve hobi. Eğik (yaslı raf, şövale, eğik sırtlı oturma, beşik çatı) ve yuvarlak (daire tabla, konik açılı ayak, yuvarlak tahta) parçalı ürünler de dahil.
+Katalogda toplam 2.418 ürün var: elle yazılmış 7 öne çıkan proje ve 133 ürün ailesinden üretilen varyantlar, 6 kategori ve 27 alt kategoride. Kategoriler: ev mobilyası, bahçe ve dış mekân, mutfak, çocuk, atölye ve hobi. Eğik (yaslı raf, şövale, eğik sırtlı oturma, beşik çatı) ve yuvarlak (daire tabla, konik açılı ayak, yuvarlak tahta) parçalı ürünler de dahil.
 
 ## Dosyalar
 
@@ -13,6 +13,7 @@ Katalogda toplam 2.132 ürün var: elle yazılmış 7 öne çıkan proje ve 115 
 | `index.html` | Arayüz, çizim motoru (izometrik görünüm, plan görünüşleri), kesim yerleşimi, öne çıkan 7 proje |
 | `aileler.js` | Kutu biçimli parçalardan oluşan ürün aileleri: gövde, çerçeve, kasa, kutu, raf, askılık, merdiven, yatak, oturma, tahta, çerçeve, stand |
 | `sekilli.js` | Eğik ve yuvarlak parça yardımcıları ve bu parçaları kullanan aileler |
+| `katalog.js` | Web taramasıyla eklenen ürün türleri (tabela, şamdan, şarap rafı, kedi kulesi, piknik masası, altıgen raf…) ve alt kategori sınıflandırması |
 | `tools/pages.py` | GitHub Pages çıktısını `docs/` altına üretir (kaynak dosyalar değişince çalıştır) |
 | `docs/` | Yayındaki sürüm; elle düzenleme, `python tools/pages.py` ile üret |
 

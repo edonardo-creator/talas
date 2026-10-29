@@ -203,10 +203,117 @@ p{margin:0}
 .shtx{fill:#2a1d0e;font-family:var(--f-mono);font-weight:600;text-anchor:middle;dominant-baseline:central}
 .empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:6px;display:grid;gap:10px;justify-items:center}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- premium katman ---------- */
+:root{--hero:#17201d;--hero-fg:#eef2ee;--hero-mut:#a3b3ab;--studio-hi:#f7f8f5;--studio-lo:#dfe3dd;--shadow:rgba(22,28,25,.28);--edge-soft:rgba(27,33,32,.38);
+  --lift:0 1px 2px rgba(20,26,23,.06),0 10px 28px -14px rgba(20,26,23,.28);--lift-hi:0 2px 4px rgba(20,26,23,.08),0 22px 40px -18px rgba(20,26,23,.38);--hero-studio-hi:#2b3632;--hero-studio-lo:#151c19}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--hero:#0d1210;--hero-fg:#eef2ee;--hero-mut:#93a49c;--studio-hi:#262c2a;--studio-lo:#181c1b;--shadow:rgba(0,0,0,.6);--edge-soft:rgba(0,0,0,.55);
+  --lift:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);--lift-hi:0 2px 4px rgba(0,0,0,.5),0 22px 40px -18px rgba(0,0,0,.8);--hero-studio-hi:#222b28;--hero-studio-lo:#0f1412}}
+:root[data-theme="dark"]{--hero:#0d1210;--hero-fg:#eef2ee;--hero-mut:#93a49c;--studio-hi:#262c2a;--studio-lo:#181c1b;--shadow:rgba(0,0,0,.6);--edge-soft:rgba(0,0,0,.55);
+  --lift:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);--lift-hi:0 2px 4px rgba(0,0,0,.5),0 22px 40px -18px rgba(0,0,0,.8);--hero-studio-hi:#222b28;--hero-studio-lo:#0f1412}
+
+.stage{background:radial-gradient(120% 90% at 50% 30%,var(--studio-hi),var(--studio-lo))}
+svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
+.sh0{stop-color:var(--shadow)}.sh1{stop-color:var(--shadow);stop-opacity:.55}.sh2{stop-color:var(--shadow);stop-opacity:0}
+.hero-art .sh0,.hero-art .sh1,.hero-art .sh2{stop-color:rgba(0,0,0,.5)}
+
+/* gezinme: masaüstünde üst çubuk */
+.nav a.navbrand{display:none}
+@media (min-width:900px){
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--panel)}
+  .nav{top:env(safe-area-inset-top,0px);bottom:auto;border-top:0;border-bottom:1px solid var(--line);padding-bottom:0;justify-content:flex-end;gap:4px;backdrop-filter:saturate(1.4) blur(8px)}
+  .nav a{flex:none;flex-direction:row;gap:8px;min-height:60px;padding:0 14px;font-size:14px}
+  .nav a svg{width:18px;height:18px}
+  .navbrand{display:flex!important;margin-right:auto;font:700 26px/1 var(--f-disp)!important;color:var(--ink)!important;letter-spacing:.01em}
+  .navbrand{gap:0!important}
+  .navbrand span{color:var(--accent)}
+  .wrap{padding-block:88px 56px}
+}
+
+/* giriş bölümü */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px;align-items:center;background:var(--hero);color:var(--hero-fg);border-radius:16px;padding:clamp(22px,4vw,44px);margin-bottom:34px;overflow:hidden}
+.hero .eyebrow{color:var(--hero-mut)}
+.hero h1{font-size:clamp(32px,4.6vw,56px);line-height:1.02;margin:12px 0 14px}
+.hero p{color:var(--hero-mut);max-width:52ch}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px 18px;margin:22px 0 24px}
+.stats b{display:block;font:700 clamp(28px,3.4vw,42px)/1 var(--f-disp);font-variant-numeric:tabular-nums}
+.stats span{font-size:12.5px;color:var(--hero-mut)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.cta .btn{min-height:46px;padding:10px 20px;font-size:15px;text-decoration:none;display:inline-flex;align-items:center}
+.btn.ghost{background:transparent;color:var(--hero-fg);border-color:rgba(255,255,255,.25)}
+.hero-art{position:relative;display:block;aspect-ratio:1/0.82;max-width:100%;border-radius:12px;background:radial-gradient(110% 90% at 50% 25%,var(--hero-studio-hi),var(--hero-studio-lo));color:inherit;text-decoration:none}
+.hero-art{padding:14px 14px 56px}
+.hero-art svg{width:100%;height:100%;display:block}
+
+.hero-cap{position:absolute;left:14px;bottom:12px;font-size:13px;display:grid;gap:2px}
+.hero-cap em{font-style:normal;color:var(--hero-mut);font-size:12px}
+@media (max-width:760px){.hero{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
+
+/* kategoriler */
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}
+.cattile{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;align-items:center;text-align:left;border:0;background:var(--panel);border-radius:12px;padding:10px;box-shadow:var(--lift);transition:transform .18s,box-shadow .18s}
+.cattile:hover{transform:translateY(-2px);box-shadow:var(--lift-hi)}
+.cattile .pic{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;padding:6px}
+.cattile .pic svg{width:100%;height:100%}
+.ct-body{display:grid;gap:4px;min-width:0}
+.ct-body b{font:700 22px/1.05 var(--f-disp)}
+.ct-n{color:var(--accent);font-size:13px}
+.ct-subs{font-size:12.5px;color:var(--muted);line-height:1.4}
+
+/* katalog haritası */
+.cmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.cmap-cat{background:var(--panel);border-radius:12px;padding:14px 14px 8px;box-shadow:var(--lift);display:grid;align-content:start}
+.cmap-h{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:8px;margin-bottom:4px;border-bottom:1px solid var(--line)}
+.cmap-h b{font:700 19px/1.1 var(--f-disp)}
+.cmap-h span{font-size:14px;font-weight:500}
+.cmap-row{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) 36px;gap:10px;align-items:center;border:0;background:none;padding:6px 4px;border-radius:6px;text-align:left;font-size:13.5px;min-height:36px}
+.cmap-row:hover{background:var(--sunk)}
+.cmap-row .l{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmap-row .bar{height:8px;background:var(--sunk);border-radius:4px;overflow:hidden}
+.cmap-row:hover .bar{background:var(--line)}
+.cmap-row .bar i{display:block;height:100%;background:var(--accent);border-radius:0 4px 4px 0}
+.cmap-row .n{text-align:right;font-size:13px;color:var(--muted)}
+
+/* katalog düzeni */
+.catlay{display:grid;grid-template-columns:250px minmax(0,1fr);gap:26px;align-items:start}
+@media (max-width:899px){.catlay{grid-template-columns:minmax(0,1fr);gap:12px}}
+.filters{position:sticky;top:calc(76px + env(safe-area-inset-top,0px))}
+@media (max-width:899px){.filters{position:static}}
+.fbox{background:var(--panel);border-radius:12px;box-shadow:var(--lift);padding:6px 14px 14px}
+.fbox summary{font:700 19px/1 var(--f-disp);padding:10px 0;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;min-height:44px}
+.fbox summary::-webkit-details-marker{display:none}
+.fbox summary::after{content:"";margin-left:auto;width:8px;height:8px;border:solid var(--muted);border-width:0 2px 2px 0;transform:rotate(45deg);transition:transform .2s}
+.fbox[open] summary::after{transform:rotate(-135deg)}
+@media (min-width:900px){.fbox summary{pointer-events:none}.fbox summary::after{display:none}}
+.fdot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.fgroup{display:grid;gap:6px;padding:10px 0;border-top:1px solid var(--line)}
+.fgroup h4{margin:0;font:500 11px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tree{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+.tree ul{list-style:none;margin:2px 0 4px;padding:0 0 0 10px;border-left:1px solid var(--line);display:grid;gap:1px}
+.tree button{width:100%;display:flex;justify-content:space-between;gap:8px;align-items:center;border:0;background:none;padding:7px 8px;border-radius:6px;text-align:left;font-size:14px;min-height:36px}
+.tree button span{font:12.5px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.tree button:hover{background:var(--sunk)}
+.tree button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.tree button[aria-pressed="true"] span{color:var(--accent)}
+.search{width:100%;padding:12px 16px;border:0;border-radius:12px;background:var(--panel);box-shadow:var(--lift);min-height:48px;margin-bottom:14px;font-size:15px}
+.rbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px}
+.rbar label{display:flex;gap:8px;align-items:center;color:var(--muted)}
+.rbar select{padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);min-height:36px;color:var(--ink)}
+
+/* premium kartlar */
+.card{border:0;border-radius:12px;box-shadow:var(--lift);transition:transform .18s,box-shadow .18s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--lift-hi);border-color:transparent}
+.card .pic{padding:10px}
+.card h3{font-size:21px;line-height:1.08}
+.card .dims{font-size:12.5px}
+.badge{position:absolute;left:10px;top:10px;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:var(--hero);color:var(--hero-fg)}
+.viewer{border:0;border-radius:12px;box-shadow:var(--lift)}
+@media (prefers-reduced-motion:reduce){.card:hover,.cattile:hover{transform:none}}
 </style>
 
 <div class="wrap" id="app"></div>
 <nav class="nav" aria-label="Ana gezinme">
+  <a class="navbrand" href="#projeler" data-nav="brand">Talaş<span>.</span></a>
   <a href="#projeler" data-nav="projeler"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5V20H3z"/><path d="M9.5 20v-6h5v6"/></svg>Projeler</a>
   <a href="#rehber" data-nav="rehber"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7"/><rect x="13.5" y="3.5" width="7" height="7"/><rect x="3.5" y="13.5" width="7" height="7"/><rect x="13.5" y="13.5" width="7" height="7"/></svg>Rehber</a>
   <a href="#defterim" data-nav="defterim"><svg viewBox="0 0 24 24"><path d="M3.5 6.5h6l2 2h9v11h-17z"/></svg>Defterim</a>
@@ -580,6 +687,7 @@ function facesOf(p){
 }
 function moved(p,dx,dy,dz){const q=Object.assign({},p,{x:p.x+dx,y:p.y+dy,z:p.z+dz});
   if(p.rings) q.rings=p.rings.map(r=>r.map(v=>[v[0]+dx,v[1]+dy,v[2]+dz]));return q;}
+let ISO_UID=0;
 function iso(parts,opt={}){
   const st=opt.state||(()=> 'n'), k=opt.explode||0;
   let P=parts.map(p=>({p,s:st(p)})).filter(o=>o.s!=='hide');
@@ -598,9 +706,15 @@ function iso(parts,opt={}){
       const fill=colN(t,F.n,s);
       out+=p.smooth&&!F.cap?`<polygon points="${poly(F.pts)}" fill="${fill}" stroke="${fill}" stroke-width=".6"/>`:`<polygon class="f" points="${poly(F.pts)}" fill="${fill}"/>`;});
     return out;};
-  let out=`<svg viewBox="${vb.map(n=>n.toFixed(1)).join(' ')}" role="img" aria-label="${esc(opt.aria||'İzometrik görünüm')}">`;
+  const sid=++ISO_UID;
+  let out=`<svg viewBox="${vb.map(n=>n.toFixed(1)).join(' ')}" role="img" aria-label="${esc(opt.aria||'İzometrik görünüm')}"${opt.studio?' class="studio"':''}>`;
+  if(opt.studio){const fl=Math.min(...solidP.map(o=>o.p.y)), foot=solidP.flatMap(o=>solid(o.p).flat().map(v=>pj(v[0],fl,v[2])));
+    const fx0=Math.min(...foot.map(q=>q[0])),fx1=Math.max(...foot.map(q=>q[0])),fy0=Math.min(...foot.map(q=>q[1])),fy1=Math.max(...foot.map(q=>q[1]));
+    out+=`<defs><radialGradient id="sb${sid}"><stop offset="0" class="sh0"/><stop offset=".7" class="sh1"/><stop offset="1" class="sh2"/></radialGradient>${opt.grain===false?'':`<filter id="gr${sid}"><feTurbulence type="fractalNoise" baseFrequency="${(3/span).toFixed(5)} ${(75/span).toFixed(5)}" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  .42 0 0 0 -.15" result="a"/><feComposite in="a" in2="SourceAlpha" operator="in" result="m"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="m"/></feMerge></filter>`}</defs>`;
+    out+=`<ellipse fill="url(#sb${sid})" cx="${((fx0+fx1)/2+span*.015).toFixed(1)}" cy="${((fy0+fy1)/2+span*.01).toFixed(1)}" rx="${((fx1-fx0)/2*1.12+span*.03).toFixed(1)}" ry="${((fy1-fy0)/2*1.12+span*.02).toFixed(1)}"/>${opt.grain===false?'<g>':`<g filter="url(#gr${sid})">`}`;}
   ghost.forEach(o=>out+=draw(o.p,'n',true));
   order.forEach(i=>{const o=solidP[i];out+=`<g class="${o.s==='new'?'nw':''}"><title>${esc(o.p.name)}</title>${draw(o.p,o.s)}</g>`;});
+  if(opt.studio) out+='</g>';
   if(opt.labels&&opt.gnum){
     const r=span*.03, seen={}, b=bbox(solidP.map(o=>o.p)); const [ccx,ccy]=pj((b.x0+b.x1)/2,(b.y0+b.y1)/2,(b.z0+b.z1)/2);
     solidP.forEach(o=>{const p=o.p; if(seen[p.g]) return; if(opt.labels==='new'&&o.s!=='new') return; seen[p.g]=1;
@@ -714,35 +828,61 @@ const heart='<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A
 function progress(pr){const c=compute(pr,params(pr));const d=(SAVE.steps[pr.id]||[]).filter(Boolean).length;return {d,n:c.steps.length};}
 function card(pr){
   const p=params(pr),c=compute(pr,p),pg=progress(pr);
-  return `<a class="card" href="#${pr.id}"><div class="pic mat">${iso(c.parts,{aria:pr.name})}<button class="fav" data-fav="${pr.id}" aria-pressed="${!!SAVE.fav[pr.id]}" aria-label="Favorilere ekle">${heart}</button></div>
-  <div class="body"><div class="eyebrow">${esc(pr.cat||'')}</div><h3>${esc(pr.name)}</h3><div class="meta">${lvl(pr.level)}<span class="tag">${clockI}${esc(pr.time)}</span></div>
-  <p class="muted mono" style="font-size:13px">${c.dims.join(' × ')} mm · ${c.parts.filter(q=>MAT[q.mat].type!=='hw').length} parça</p>
+  return `<a class="card" href="#${pr.id}"><div class="pic stage">${iso(c.parts,{aria:pr.name,studio:true,grain:false})}<button class="fav" data-fav="${pr.id}" aria-pressed="${!!SAVE.fav[pr.id]}" aria-label="Favorilere ekle">${heart}</button>${pr.featured?'<span class="badge">Öne çıkan</span>':''}</div>
+  <div class="body"><div class="eyebrow">${esc(pr.sub||pr.cat||'')}</div><h3>${esc(pr.name)}</h3><div class="meta">${lvl(pr.level)}<span class="tag">${clockI}${esc(pr.time)}</span></div>
+  <p class="muted mono dims">${c.dims.join(' × ')} mm · ${c.parts.filter(q=>MAT[q.mat].type!=='hw').length} parça</p>
   ${pg.d?`<div class="prog" title="${pg.d}/${pg.n} adım"><i style="width:${pg.d/pg.n*100}%"></i></div>`:''}</div></a>`;
 }
-const Q={cat:'',lvl:0,q:'',fam:'',page:1};
+const Q={cat:'',sub:'',lvl:0,q:'',page:1,sort:'onerilen'};
+let FOPEN=false;
 const trl=s=>s.toLocaleLowerCase('tr');
-function filtered(){const words=trl(Q.q).split(/\s+/).filter(Boolean);
-  return PROJECTS.filter(p=>(!Q.cat||p.cat===Q.cat)&&(!Q.lvl||p.level===Q.lvl)&&(!Q.fam||p.fam===Q.fam)&&(!words.length||words.every(w=>p._s.includes(w))));}
+const fmt=n=>n.toLocaleString('tr-TR');
+const HERO_ID='yuvarlak-sehpa-6';
+const CAT_REP={'Ev mobilyası':'acili-tv-2','Mutfak ve küçük eşya':'yuvarlak-kesme-8','Bahçe ve dış mekân':'egik-bank-2','Çocuk':'bebek-evi-4','Atölye':'tezgah-5','Hobi':'sovale-2'};
+function filtered(skip){const words=trl(Q.q).split(/\s+/).filter(Boolean);
+  return PROJECTS.filter(p=>(skip==='cat'||!Q.cat||p.cat===Q.cat)&&(skip==='cat'||!Q.sub||p.sub===Q.sub)&&(skip==='lvl'||!Q.lvl||p.level===Q.lvl)&&(!words.length||words.every(w=>p._s.includes(w))));}
 function viewHome(){
-  PROJECTS.forEach(p=>{if(!p._s)p._s=trl(p.name+' '+(p.cat||'')+' '+(p.famName||'')+' '+(p.tags||''));});
-  const fams=[...new Map(PROJECTS.filter(p=>p.fam).map(p=>[p.fam,p.famName])).entries()].sort((a,b)=>a[1].localeCompare(b[1],'tr'));
-  app.innerHTML=`<div class="brand"><h1>Talaş<span>.</span></h1><div class="rule"></div></div>
-  <p class="muted" style="max-width:60ch;margin:6px 0 22px">${PROJECTS.length} ahşap ürün, ${fams.length+FEATURED.length} aile. Ölçüsünü sen ver; kesim listesi, kereste ve plaka yerleşimi, ekipman ve adım adım yapım kılavuzu o ölçüye göre hazırlanır.</p>
-  <div class="sec"><header><h2>Öne çıkanlar</h2><span class="muted" style="font-size:13px">Elle yazılmış ayrıntılı kılavuzlar</span></header><div class="grid">${FEATURED.slice(0,3).map(card).join('')}</div></div>
-  <div class="sec"><header><h2>Katalog</h2></header>
-  <div style="display:grid;gap:10px">
-    <input id="q" type="search" placeholder="Ara: kitaplık, meşe, bahçe, çekmeceli…" value="${esc(Q.q)}" aria-label="Katalogda ara" style="padding:10px 14px;border:1px solid var(--line);border-radius:6px;background:var(--panel);min-height:44px;width:100%">
-    <div class="chips" role="group" aria-label="Kategori">${['',...CATS].map(c=>`<button class="chip" data-cat="${esc(c)}" aria-pressed="${Q.cat===c}">${c||'Tümü'}</button>`).join('')}</div>
-    <div class="opts"><label for="lvlSel">Zorluk <select id="lvlSel">${['Hepsi','Kolay','Orta','İleri'].map((t,i)=>`<option value="${i}" ${Q.lvl===i?'selected':''}>${t}</option>`).join('')}</select></label>
-    <label for="famSel">Aile <select id="famSel"><option value="">Tüm aileler</option>${fams.map(([id,n])=>`<option value="${id}" ${Q.fam===id?'selected':''}>${esc(n)}</option>`).join('')}</select></label></div>
-  </div><div id="catalog" style="display:grid;gap:14px"></div></div>`;
+  PROJECTS.forEach(p=>{if(!p._s)p._s=trl(p.name+' '+(p.cat||'')+' '+(p.sub||'')+' '+(p.famName||'')+' '+(p.tags||''));});
+  const fams=new Set(PROJECTS.map(p=>p.fam||p.id)).size, nsub=Object.values(SUBS).reduce((a,s)=>a+s.length,0);
+  const hp=BYID[HERO_ID]||FEATURED[0], hc=compute(hp,params(hp));
+  const byCat=Object.fromEntries(CATS.map(c=>[c,PROJECTS.filter(p=>p.cat===c)]));
+  app.innerHTML=`<section class="hero"><div class="hero-copy"><div class="eyebrow">Talaş · ahşap yapım kılavuzu</div>
+    <h1>Ölçüsünü sen ver. Kesimini, malzemesini ve yapımını biz çıkaralım.</h1>
+    <p>Her ürünün kesim listesi, kereste ve plaka yerleşimi, ekipmanı, ölçülü planları ve adım adım montajı, seçtiğin ölçüye göre yeniden hesaplanır.</p>
+    <div class="stats"><div><b>${fmt(PROJECTS.length)}</b><span>ürün</span></div><div><b>${fams}</b><span>ürün ailesi</span></div><div><b>${CATS.length}</b><span>kategori</span></div><div><b>${nsub}</b><span>alt kategori</span></div></div>
+    <div class="cta"><a class="btn primary" href="#projeler" data-jump="katalog">Kataloğa göz at</a><a class="btn ghost" href="#${hp.id}">Bu ürünü aç</a></div></div>
+    <a class="hero-art" href="#${hp.id}" aria-label="${esc(hp.name)}">${iso(hc.parts,{studio:true,aria:hp.name})}<span class="hero-cap">${esc(hp.name)}<em class="mono">${hc.dims.join(' × ')} mm</em></span></a></section>
+  <section class="sec"><header><h2>Kategoriler</h2><span class="muted">${fmt(PROJECTS.length)} ürün, ${CATS.length} kategoride</span></header><div class="cats">${CATS.map(cn=>{const rp=BYID[CAT_REP[cn]]||byCat[cn][0], rc=compute(rp,params(rp));
+      return `<button class="cattile" data-cat="${esc(cn)}" data-jump="katalog"><span class="pic stage">${iso(rc.parts,{studio:true,grain:false})}</span><span class="ct-body"><b>${esc(cn)}</b><span class="mono ct-n">${fmt(byCat[cn].length)} ürün</span><span class="ct-subs">${SUBS[cn].map(esc).join(' · ')}</span></span></button>`;}).join('')}</div></section>
+  <section class="sec"><header><h2>Katalog haritası</h2><span class="muted">Alt kategoriye göre ürün sayısı. Bir satıra dokununca katalog o gruba süzülür.</span></header>${mapHTML(byCat)}</section>
+  <section class="sec"><header><h2>Öne çıkanlar</h2><span class="muted">Elle yazılmış ayrıntılı kılavuzlar</span></header><div class="grid">${FEATURED.slice(0,4).map(card).join('')}</div></section>
+  <section class="sec" id="katalog"><header><h2>Katalog</h2></header>
+    <div class="catlay"><aside class="filters" id="filters"></aside><div class="results"><input id="q" type="search" class="search" placeholder="Ara: kitaplık, meşe, bahçe, çekmeceli…" value="${esc(Q.q)}" aria-label="Katalogda ara"><div id="catalog" style="display:grid;gap:14px"></div></div></div></section>`;
   renderCatalog();
 }
+function mapHTML(byCat){
+  const cnt=(cn,s)=>byCat[cn].filter(p=>p.sub===s).length, max=Math.max(...CATS.flatMap(cn=>SUBS[cn].map(s=>cnt(cn,s))));
+  return `<div class="cmap">${CATS.map(cn=>`<div class="cmap-cat"><div class="cmap-h"><b>${esc(cn)}</b><span class="mono">${fmt(byCat[cn].length)}</span></div>${SUBS[cn].map(s=>{const n=cnt(cn,s);
+    return `<button class="cmap-row" data-cat="${esc(cn)}" data-sub="${esc(s)}" data-jump="katalog" title="${esc(cn)} › ${esc(s)}: ${n} ürün"><span class="l">${esc(s)}</span><span class="bar"><i style="width:${Math.max(2,n/max*100).toFixed(1)}%"></i></span><span class="n mono">${n}</span></button>`;}).join('')}</div>`).join('')}</div>`;
+}
 function renderCatalog(){
-  const list=filtered(), n=Q.page*24;
-  document.getElementById('catalog').innerHTML=`<p class="muted mono" style="font-size:13px">${list.length} ürün</p>
+  const F=document.getElementById('filters'); if(!F) return;
+  const baseCat=filtered('cat'), baseLvl=filtered('lvl'), cnt=(a,f)=>a.filter(f).length, desk=matchMedia('(min-width:900px)').matches;
+  F.innerHTML=`<details class="fbox" ${desk||FOPEN?'open':''}><summary>Filtreler${Q.cat||Q.lvl?' <span class="fdot"></span>':''}</summary>
+    <div class="fgroup"><h4>Kategori</h4><ul class="tree"><li><button data-cat="" aria-pressed="${!Q.cat}">Tümü<span>${fmt(baseCat.length)}</span></button></li>
+    ${CATS.map(cn=>{const open=Q.cat===cn;return `<li><button data-cat="${esc(cn)}" aria-pressed="${open&&!Q.sub}">${esc(cn)}<span>${fmt(cnt(baseCat,p=>p.cat===cn))}</span></button>${open?`<ul>${SUBS[cn].map(s=>`<li><button data-cat="${esc(cn)}" data-sub="${esc(s)}" aria-pressed="${Q.sub===s}">${esc(s)}<span>${cnt(baseCat,p=>p.cat===cn&&p.sub===s)}</span></button></li>`).join('')}</ul>`:''}</li>`;}).join('')}</ul></div>
+    <div class="fgroup"><h4>Zorluk</h4><ul class="tree">${['Hepsi','Kolay','Orta','İleri'].map((t,i)=>`<li><button data-lvl="${i}" aria-pressed="${Q.lvl===i}">${t}<span>${fmt(i?cnt(baseLvl,p=>p.level===i):baseLvl.length)}</span></button></li>`).join('')}</ul></div>
+    ${Q.cat||Q.lvl||Q.q?'<button class="btn sm" data-clear="1">Filtreleri temizle</button>':''}</details>`;
+  F.querySelector('details').addEventListener('toggle',e=>{FOPEN=e.target.open;});
+  let list=filtered();
+  if(Q.sort==='ad') list=list.slice().sort((a,b)=>a.name.localeCompare(b.name,'tr'));
+  if(Q.sort==='kolay') list=list.slice().sort((a,b)=>a.level-b.level);
+  if(Q.sort==='zor') list=list.slice().sort((a,b)=>b.level-a.level);
+  const n=Q.page*24;
+  document.getElementById('catalog').innerHTML=`<div class="rbar"><p><b class="mono">${fmt(list.length)}</b> ürün${Q.sub?' · '+esc(Q.cat)+' › '+esc(Q.sub):Q.cat?' · '+esc(Q.cat):''}</p>
+    <label for="sortSel">Sırala <select id="sortSel">${[['onerilen','Önerilen'],['ad','Ada göre'],['kolay','Kolaydan zora'],['zor','Zordan kolaya']].map(([v,t])=>`<option value="${v}" ${Q.sort===v?'selected':''}>${t}</option>`).join('')}</select></label></div>
   ${list.length?`<div class="grid">${list.slice(0,n).map(card).join('')}</div>`:`<div class="empty">Aramana uyan ürün yok. Daha kısa bir kelime dene ya da filtreleri temizle.<button class="btn" data-clear="1">Filtreleri temizle</button></div>`}
-  ${list.length>n?`<button class="btn" data-more="1" style="justify-self:center;min-width:220px">Daha fazla göster (${list.length-n} kaldı)</button>`:''}`;
+  ${list.length>n?`<button class="btn" data-more="1" style="justify-self:center;min-width:220px">Daha fazla göster (${fmt(list.length-n)} kaldı)</button>`:''}`;
 }
 function viewProject(id){
   const pr=BYID[id]; const p=params(pr);
@@ -751,7 +891,7 @@ function viewProject(id){
   <div class="phead"><div class="eyebrow">${esc(pr.join)}</div><div style="display:flex;justify-content:space-between;gap:12px;align-items:start"><h1>${esc(pr.name)}</h1><button class="fav" style="position:static;flex:none" data-fav="${pr.id}" aria-pressed="${!!SAVE.fav[pr.id]}" aria-label="Favorilere ekle">${heart}</button></div>
   <div class="meta">${lvl(pr.level)}<span class="tag">${clockI}${esc(pr.time)}</span></div></div>
   <div class="layout"><div class="side">
-    <div class="viewer mat" id="viewer"></div>
+    <div class="viewer stage" id="viewer"></div>
     <div class="facts" id="facts"></div>
     <div class="panel params"><header><h3>Ölçüler</h3><button class="btn sm" id="reset">Varsayılana dön</button></header>
     ${pr.params.map(q=>`<div class="prm"><label for="r-${q.k}">${esc(q.l)}</label><span class="num"><input type="number" id="n-${q.k}" min="${q.min}" max="${q.max}" step="${q.step}" value="${p[q.k]}" data-k="${q.k}" aria-label="${esc(q.l)}"><span class="muted" style="font-size:13px">${q.k==='N'?'adet':'mm'}</span></span>
@@ -764,8 +904,8 @@ function viewProject(id){
 function refresh(){
   const {pr,c}=CUR;
   const v=document.getElementById('viewer');
-  if(CUR.tab==='yapim'){const si=curStep();v.innerHTML=iso(c.parts,{state:q=>q.step<si?'old':q.step===si?'new':'ghost',labels:'new',gnum:c.gnum});}
-  else v.innerHTML=iso(c.parts,{explode:CUR.view==='exp'?.55:0,labels:CUR.view==='exp',gnum:c.gnum,aria:pr.name})+`<div class="vtoggle" role="group" aria-label="Görünüm"><button data-view="iso" aria-pressed="${CUR.view==='iso'}">Montajlı</button><button data-view="exp" aria-pressed="${CUR.view==='exp'}">Parçalara ayrılmış</button></div>`;
+  if(CUR.tab==='yapim'){const si=curStep();v.innerHTML=iso(c.parts,{state:q=>q.step<si?'old':q.step===si?'new':'ghost',labels:'new',gnum:c.gnum,studio:true});}
+  else v.innerHTML=iso(c.parts,{explode:CUR.view==='exp'?.55:0,labels:CUR.view==='exp',gnum:c.gnum,aria:pr.name,studio:true})+`<div class="vtoggle" role="group" aria-label="Görünüm"><button data-view="iso" aria-pressed="${CUR.view==='iso'}">Montajlı</button><button data-view="exp" aria-pressed="${CUR.view==='exp'}">Parçalara ayrılmış</button></div>`;
   const st=stock(c);
   document.getElementById('facts').innerHTML=`<div><b>Bitmiş ölçü</b><span class="mono">${c.dims.join(' × ')} mm</span></div><div><b>Ahşap</b><span>${esc(pr.wood||woodOf(c))}</span></div><div><b>Parça</b><span class="mono">${c.parts.filter(q=>MAT[q.mat].type!=='hw').length} adet · ${c.groups.filter(g=>!g.hw).length} çeşit</span></div><div><b>Alınacak</b><span class="mono">${st.map(s=>s.count+' '+(s.type==='sheet'?'plaka':'boy')).join(' + ')}</span></div>`;
   const T=document.getElementById('tabbody'); T.innerHTML=TABS[CUR.tab]();
@@ -890,17 +1030,17 @@ document.addEventListener('change',e=>{const t=e.target;
   if(t.dataset.cut){const m=SAVE.cut[CUR.pr.id]=SAVE.cut[CUR.pr.id]||{};m[t.dataset.cut]=t.checked;persist();t.closest('.cl-item').classList.toggle('done',t.checked);}
   if(t.dataset.shop){const m=SAVE.shop[CUR.pr.id]=SAVE.shop[CUR.pr.id]||{};m[t.dataset.shop]=t.checked;persist();}
   if(t.dataset.have){SAVE.have[t.dataset.have]=t.checked;persist();t.closest('.tool').classList.toggle('have',t.checked);if(CUR&&CUR.tab==='ekipman')refresh();}
-  if(t.id==='lvlSel'){Q.lvl=+t.value;Q.page=1;renderCatalog();}
-  if(t.id==='famSel'){Q.fam=t.value;Q.page=1;renderCatalog();}
+  if(t.id==='sortSel'){Q.sort=t.value;Q.page=1;renderCatalog();}
   if(t.id==='lumL'){SAVE.opt.lumL=+t.value;persist();refresh();}
   if(t.id==='rot'){SAVE.opt.rot=t.checked;persist();refresh();}
   if(t.id==='stepdone'){const a=SAVE.steps[CUR.pr.id]=SAVE.steps[CUR.pr.id]||[];a[curStep()]=t.checked;persist();refresh();}
 });
 document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t)return;
   if(t.dataset.fav){e.preventDefault();e.stopPropagation();SAVE.fav[t.dataset.fav]=!SAVE.fav[t.dataset.fav];persist();document.querySelectorAll(`[data-fav="${t.dataset.fav}"]`).forEach(b=>b.setAttribute('aria-pressed',!!SAVE.fav[t.dataset.fav]));if((location.hash||'')==='#defterim')viewMine();return;}
-  if(t.dataset.cat!=null){Q.cat=t.dataset.cat;Q.page=1;document.querySelectorAll('[data-cat]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.cat===Q.cat));renderCatalog();return;}
+  if(t.dataset.cat!=null){Q.cat=t.dataset.cat;Q.sub=t.dataset.sub||'';Q.page=1;renderCatalog();if(t.dataset.jump)document.getElementById('katalog').scrollIntoView({behavior:'smooth'});return;}
+  if(t.dataset.lvl!=null){Q.lvl=+t.dataset.lvl;Q.page=1;renderCatalog();return;}
   if(t.dataset.more){Q.page++;renderCatalog();return;}
-  if(t.dataset.clear){Object.assign(Q,{cat:'',lvl:0,q:'',fam:'',page:1});viewHome();return;}
+  if(t.dataset.clear){Object.assign(Q,{cat:'',sub:'',lvl:0,q:'',page:1});const qi=document.getElementById('q');if(qi)qi.value='';renderCatalog();return;}
   if(t.dataset.jump){e.preventDefault();document.getElementById(t.dataset.jump).scrollIntoView({behavior:'smooth'});return;}
   if(!CUR)return;
   if(t.dataset.tab){CUR.tab=t.dataset.tab;document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===CUR.tab));refresh();if(!t.closest('.tabs'))document.querySelector('.tabs').scrollIntoView({behavior:'smooth',block:'start'});return;}
@@ -915,3 +1055,4 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t
 </script>
 <script src="aileler.js"></script>
 <script src="sekilli.js"></script>
+<script src="katalog.js"></script>
