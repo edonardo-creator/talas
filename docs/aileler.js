@@ -838,7 +838,7 @@ function expand(f){
     const lbls=f.ax.map(([k,,L])=>{if(k in f.P&&k!=='N'&&k!=='BA')return null;const val=v[k];
       if(k==='N')return val+' '+(f.nl||'bölmeli');if(k==='BA')return val+'° sırt';if(!L)return null;const s=typeof L==='function'?L(val):L[val];return s||null;}).filter(Boolean);
     const name=f.name+(dims?' '+dims+' cm':'')+(lbls.length?', '+lbls.join(', '):'');
-    const prd={id:f.id+'-'+(i+1),fam:f.id,famName:f.name,name,cat:f.cat,level:f.level,time:f.time,desc:f.desc,tags:f.tags||'',params};
+    const prd={id:f.id+'-'+(i+1),fam:f.id,famName:f.name,name,cat:f.cat,level:f.level,time:f.time,desc:f.desc,tags:f.tags||'',params,vals:v};
     prd.build=p=>{const c=f.b(p,opt);prd.join=c.join;return c;};
     prd.tools=(p,c)=>c.tools; prd.notes=(p,c)=>c.notes||[]; prd.steps=(p,c,K)=>c.mkSteps(K);
     prd.join=f.b===carcass?'Konfirmat':f.b===frame?'Cep vidası':'Vida + tutkal';

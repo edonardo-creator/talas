@@ -308,6 +308,22 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 .card .dims{font-size:12.5px}
 .badge{position:absolute;left:10px;top:10px;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:var(--hero);color:var(--hero-fg)}
 .viewer{border:0;border-radius:12px;box-shadow:var(--lift)}
+.cdesc{font-size:13.5px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.choices{padding:6px 16px 14px;display:grid}
+.cgroup{display:grid;gap:8px;padding:12px 0;border-top:1px solid var(--line)}
+.cgroup:first-child{border-top:0}
+.cgroup h4{margin:0;font:500 11px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 13px;min-height:36px;font-size:13.5px}
+.seg button:hover{border-color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cinfo{font-size:13px;line-height:1.5;color:var(--muted);margin:0}
+.models{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.model{display:grid;gap:6px;border:1.5px solid transparent;background:none;border-radius:10px;padding:4px;text-align:center;font-size:12.5px;line-height:1.25}
+.model .pic{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;padding:4px}
+.model .pic svg{width:100%;height:100%}
+.model:hover{border-color:var(--line)}
+.model[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600}
 @media (prefers-reduced-motion:reduce){.card:hover,.cattile:hover{transform:none}}
 </style>
 
@@ -840,22 +856,21 @@ const fmt=n=>n.toLocaleString('tr-TR');
 const HERO_ID='yuvarlak-sehpa-6';
 const CAT_REP={'Ev mobilyası':'acili-tv-2','Mutfak ve küçük eşya':'yuvarlak-kesme-8','Bahçe ve dış mekân':'egik-bank-2','Çocuk':'bebek-evi-4','Atölye':'tezgah-5','Hobi':'sovale-2'};
 function filtered(skip){const words=trl(Q.q).split(/\s+/).filter(Boolean);
-  return PROJECTS.filter(p=>(skip==='cat'||!Q.cat||p.cat===Q.cat)&&(skip==='cat'||!Q.sub||p.sub===Q.sub)&&(skip==='lvl'||!Q.lvl||p.level===Q.lvl)&&(!words.length||words.every(w=>p._s.includes(w))));}
+  return PRODUCTS.filter(p=>(skip==='cat'||!Q.cat||p.cat===Q.cat)&&(skip==='cat'||!Q.sub||p.sub===Q.sub)&&(skip==='lvl'||!Q.lvl||p.level===Q.lvl)&&(!words.length||words.every(w=>p._s.includes(w))));}
 function viewHome(){
-  PROJECTS.forEach(p=>{if(!p._s)p._s=trl(p.name+' '+(p.cat||'')+' '+(p.sub||'')+' '+(p.famName||'')+' '+(p.tags||''));});
-  const fams=new Set(PROJECTS.map(p=>p.fam||p.id)).size, nsub=Object.values(SUBS).reduce((a,s)=>a+s.length,0);
+  const nmod=PRODUCTS.reduce((a,p)=>a+p.models.length,0), nvar=PRODUCTS.reduce((a,p)=>a+p.nvar,0), nsub=Object.values(SUBS).reduce((a,s)=>a+s.length,0);
   const hp=BYID[HERO_ID]||FEATURED[0], hc=compute(hp,params(hp));
-  const byCat=Object.fromEntries(CATS.map(c=>[c,PROJECTS.filter(p=>p.cat===c)]));
+  const byCat=Object.fromEntries(CATS.map(c=>[c,PRODUCTS.filter(p=>p.cat===c)]));
   app.innerHTML=`<section class="hero"><div class="hero-copy"><div class="eyebrow">Talaş · ahşap yapım kılavuzu</div>
     <h1>Ölçüsünü sen ver. Kesimini, malzemesini ve yapımını biz çıkaralım.</h1>
     <p>Her ürünün kesim listesi, kereste ve plaka yerleşimi, ekipmanı, ölçülü planları ve adım adım montajı, seçtiğin ölçüye göre yeniden hesaplanır.</p>
-    <div class="stats"><div><b>${fmt(PROJECTS.length)}</b><span>ürün</span></div><div><b>${fams}</b><span>ürün ailesi</span></div><div><b>${CATS.length}</b><span>kategori</span></div><div><b>${nsub}</b><span>alt kategori</span></div></div>
+    <div class="stats"><div><b>${fmt(PRODUCTS.length)}</b><span>ürün</span></div><div><b>${nmod}</b><span>model</span></div><div><b>${fmt(nvar)}</b><span>hazır seçenek</span></div><div><b>${nsub}</b><span>alt kategori</span></div></div>
     <div class="cta"><a class="btn primary" href="#projeler" data-jump="katalog">Kataloğa göz at</a><a class="btn ghost" href="#${hp.id}">Bu ürünü aç</a></div></div>
     <a class="hero-art" href="#${hp.id}" aria-label="${esc(hp.name)}">${iso(hc.parts,{studio:true,aria:hp.name})}<span class="hero-cap">${esc(hp.name)}<em class="mono">${hc.dims.join(' × ')} mm</em></span></a></section>
-  <section class="sec"><header><h2>Kategoriler</h2><span class="muted">${fmt(PROJECTS.length)} ürün, ${CATS.length} kategoride</span></header><div class="cats">${CATS.map(cn=>{const rp=BYID[CAT_REP[cn]]||byCat[cn][0], rc=compute(rp,params(rp));
+  <section class="sec"><header><h2>Kategoriler</h2><span class="muted">${fmt(PRODUCTS.length)} ürün, ${CATS.length} kategoride</span></header><div class="cats">${CATS.map(cn=>{const rp=BYID[CAT_REP[cn]]||byCat[cn][0], rc=compute(rp,params(rp));
       return `<button class="cattile" data-cat="${esc(cn)}" data-jump="katalog"><span class="pic stage">${iso(rc.parts,{studio:true,grain:false})}</span><span class="ct-body"><b>${esc(cn)}</b><span class="mono ct-n">${fmt(byCat[cn].length)} ürün</span><span class="ct-subs">${SUBS[cn].map(esc).join(' · ')}</span></span></button>`;}).join('')}</div></section>
   <section class="sec"><header><h2>Katalog haritası</h2><span class="muted">Alt kategoriye göre ürün sayısı. Bir satıra dokununca katalog o gruba süzülür.</span></header>${mapHTML(byCat)}</section>
-  <section class="sec"><header><h2>Öne çıkanlar</h2><span class="muted">Elle yazılmış ayrıntılı kılavuzlar</span></header><div class="grid">${FEATURED.slice(0,4).map(card).join('')}</div></section>
+  <section class="sec"><header><h2>Öne çıkanlar</h2><span class="muted">Elle yazılmış ayrıntılı kılavuzlar</span></header><div class="grid">${PRODUCTS.filter(p=>p.hasFeat).slice(0,4).map(prodCard).join('')}</div></section>
   <section class="sec" id="katalog"><header><h2>Katalog</h2></header>
     <div class="catlay"><aside class="filters" id="filters"></aside><div class="results"><input id="q" type="search" class="search" placeholder="Ara: kitaplık, meşe, bahçe, çekmeceli…" value="${esc(Q.q)}" aria-label="Katalogda ara"><div id="catalog" style="display:grid;gap:14px"></div></div></div></section>`;
   renderCatalog();
@@ -881,7 +896,7 @@ function renderCatalog(){
   const n=Q.page*24;
   document.getElementById('catalog').innerHTML=`<div class="rbar"><p><b class="mono">${fmt(list.length)}</b> ürün${Q.sub?' · '+esc(Q.cat)+' › '+esc(Q.sub):Q.cat?' · '+esc(Q.cat):''}</p>
     <label for="sortSel">Sırala <select id="sortSel">${[['onerilen','Önerilen'],['ad','Ada göre'],['kolay','Kolaydan zora'],['zor','Zordan kolaya']].map(([v,t])=>`<option value="${v}" ${Q.sort===v?'selected':''}>${t}</option>`).join('')}</select></label></div>
-  ${list.length?`<div class="grid">${list.slice(0,n).map(card).join('')}</div>`:`<div class="empty">Aramana uyan ürün yok. Daha kısa bir kelime dene ya da filtreleri temizle.<button class="btn" data-clear="1">Filtreleri temizle</button></div>`}
+  ${list.length?`<div class="grid">${list.slice(0,n).map(prodCard).join('')}</div>`:`<div class="empty">Aramana uyan ürün yok. Daha kısa bir kelime dene ya da filtreleri temizle.<button class="btn" data-clear="1">Filtreleri temizle</button></div>`}
   ${list.length>n?`<button class="btn" data-more="1" style="justify-self:center;min-width:220px">Daha fazla göster (${fmt(list.length-n)} kaldı)</button>`:''}`;
 }
 function viewProject(id){
@@ -989,25 +1004,26 @@ function viewGuide(){
   ${TOOLCATS.map(k=>`<div class="matgroup"><h3>${k}</h3></div><div class="tools">${Object.keys(TOOLS).filter(id=>TOOLS[id].c===k).map(id=>toolCard(id,TOOLS[id].d+(used[id]?' Kullanıldığı projeler: '+[...used[id]].join(', ')+'.':''))).join('')}</div>`).join('')}</div>`;
 }
 function viewMine(){
-  const fav=PROJECTS.filter(p=>SAVE.fav[p.id]);
-  const started=PROJECTS.filter(p=>progress(p).d>0);
+  const cfg=prod=>configure(prod,stOf(prod).m);
+  const fav=PRODUCTS.filter(p=>SAVE.fav[p.id]);
+  const started=PRODUCTS.filter(prod=>prod.models.some((m,i)=>(SAVE.steps[prod.id+'.'+i]||[]).some(Boolean)));
   const haveN=Object.keys(SAVE.have).filter(k=>SAVE.have[k]).length;
   app.innerHTML=`<h1>Defterim</h1><p class="muted" style="margin:6px 0 18px">Kaydettiklerin bu tarayıcıda saklanır.</p>
-  <div class="sec"><header><h2>Devam eden</h2></header>${started.length?`<div class="list">${started.map(p=>{const g=progress(p);return `<a class="row" href="#${p.id}" style="color:inherit;text-decoration:none"><div><div class="t">${esc(p.name)}</div><div class="prog" style="margin-top:6px;max-width:260px"><i style="width:${g.d/g.n*100}%"></i></div></div><span class="q">${g.d}/${g.n}</span></a>`;}).join('')}</div>`:`<div class="empty">Henüz başlanmış proje yok. Bir projede "Yapım" sekmesinde adımları işaretledikçe burada görünür.<a class="btn" href="#projeler">Projelere göz at</a></div>`}</div>
-  <div class="sec"><header><h2>Favoriler</h2></header>${fav.length?`<div class="grid">${fav.map(card).join('')}</div>`:`<div class="empty">Kalp simgesine dokunduğun projeler burada toplanır.</div>`}</div>
+  <div class="sec"><header><h2>Devam eden</h2></header>${started.length?`<div class="list">${started.map(p=>{const g=progress(cfg(p));return `<a class="row" href="#${p.id}" style="color:inherit;text-decoration:none"><div><div class="t">${esc(p.name)}</div><div class="prog" style="margin-top:6px;max-width:260px"><i style="width:${g.d/g.n*100}%"></i></div></div><span class="q">${g.d}/${g.n}</span></a>`;}).join('')}</div>`:`<div class="empty">Henüz başlanmış proje yok. Bir projede "Yapım" sekmesinde adımları işaretledikçe burada görünür.<a class="btn" href="#projeler">Projelere göz at</a></div>`}</div>
+  <div class="sec"><header><h2>Favoriler</h2></header>${fav.length?`<div class="grid">${fav.map(prodCard).join('')}</div>`:`<div class="empty">Kalp simgesine dokunduğun projeler burada toplanır.</div>`}</div>
   <div class="sec"><header><h2>Alet çantam</h2><span class="muted mono" style="font-size:13px">${haveN}/${Object.keys(TOOLS).length}</span></header>
   <p class="muted" style="font-size:14px">${haveN?'Elindeki aletler: '+Object.keys(TOOLS).filter(k=>SAVE.have[k]).map(k=>TOOLS[k].n).join(', ')+'.':'Rehber ya da proje ekipman sekmesinde "Bende var" işaretle.'}</p>
-  ${[...new Set(fav.concat(started))].map(pr=>{const need=[...new Set(pr.tools(params(pr),compute(pr,params(pr))).map(t=>t[0]))].filter(id=>!SAVE.have[id]&&!/isteğe/.test((pr.tools(params(pr),compute(pr,params(pr))).find(t=>t[0]===id)||[])[1]||''));return haveN?`<div class="row" style="background:var(--panel);border:1px solid var(--line);border-radius:6px;margin-top:6px"><div><div class="t">${esc(pr.name)}</div><div class="s">${need.length?'Eksik: '+need.map(id=>TOOLS[id].n).join(', '):'Tüm aletler hazır'}</div></div><span class="q" style="color:${need.length?'var(--muted)':'var(--ok)'}">${need.length?need.length+' eksik':'✓'}</span></div>`:'';}).join('')}
+  ${[...new Set(fav.concat(started))].map(cfg).map(pr=>{const need=[...new Set(pr.tools(params(pr),compute(pr,params(pr))).map(t=>t[0]))].filter(id=>!SAVE.have[id]&&!/isteğe/.test((pr.tools(params(pr),compute(pr,params(pr))).find(t=>t[0]===id)||[])[1]||''));return haveN?`<div class="row" style="background:var(--panel);border:1px solid var(--line);border-radius:6px;margin-top:6px"><div><div class="t">${esc(pr.name)}</div><div class="s">${need.length?'Eksik: '+need.map(id=>TOOLS[id].n).join(', '):'Tüm aletler hazır'}</div></div><span class="q" style="color:${need.length?'var(--muted)':'var(--ok)'}">${need.length?need.length+' eksik':'✓'}</span></div>`:'';}).join('')}
   </div>`;
 }
 
 /* ---------- yönlendirme ---------- */
 function route(){
   const h=(location.hash||'').slice(1)||'projeler';
-  const sect=BYID[h]?'projeler':['rehber','defterim'].includes(h)?h:'projeler';
+  const r=resolveHash(h), sect=r?'projeler':['rehber','defterim'].includes(h)?h:'projeler';
   document.querySelectorAll('.nav a').forEach(a=>a.toggleAttribute('aria-current',a.dataset.nav===sect)||a.setAttribute('aria-current',a.dataset.nav===sect?'page':'false'));
   document.querySelectorAll('.nav a').forEach(a=>{if(a.dataset.nav===sect)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
-  if(BYID[h]) viewProject(h); else {CUR=null; if(h==='rehber')viewGuide(); else if(h==='defterim')viewMine(); else viewHome();}
+  if(r) viewProduct(r); else {CUR=null; if(h==='rehber')viewGuide(); else if(h==='defterim')viewMine(); else viewHome();}
   window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',route);
@@ -1056,3 +1072,4 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t
 <script src="aileler.js"></script>
 <script src="sekilli.js"></script>
 <script src="katalog.js"></script>
+<script src="urunler.js"></script>

@@ -32,7 +32,7 @@ def main():
     DOCS.mkdir(exist_ok=True)
     page = HEAD.replace("</head>", head_extra + "\n</head>") + body + "\n</body>\n</html>\n"
     (DOCS / "index.html").write_text(page, encoding="utf-8")
-    for name in ("aileler.js", "sekilli.js", "katalog.js"):
+    for name in ("aileler.js", "sekilli.js", "katalog.js", "urunler.js"):
         shutil.copyfile(ROOT / name, DOCS / name)
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
     print("docs/ güncellendi")
