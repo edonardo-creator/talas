@@ -6,7 +6,7 @@
 const ALLFAMS=[...FAMS,...FAMS2,...FAMS3], FAMBY=Object.fromEntries(ALLFAMS.map(f=>[f.id,f])), FEATBY=Object.fromEntries(FEATURED.map(p=>[p.id,p]));
 const AXL={mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
   style:'Yazı tekniği',hole:'Giriş deliği',pitch:'Çatı eğimi',floors:'Kat sayısı',insert:'Yüzey',prof:'Çerçeve genişliği',size:'Boyut',paint:'Yüzey',
-  shelf:'Üst raf',space:'Askı aralığı',set:'Set',layers:'Kat',s:'Kafes aralığı',H:'Yükseklik'};
+  shelf:'Üst raf',space:'Askı aralığı',set:'Set',layers:'Kat',s:'Kafes aralığı',H:'Yükseklik',glass:'Cam tabla',umb:'Şemsiye',seats:'Oturak'};
 const INFO={
   mat:{ply18:'Huş kontrplak: katmanlı yapısı sayesinde sağlam ve vidayı iyi tutar, nemde az çalışır. Kenarı bantlanır ya da katmanlı kenar açık bırakılır. Orta fiyat.',
     mlam18:'Beyaz suntalam: en ekonomik seçenek; yüzeyi hazır, silinebilir. Neme ve vidanın sökülüp takılmasına dayanıksız; kenar bandı şart.',
@@ -53,12 +53,23 @@ const GROUPS=[
   {id:'bahce-koltugu-u',name:'Bahçe koltuğu',desc:'Tek kişilik kolçaklı koltuk ya da eğik sırtlı sandalye.',models:[['bahce-koltugu','Kolçaklı koltuk'],['egik-sandalye','Eğik sırtlı sandalye']]},
   {id:'sezlong-u',name:'Şezlong',desc:'Düz ya da sırtı ayarlanan güneşlenme yatağı.',models:[['sezlong','Düz'],['ayarli-sezlong','Ayarlı sırtlı']]},
   {id:'bahce-masasi-u',name:'Bahçe masası',desc:'Dikdörtgen bahçe masası, yuvarlak bistro masası ya da oturaklı piknik masası.',models:[['bahce-masasi','Dikdörtgen'],['bistro-masasi','Yuvarlak bistro'],['piknik-masasi','Oturaklı piknik']]},
-  {id:'kus-evi-u',name:'Kuş evi',desc:'Düz ya da beşik çatılı kuş yuvası veya açık yemlik.',models:[['kus-evi','Düz çatılı'],['catili-kus-evi','Beşik çatılı'],['kus-yemligi','Yemlik']]},
+  {id:'kus-evi-u',name:'Kuş ve böcek evi',desc:'Düz ya da beşik çatılı kuş yuvası, açık yemlik ya da böcek oteli.',models:[['kus-evi','Düz çatılı'],['catili-kus-evi','Beşik çatılı'],['kus-yemligi','Yemlik'],['bocek-oteli','Böcek oteli']]},
   {id:'saksi',name:'Saksı',desc:'Ahşap saksı kutusu, ayaklı yükseltilmiş saksı ya da tabansız bahçe yatağı.',models:[['saksi-kutusu','Saksı kutusu'],['yuksek-saksi','Ayaklı'],['bahce-yatagi','Bahçe yatağı']]},
   {id:'saksi-standi-u',name:'Saksı standı',desc:'Kare stand, duvara yaslı merdiven, basamaklı stand ya da balkon rafı.',models:[['saksi-standi','Kare'],['saksi-merdiveni','Duvara yaslı'],['saksi-basamagi','Basamaklı'],['cicek-rafi','Balkon rafı']]},
   {id:'cocuk-masasi-u',name:'Çocuk masası',desc:'Kontrplak tablalı çocuk aktivite masası; dikdörtgen ya da yuvarlak.',models:[['cocuk-masasi','Dikdörtgen'],['yuvarlak-cocuk-masasi','Yuvarlak']]},
   {id:'pano-u',name:'Pano',desc:'Mantar ya da kara tahta yüzeyli duvar panosu.',models:[['pano','Dikdörtgen'],['yuvarlak-pano','Yuvarlak mantar']]},
-  {id:'sovale-u',name:'Şövale',desc:'Ayaklı ya da masa üstü A çerçeve şövale.',models:[['sovale','Ayaklı'],['masa-sovalesi','Masa üstü']]}
+  {id:'sovale-u',name:'Şövale',desc:'Ayaklı ya da masa üstü A çerçeve şövale.',models:[['sovale','Ayaklı'],['masa-sovalesi','Masa üstü']]},
+  {id:'dolap',name:'Kapaklı dolap',desc:'Raflı ve kapaklı dolaplar: çok amaçlı, gardırop, çekmeceli, dosya ya da duvara asılan banyo dolabı.',models:[['kapakli-dolap','Çok amaçlı'],['gardirop','Gardırop'],['vitrin-dolap','Çekmeceli kapaklı'],['dosya-dolabi','Dosya dolabı'],['banyo-dolabi','Banyo (asma)']]},
+  {id:'mutfak-kutusu',name:'Mutfak kutusu',desc:'Tezgâh üstü ekmeklik, bölmeli çay kutusu ya da kaşıklık.',models:[['ekmek-kutusu','Ekmeklik'],['cay-kutusu','Çay kutusu'],['kasiklik','Kaşıklık']]},
+  {id:'mutfak-rafi',name:'Mutfak rafı',desc:'Duvar baharatlığı, dolap içi basamaklı raf ya da şarap rafı.',models:[['baharatlik','Baharatlık'],['basamakli-raf','Basamaklı'],['sarap-rafi','Şarap rafı']]},
+  {id:'mutfak-kasasi',name:'Mutfak kasası',desc:'Havadar meyve-sebze kasası ya da şişe kasası.',models:[['meyve-kasasi','Meyve ve sebze'],['sarap-kasasi','Şarap']]},
+  {id:'mutfak-askisi',name:'Mutfak askısı',desc:'Duvara havlu ve önlük askısı ya da tezgâh üstü kupa ağacı.',models:[['havlu-askisi','Havlu askısı'],['kupa-agaci','Kupa ağacı']]},
+  {id:'saklama-kutusu-u',name:'Saklama kutusu',desc:'Kapaklı saklama kutusu ya da bölmeli çekmece düzenleyici.',models:[['saklama-kutusu','Kapaklı kutu'],['cekmece-duzen','Çekmece düzenleyici']]},
+  {id:'hobi-kutusu',name:'Hobi kutusu',desc:'Bölmeli, menteşeli kapaklı takı, dikiş ve oyun kutuları ile kalemlik.',models:[['taki-kutusu','Takı'],['dikis-kutusu','Dikiş'],['oyun-kutusu','Masa oyunu'],['kalemlik','Kalemlik']]},
+  {id:'sergi-rafi',name:'Sergi rafı',desc:'Koleksiyon için sık raflı duvar rafı ya da önü camlı vitrin kutusu.',models:[['koleksiyon-rafi','Koleksiyon rafı'],['maket-vitrini','Vitrin kutusu']]},
+  {id:'masa-ustu-stand',name:'Masa üstü stand',desc:'Kulaklık standı ya da L biçimli kitap desteği.',models:[['kulaklik-standi','Kulaklık standı'],['kitap-destegi','Kitap desteği']]},
+  {id:'bahce-kasasi',name:'Bahçe kasası',desc:'Havalandırmalı odunluk ya da tabansız kompost kasası.',models:[['odunluk','Odunluk'],['kompost','Kompost']]},
+  {id:'cocuk-oturagi',name:'Çocuk oturağı',desc:'Üç ayaklı çocuk taburesi ya da sırtlı küçük bank.',models:[['cocuk-taburesi','Tabure'],['cocuk-banki','Bank']]}
 ];
 const PRODUCTS=[], PROD={}, MODEL_OWNER={};
 function mkModel(ref,label){return FAMBY[ref]?famModel(FAMBY[ref],label):featModel(FEATBY[ref],label);}
@@ -125,10 +136,11 @@ Object.keys(SAVE.fav).forEach(k=>{if(SAVE.fav[k]&&!PROD[k]){const r=resolveHash(
 function prodCard(prod){
   const mi=stOf(prod).m, pr=configure(prod,mi), p=params(pr), c=compute(pr,p), d=(SAVE.steps[pr.id]||[]).filter(Boolean).length;
   const mats=new Set(prod.models.flatMap(m=>m.optAx.filter(([k])=>k==='mat'||k==='sp'||k==='pat').flatMap(([,v])=>v))).size;
-  return `<a class="card" href="#${prod.id}"><div class="pic stage">${iso(c.parts,{aria:prod.name,studio:true,grain:false})}<button class="fav" data-fav="${prod.id}" aria-pressed="${!!SAVE.fav[prod.id]}" aria-label="Favorilere ekle">${heart}</button>${prod.hasFeat?'<span class="badge">Ayrıntılı kılavuz</span>':''}</div>
+  const haveAny=Object.values(SAVE.have).some(Boolean), miss=haveAny?missingTools(prod).length:0;
+  return `<a class="card" href="#${prod.id}"><div class="pic stage">${thumb(pr,{aria:prod.name,studio:true,grain:false})}<button class="fav" data-fav="${prod.id}" aria-pressed="${!!SAVE.fav[prod.id]}" aria-label="Favorilere ekle">${heart}</button>${prod.hasFeat?'<span class="badge">Ayrıntılı kılavuz</span>':''}</div>
   <div class="body"><div class="eyebrow">${esc(prod.sub)}</div><h3>${esc(prod.name)}</h3>
   <p class="muted cdesc">${esc(prod.desc)}</p>
-  <div class="meta">${lvl(prod.level)}${prod.models.length>1?`<span class="tag">${prod.models.length} model</span>`:''}${mats>1?`<span class="tag">${mats} malzeme</span>`:''}<span class="tag">Ölçü ayarlı</span></div>
+  <div class="meta">${lvl(prod.level)}${prod.models.length>1?`<span class="tag">${prod.models.length} model</span>`:''}${mats>1?`<span class="tag">${mats} malzeme</span>`:''}${haveAny?`<span class="tag ${miss?'':'ok'}">${miss?miss+' alet eksik':'Aletlerin hazır'}</span>`:'<span class="tag">Ölçü ayarlı</span>'}</div>
   ${d?`<div class="prog" title="${d}/${c.steps.length} adım"><i style="width:${d/c.steps.length*100}%"></i></div>`:''}</div></a>`;
 }
 function viewProduct(r){
@@ -136,6 +148,7 @@ function viewProduct(r){
   if(r.mi!=null) s.m=r.mi;
   if(r.apply){Object.assign(optsOf(prod,s.m),r.apply.opts);SAVE.params[prod.id+'.'+s.m]=Object.assign({},r.apply.params);}
   persist();
+  SAVE.recent=[prod.id,...(SAVE.recent||[]).filter(x=>x!==prod.id)].slice(0,8);persist();
   const same=CUR&&CUR.prod===prod, pr=configure(prod,s.m), p=params(pr);
   CUR={prod,pr,p,c:compute(pr,p),tab:same?CUR.tab:'genel',view:same?CUR.view:'iso',step:same?CUR.step:null};
   app.innerHTML=`<a class="back" href="#projeler">← Katalog</a>
@@ -156,8 +169,8 @@ function renderSide(){
   const o=m.kind==='fam'?optsOf(prod,mi):{}, pres=m.kind==='fam'?presets(m):[];
   const curP=pres.findIndex(x=>Object.entries(x.v).every(([k,v])=>p[k]===v));
   document.getElementById('choices').innerHTML=`
-    ${prod.models.length>1?`<div class="cgroup"><h4>Model</h4><div class="models">${prod.models.map((mm,i)=>{const cp=configure(prod,i),cc=compute(cp,params(cp));
-      return `<button class="model" data-model="${i}" aria-pressed="${i===mi}"><span class="pic stage">${iso(cc.parts,{studio:true,grain:false})}</span><span class="ml">${esc(mm.label)}</span></button>`;}).join('')}</div></div>`:''}
+    ${prod.models.length>1?`<div class="cgroup"><h4>Model</h4><div class="models">${prod.models.map((mm,i)=>{const cp=configure(prod,i);
+      return `<button class="model" data-model="${i}" aria-pressed="${i===mi}"><span class="pic stage">${thumb(cp,{studio:true,grain:false})}</span><span class="ml">${esc(mm.label)}</span></button>`;}).join('')}</div></div>`:''}
     ${m.optAx.map(([k,vals,L])=>{const info=INFO[k]&&INFO[k][o[k]];
       return `<div class="cgroup"><h4>${esc(AXL[k]||k)}</h4><div class="seg">${vals.map(v=>`<button data-opt="${esc(k)}" data-val="${esc(String(v))}" aria-pressed="${String(o[k])===String(v)}">${esc(cap(axLabel(L,v)))}</button>`).join('')}</div>${info?`<p class="cinfo">${esc(info)}</p>`:''}</div>`;}).join('')}
     ${pres.length>1?`<div class="cgroup"><h4>Hazır ölçüler</h4><div class="seg">${pres.map((x,i)=>`<button data-preset="${i}" aria-pressed="${i===curP}">${esc(x.label)}</button>`).join('')}</div></div>`:''}
@@ -168,7 +181,11 @@ function renderSide(){
       <input type="range" id="r-${q.k}" min="${q.min}" max="${q.max}" step="${q.step}" value="${p[q.k]}" data-k="${q.k}"></div>`).join('')}`;
 }
 function reconfigure(){const {prod}=CUR, mi=stOf(prod).m;CUR.pr=configure(prod,mi);CUR.p=params(CUR.pr);CUR.c=compute(CUR.pr,CUR.p);CUR.step=null;renderSide();refresh();}
-document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t||!CUR||!CUR.prod)return;
+document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  if(t.dataset.mk!=null){Q.mk=t.dataset.mk;Q.page=1;renderCatalog();return;}
+  if(t.dataset.ready){Q.ready=!Q.ready;Q.page=1;renderCatalog();return;}
+  if(t.dataset.copy){copyText(t,t.dataset.copy==='kesim'?cutText():shopText());return;}
+  if(!CUR||!CUR.prod)return;
   const {prod}=CUR, s=stOf(prod);
   if(t.dataset.model!=null){s.m=+t.dataset.model;persist();viewProduct({prod});return;}
   if(t.dataset.opt){const m=prod.models[s.m], ax=m.optAx.find(([k])=>k===t.dataset.opt);if(!ax)return;
@@ -177,3 +194,95 @@ document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t||
     persist();reconfigure();return;}
   if(t.dataset.preset!=null){const m=prod.models[s.m];applyPreset(prod,s.m,presets(m)[+t.dataset.preset].v);reconfigure();return;}
 });
+
+/* ---------- verimlilik: hesap ve önizleme önbelleği ---------- */
+const CC=new Map(), TC=new Map();
+const cfgSig=pr=>pr.prod?JSON.stringify((SAVE.cfg[pr.prod.id]||{o:{}}).o[pr.mi]||{}):'';
+const _compute=compute;
+compute=function(pr,p){const k=pr.id+'|'+JSON.stringify(p)+'|'+cfgSig(pr);let c=CC.get(k);
+  if(!c){c=_compute(pr,p);CC.set(k,c);if(CC.size>500)CC.delete(CC.keys().next().value);}return c;};
+function thumb(pr,opt){const p=params(pr),k=pr.id+'|'+JSON.stringify(p)+'|'+cfgSig(pr)+'|'+JSON.stringify(opt);let s=TC.get(k);
+  if(!s){s=iso(compute(pr,p).parts,opt);TC.set(k,s);if(TC.size>300)TC.delete(TC.keys().next().value);}return s;}
+
+/* ---------- katalog: malzeme ve "aletlerim yeterli" süzgeçleri ---------- */
+const MK=[['plaka','Plaka (kontrplak, MDF, suntalam)'],['masif','Masif ağaç'],['dis','Dış mekâna uygun']];
+function kindsOf(prod){if(prod._k)return prod._k;const k=new Set();
+  prod.models.forEach((m,i)=>{const pr=configure(prod,i),c=compute(pr,params(pr));
+    c.parts.forEach(q=>{const t=MAT[q.mat].type;if(t==='sheet')k.add('plaka');if(t==='lumber')k.add('masif');});
+    if(m.kind==='fam'&&(m.f.o.outdoor||m.f.o.sp==='emp'||m.optAx.some(([a,v])=>a==='sp'&&v.includes('emp'))))k.add('dis');});
+  return prod._k=k;}
+function missingTools(prod){const pr=configure(prod,stOf(prod).m),p=params(pr),c=compute(pr,p);
+  return [...new Set(pr.tools(p,c).filter(([,n])=>!/isteğe/.test(n||'')).map(([id])=>id))].filter(id=>!SAVE.have[id]);}
+Q.mk='';Q.ready=false;
+filtered=function(skip){const words=trl(Q.q).split(/\s+/).filter(Boolean);
+  return PRODUCTS.filter(p=>(skip==='cat'||!Q.cat||p.cat===Q.cat)&&(skip==='cat'||!Q.sub||p.sub===Q.sub)&&(skip==='lvl'||!Q.lvl||p.level===Q.lvl)
+    &&(skip==='mk'||!Q.mk||kindsOf(p).has(Q.mk))&&(!Q.ready||!missingTools(p).length)&&(!words.length||words.every(w=>p._s.includes(w))));};
+renderCatalog=function(){
+  const F=document.getElementById('filters'); if(!F) return;
+  const baseCat=filtered('cat'), baseLvl=filtered('lvl'), baseMk=filtered('mk'), cnt=(a,f)=>a.filter(f).length, desk=matchMedia('(min-width:900px)').matches;
+  const haveN=Object.values(SAVE.have).filter(Boolean).length, active=Q.cat||Q.lvl||Q.mk||Q.ready;
+  F.innerHTML=`<details class="fbox" ${desk||FOPEN?'open':''}><summary>Filtreler${active?' <span class="fdot"></span>':''}</summary>
+    <div class="fgroup"><h4>Kategori</h4><ul class="tree"><li><button data-cat="" aria-pressed="${!Q.cat}">Tümü<span>${fmt(baseCat.length)}</span></button></li>
+    ${CATS.map(cn=>{const open=Q.cat===cn;return `<li><button data-cat="${esc(cn)}" aria-pressed="${open&&!Q.sub}">${esc(cn)}<span>${cnt(baseCat,p=>p.cat===cn)}</span></button>${open?`<ul>${SUBS[cn].map(s=>`<li><button data-cat="${esc(cn)}" data-sub="${esc(s)}" aria-pressed="${Q.sub===s}">${esc(s)}<span>${cnt(baseCat,p=>p.cat===cn&&p.sub===s)}</span></button></li>`).join('')}</ul>`:''}</li>`;}).join('')}</ul></div>
+    <div class="fgroup"><h4>Malzeme</h4><ul class="tree"><li><button data-mk="" aria-pressed="${!Q.mk}">Hepsi<span>${baseMk.length}</span></button></li>${MK.map(([k,t])=>`<li><button data-mk="${k}" aria-pressed="${Q.mk===k}">${t}<span>${cnt(baseMk,p=>kindsOf(p).has(k))}</span></button></li>`).join('')}</ul></div>
+    <div class="fgroup"><h4>Zorluk</h4><ul class="tree">${['Hepsi','Kolay','Orta','İleri'].map((t,i)=>`<li><button data-lvl="${i}" aria-pressed="${Q.lvl===i}">${t}<span>${i?cnt(baseLvl,p=>p.level===i):baseLvl.length}</span></button></li>`).join('')}</ul></div>
+    <div class="fgroup"><h4>Aletlerim</h4>${haveN?`<ul class="tree"><li><button data-ready="1" aria-pressed="${Q.ready}">Yalnızca yapabileceklerim<span>${cnt(PRODUCTS,p=>!missingTools(p).length)}</span></button></li></ul>`:`<p class="cinfo">Rehber'de ya da bir ürünün Ekipman sekmesinde "Bende var" işaretle; elindeki aletlerle yapabileceğin ürünleri süzebilirsin.</p>`}</div>
+    ${active||Q.q?'<button class="btn sm" data-clear="1">Filtreleri temizle</button>':''}</details>`;
+  F.querySelector('details').addEventListener('toggle',e=>{FOPEN=e.target.open;});
+  let list=filtered();
+  if(Q.sort==='ad') list=list.slice().sort((a,b)=>a.name.localeCompare(b.name,'tr'));
+  if(Q.sort==='kolay') list=list.slice().sort((a,b)=>a.level-b.level);
+  if(Q.sort==='zor') list=list.slice().sort((a,b)=>b.level-a.level);
+  if(Q.sort==='model') list=list.slice().sort((a,b)=>b.models.length-a.models.length);
+  const n=Q.page*24, lbl=[Q.sub?esc(Q.cat)+' › '+esc(Q.sub):Q.cat?esc(Q.cat):'',Q.mk?MK.find(x=>x[0]===Q.mk)[1]:'',Q.ready?'aletlerimle yapılabilir':''].filter(Boolean).join(' · ');
+  document.getElementById('catalog').innerHTML=`<div class="rbar"><p><b class="mono">${fmt(list.length)}</b> ürün${lbl?' · '+lbl:''}</p>
+    <label for="sortSel">Sırala <select id="sortSel">${[['onerilen','Önerilen'],['ad','Ada göre'],['model','En çok modelli'],['kolay','Kolaydan zora'],['zor','Zordan kolaya']].map(([v,t])=>`<option value="${v}" ${Q.sort===v?'selected':''}>${t}</option>`).join('')}</select></label></div>
+  ${list.length?`<div class="grid">${list.slice(0,n).map(prodCard).join('')}</div>`:`<div class="empty">Bu süzgeçlere uyan ürün yok. Bir süzgeci kaldırmayı ya da daha kısa bir kelime aramayı dene.<button class="btn" data-clear="1">Filtreleri temizle</button></div>`}
+  ${list.length>n?`<button class="btn" data-more="1" style="justify-self:center;min-width:220px">Daha fazla göster (${fmt(list.length-n)} kaldı)</button>`:''}`;
+};
+document.addEventListener('click',e=>{if(e.target.closest('[data-clear]')){Q.mk='';Q.ready=false;}},true);
+
+/* ---------- son bakılanlar ---------- */
+const _viewHome=viewHome;
+viewHome=function(){_viewHome();const rec=(SAVE.recent||[]).map(id=>PROD[id]).filter(Boolean).slice(0,4);
+  if(rec.length) document.getElementById('katalog').insertAdjacentHTML('beforebegin',`<section class="sec"><header><h2>Son baktıkların</h2><span class="muted">Kaldığın yerden devam et</span></header><div class="grid">${rec.map(prodCard).join('')}</div></section>`);};
+
+/* ---------- kopyalama ve maliyet ---------- */
+function cutText(){const {prod,c}=CUR, by={};cutRows(c).forEach(r=>(by[r.mat]=by[r.mat]||[]).push(r));
+  const m=prod.models[stOf(prod).m];
+  let t=`${prod.name}${prod.models.length>1?' ('+m.label+')':''}: kesim listesi\nBitmiş ölçü ${c.dims.join(' × ')} mm. Parça ölçüleri mm: uzunluk × en × kalınlık\n`;
+  Object.entries(by).forEach(([k,rs])=>{t+=`\n${MAT[k].n}\n`;rs.forEach(r=>{t+=`  ${r.num}. ${r.name}: ${r.n} adet, ${r.d.join(' × ')}${r.note?' ('+r.note+')':''}\n`;});});
+  return t+'\nTalaş ile hazırlandı.';}
+function shopText(){const {prod,c}=CUR;let t=`${prod.name}: alışveriş listesi\n\nAhşap\n`;
+  stock(c).forEach(s=>{t+=`  • ${s.M.n}: ${s.count} ${s.type==='sheet'?`plaka (${s.M.SW}×${s.M.SH} mm)`:`boy (${s.L} mm)`}\n`;});
+  t+='\nHırdavat ve sarf\n';c.hw.forEach(h=>{t+=`  • ${h[0]}: ${h[1]}${h[2]?' ('+h[2]+')':''}\n`;});return t;}
+function copyText(btn,text){
+  const label=btn.dataset.label||(btn.dataset.label=btn.textContent);
+  const done=()=>{btn.textContent='Kopyalandı';setTimeout(()=>{btn.textContent=label;},1600);};
+  const fallback=()=>{let ta=btn.parentElement.querySelector('textarea');if(!ta){ta=document.createElement('textarea');ta.readOnly=true;ta.className='copybox';ta.setAttribute('aria-label','Kopyalanacak metin');btn.parentElement.appendChild(ta);}
+    ta.value=text;ta.focus();ta.select();btn.textContent='Metni seç ve kopyala';};
+  try{navigator.clipboard.writeText(text).then(done,fallback);}catch(e){fallback();}
+}
+SAVE.price=SAVE.price||{};SAVE.priceX=SAVE.priceX||{};
+const tl=n=>n.toLocaleString('tr-TR',{maximumFractionDigits:0})+' TL';
+function costRows(){const st=stock(CUR.c);let tot=0,miss=0;
+  const rows=st.map(s=>{const u=SAVE.price[s.m];if(u>0)tot+=u*s.count;else miss++;return {s,u};});
+  const x=SAVE.priceX[CUR.prod.id];if(x>0)tot+=x;return {rows,tot,miss};}
+const missTxt=m=>m?`${m} malzemenin fiyatı eksik; toplam yalnızca girdiklerini içerir. `:'';
+function costHTML(){const {rows,tot,miss}=costRows();
+  return `<div class="sec"><header><h2>Maliyet tahmini</h2><span class="muted" style="font-size:13px">Birim fiyatları kendi marketinden gir</span></header>
+  <div class="list">${rows.map(({s,u})=>`<div class="row cost"><div><div class="t">${esc(s.M.n)}</div><div class="s">${s.count} ${s.type==='sheet'?'plaka':'boy'}</div></div>
+    <input type="number" min="0" step="1" inputmode="decimal" data-price="${s.m}" value="${u>0?u:''}" placeholder="birim TL" id="price-${s.m}" aria-label="${esc(s.M.n)} birim fiyatı"><span class="q mono" data-ltot="${s.m}">${u>0?tl(u*s.count):'—'}</span></div>`).join('')}
+    <div class="row cost"><div><div class="t">Hırdavat, tutkal, boya</div><div class="s">bu ürün için toplam</div></div><input type="number" min="0" step="1" inputmode="decimal" data-pricex="1" value="${SAVE.priceX[CUR.prod.id]||''}" placeholder="TL" id="pricex" aria-label="Hırdavat toplamı"><span class="q mono">&nbsp;</span></div>
+    <div class="row cost total"><div class="t">Toplam</div><span></span><b class="q mono" id="costTot">${tot>0?tl(tot):'—'}</b></div></div>
+  <p class="cinfo"><span id="costMiss">${missTxt(miss)}</span>Malzeme fiyatları bu tarayıcıda saklanır ve bütün ürünlerde kullanılır. Uygulama fiyat bilgisi içermez; değerleri sen girersin.</p></div>`;}
+document.addEventListener('input',e=>{const t=e.target;if(!CUR||!CUR.prod)return;
+  if(t.dataset.price){const v=parseFloat(t.value);if(v>0)SAVE.price[t.dataset.price]=v;else delete SAVE.price[t.dataset.price];}
+  else if(t.dataset.pricex){const v=parseFloat(t.value);if(v>0)SAVE.priceX[CUR.prod.id]=v;else delete SAVE.priceX[CUR.prod.id];}
+  else return;
+  persist();const {rows,tot,miss}=costRows();
+  rows.forEach(({s,u})=>{const el=document.querySelector(`[data-ltot="${s.m}"]`);if(el)el.textContent=u>0?tl(u*s.count):'—';});
+  document.getElementById('costTot').textContent=tot>0?tl(tot):'—';document.getElementById('costMiss').textContent=missTxt(miss);});
+const _tKesim=TABS.kesim, _tMalz=TABS.malzeme;
+TABS.kesim=()=>`<div class="copybar"><button class="btn sm" data-copy="kesim">Kesim listesini kopyala</button><span class="muted">Ebatlama servisine mesajla gönderebilirsin</span></div>`+_tKesim();
+TABS.malzeme=()=>`<div class="copybar"><button class="btn sm" data-copy="malzeme">Alışveriş listesini kopyala</button><span class="muted">Hırdavatçıya ya da kendine gönder</span></div>`+_tMalz()+costHTML();

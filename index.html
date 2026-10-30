@@ -308,6 +308,14 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 .card .dims{font-size:12.5px}
 .badge{position:absolute;left:10px;top:10px;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:var(--hero);color:var(--hero-fg)}
 .viewer{border:0;border-radius:12px;box-shadow:var(--lift)}
+.card,.cattile{content-visibility:auto;contain-intrinsic-size:auto 380px}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+.copybar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;font-size:13px}
+.copybox{width:100%;min-height:140px;font:12.5px/1.5 var(--f-mono);padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
+.row.cost{grid-template-columns:minmax(0,1fr) 110px 96px;gap:10px}
+.row.cost input{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font-family:var(--f-mono);text-align:right;min-height:36px}
+.row.cost.total{background:var(--sunk)}
+.row.cost.total .q{font-size:17px}
 .cdesc{font-size:13.5px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .choices{padding:6px 16px 14px;display:grid}
 .cgroup{display:grid;gap:8px;padding:12px 0;border-top:1px solid var(--line)}

@@ -188,12 +188,16 @@ function slatBox(p,o){
   if(o.bottom==='slats'){const bk=LM(sp,20,70);kb=Math.max(2,Math.floor((W-2*ps+10)/80));spread(kb,ps,W-ps,70).forEach(x=>A('bslat','Taban çıtası',bk,x,lh,0,70,20,D));}
   if(o.bottom==='ply') A('bot','Taban','ply12',ps,lh,0,W-2*ps,12,D);
   if(o.lid) A('lid','Kapak','ply18',-s,H+lh,-s,W+2*s,18,D+2*s);
+  const st=Math.min(320,R(Math.min(W,D)*.28));
+  if(o.seats) for(const [cx,sx] of [[-s,1],[W+s,-1]]) for(const [cz,sz] of [[-s,1],[D+s,-1]])
+    PART(parts,'seat','Köşe oturağı',sk,prism('y',[[cx,cz],[cx+sx*st,cz],[cx,cz+sz*st]],H+lh,s),{cut:[st,st,s],cutNote:'köşegen 45° kesilir'});
   const screws=r*4*4+kb*4;
   const hw=[[o.outdoor?'Galvaniz veya paslanmaz vida 4×40':'Sunta vidası 3,5×30','1 kutu',screws+' tane gerekiyor'],['Ahşap tutkalı'+(o.outdoor?' (D3)':''),'1 şişe','']];
   if(o.lid) hw.push(['Piyano menteşe veya 2 menteşe','1 takım',''],['Kapak amortisörü (yavaş kapanan)','1-2 adet','parmak sıkışmasını önler']);
   if(o.wheels) hw.push(['Frenli tekerlek 50 mm','4 adet','vidasıyla']);
   if(o.liner) hw.push(['Kalın naylon veya jeotekstil örtü','1 m²','zımbayla'],['Zımba teli 10 mm','1 kutu','']);
   if(o.handles) hw.push(['Kasa kulpu','2 adet','vidasıyla']);
+  if(o.seats) hw.push(['Paslanmaz vida 4×50','12 adet','köşe oturakları']);
   hw.push(o.outdoor?['Dış mekân ahşap yağı','0,5-1 L','2 kat']:['Ahşap yağı veya su bazlı cila','0,5 L','']);
   const c={parts,hw,r,kb,join:'Vida + tutkal',notes:[g===0?{t:'tip',x:`Her yüzde ${r} sıra ${sw} mm tahta, boşluksuz.`}:{t:'tip',x:`Her yüzde ${r} sıra çıta, aralar yaklaşık ${R((H-r*sw)/Math.max(1,r-1))} mm.`},
     o.liner?{t:'tip',x:'İçini naylonla kaplarsan toprak nemi ahşaba geçmez; altta drenaj için naylonu birkaç yerden del.'}:null,
@@ -206,6 +210,7 @@ function slatBox(p,o){
     if(has(c,'bslat')) S.push({t:'Tabanı tak',add:['bslat'],tools:['matkap'],x:`<p>Kasayı ters çevir. ${kb} ${K('bslat')} taban çıtasını dikmeler arasına eşit dağıt; uzun yan parçaların dışından uçlarına vidala.${o.outdoor?' Çıtalar arasındaki boşluk su tahliyesi içindir, kapatma.':''}</p>`});
     if(has(c,'bot')) S.push({t:'Tabanı tak',add:['bot'],tools:['matkap'],x:`<p>${K('bot')} taban panelini dikmeler arasına alttan yerleştir; dış çıtalardan 150 mm arayla vidala.</p>`});
     if(o.liner) S.push({t:'İç kaplamayı yap',tools:['cekic'],x:'<p>İç yüzeyleri naylon ya da jeotekstil örtüyle kapla; üst kenarın 2 cm altından zımbala. Tabanda drenaj için örtüyü birkaç yerden del.</p>'});
+    if(o.seats) S.push({t:'Köşe oturaklarını tak',add:['seat'],tools:['gonyeT','matkap'],x:`<p>${K('seat')} oturakları ${st} mm kenarlı üçgen olarak kes (köşegen 45°). Dört köşeye, kenar tahtalarının üstüne oturt ve her birini 3 vidayla bağla; çocuklar oturur, kenarlar da sağlamlaşır.</p>`});
     if(o.lid) S.push({t:'Kapağı tak',add:['lid'],tools:['matkap'],x:'<p>Kapağı arka kenardan menteşeyle bağla. Amortisörü iç yan yüze takıp kapağın kendi kendine düşmediğini dene.</p>',warn:'Amortisörsüz bırakma; ağır kapak çocuğun parmağına düşebilir.'});
     if(o.wheels) S.push({t:'Tekerlekleri tak',tools:['matkap'],x:'<p>Kasayı ters çevir; tekerlekleri köşe dikmelerinin altına gelecek şekilde vidala. Frenli olanlar öne gelsin.</p>'});
     S.push(finishStep(o));

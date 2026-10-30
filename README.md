@@ -4,7 +4,7 @@
 
 Ahşap ürünler için ölçüsü ayarlanabilir yapım kılavuzu. Her ürünün kesim listesi, kereste ve plaka yerleşimi, hırdavat ve ekipman listesi, ölçülü plan görünüşleri ve adım adım montaj anlatımı seçilen ölçüye göre hesaplanır.
 
-Katalogda 91 ürün var. Aynı tarzdaki ürünler tek üründe toplanır: ürün sayfasında model (toplam 140), malzeme, seçenekler (kapak, çekmece, raf…) ve ölçü seçilir; kesim listesi ve kılavuz bu seçime göre oluşur. Hazır seçenek kombinasyonu sayısı 2.418; 6 kategori ve 27 alt kategori. Kategoriler: ev mobilyası, bahçe ve dış mekân, mutfak, çocuk, atölye ve hobi. Eğik (yaslı raf, şövale, eğik sırtlı oturma, beşik çatı) ve yuvarlak (daire tabla, konik açılı ayak, yuvarlak tahta) parçalı ürünler de dahil.
+Katalogda 72 ürün var. Aynı tarzdaki ürünler tek üründe toplanır: ürün sayfasında model (toplam 140), malzeme, seçenekler (kapak, çekmece, raf…) ve ölçü seçilir; kesim listesi ve kılavuz bu seçime göre oluşur. Hazır seçenek kombinasyonu sayısı 2.418; 6 kategori ve 27 alt kategori. Kategoriler: ev mobilyası, bahçe ve dış mekân, mutfak, çocuk, atölye ve hobi. Eğik (yaslı raf, şövale, eğik sırtlı oturma, beşik çatı) ve yuvarlak (daire tabla, konik açılı ayak, yuvarlak tahta) parçalı ürünler de dahil.
 
 ## Dosyalar
 

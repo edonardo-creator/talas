@@ -3,11 +3,13 @@
 Kaynak index.html, Claude Artifact kalıbına göre yazılır (doctype/head/body yayın sırasında eklenir).
 Pages bu kalıbı eklemediği için burada aynı iskeleti biz ekliyoruz. Kullanım: python tools/pages.py
 """
+import hashlib
 import pathlib
 import shutil
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
+SCRIPTS = ("aileler.js", "sekilli.js", "katalog.js", "urunler.js")
 
 HEAD = """<!doctype html>
 <html lang="tr">
@@ -31,9 +33,12 @@ def main():
     head_extra, body = "\n".join(lines[:i]), "\n".join(lines[i:])
     DOCS.mkdir(exist_ok=True)
     page = HEAD.replace("</head>", head_extra + "\n</head>") + body + "\n</body>\n</html>\n"
-    (DOCS / "index.html").write_text(page, encoding="utf-8")
-    for name in ("aileler.js", "sekilli.js", "katalog.js", "urunler.js"):
+    for name in SCRIPTS:
         shutil.copyfile(ROOT / name, DOCS / name)
+        # Sürüm eki: tarayıcı yeni sayfayı eski önbellekli betikle birleştirmesin
+        ver = hashlib.md5((ROOT / name).read_bytes()).hexdigest()[:8]
+        page = page.replace(f'src="{name}"', f'src="{name}?v={ver}"')
+    (DOCS / "index.html").write_text(page, encoding="utf-8")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
     print("docs/ güncellendi")
 

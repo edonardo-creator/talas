@@ -140,8 +140,9 @@ function pallet(p,o){
     xs.forEach(x=>zs.forEach(z=>BOX(parts,'block','Takoz',blk,x,y,z,95,70,95)));y+=70;
     xs.forEach(x=>BOX(parts,'stringer','Kuşak tahtası',bk,x,y,0,95,20,W));y+=20;
     const n=Math.max(4,Math.floor((W+15)/(95+15)));spread(n,0,W,95).forEach(z=>BOX(parts,'deck','Üst tahta',bk,0,y,z,L,20,95));y+=20;}
+  if(o.glass) BOX(parts,'glass','Temperli cam tabla','glass',20,y,20,L-40,8,W-40);
   for(const x of [20,L-90]) for(const z of [20,W-90]) BOX(parts,'wheel','Tekerlek','steel',x,0,z,70,wh,70);
-  const c={parts,hw:[['Sunta vidası 4×50','1 kutu',''],['Frenli döner tekerlek 75 mm','4 adet','vidasıyla'],['Ahşap tutkalı','1 şişe',''],['Zımpara 60/80/120','her kumdan 3','eski palet kaba olur'],['Su bazlı vernik veya ahşap yağı','0,75 L','']],join:'Vida + tutkal',
+  const c={parts,hw:[...(o.glass?[[`Temperli cam 8 mm, ${L-40}×${W-40} mm, rodajlı`,'1 adet','camcıya kestir'],['Şeffaf silikon cam tamponu','8 adet','']]:[]),['Sunta vidası 4×50','1 kutu',''],['Frenli döner tekerlek 75 mm','4 adet','vidasıyla'],['Ahşap tutkalı','1 şişe',''],['Zımpara 60/80/120','her kumdan 3','eski palet kaba olur'],['Su bazlı vernik veya ahşap yağı','0,75 L','']],join:'Vida + tutkal',
     notes:[{t:'tip',x:'Hazır palet kullanacaksan üzerinde "HT" (ısıl işlem) damgası olsun; "MB" damgalı paletler ilaçlıdır, ev içinde kullanma.'}]};
   c.tools=stdTools(['gonyeT','daire','metre','gonye','kalem','matkap','havsa',['isk','2 adet'],'zimMak','zimKag','firca','maske']);
   c.mkSteps=K=>[
@@ -149,7 +150,8 @@ function pallet(p,o){
     {t:'Tahtaları zımparala',tools:['zimMak','zimKag','maske'],x:'<p>Bütün tahtaları 60 kumdan başlayıp 120 kuma kadar zımparala. Kıymık bırakan kenarları yuvarlat.</p>'},
     {t:'Palet katını kur',add:['bottomB','block','stringer','deck'],tools:['matkap','isk','gonye'],x:`<p>${K('bottomB')} alt tahtaları yere diz, üstlerine ${K('block')} takozları tutkal ve vidayla bağla. ${K('stringer')} kuşakları takozların üstüne, ${K('deck')} üst tahtaları aralarında yaklaşık 15 mm boşlukla en üste vidala.${nL>1?' İkinci katı aynı şekilde kurup birinci katın üstüne vidala.':''}</p>`},
     {t:'Tekerlekleri tak',add:['wheel'],tools:['matkap'],x:'<p>Sehpayı ters çevir, tekerlekleri köşe takozlarının altına vidala.</p>'},
-    finishStep({})];
+    finishStep({}),
+    ...(o.glass?[{t:'Cam tablayı yerleştir',add:['glass'],tools:['metre'],x:`<p>Üst tahtaların köşelerine ve ortasına şeffaf silikon tampon yapıştır, ${L-40}×${W-40} mm temperli camı her yandan 20 mm içeride kalacak şekilde ortala.</p>`,warn:'Yalnızca temperli (sertleştirilmiş) cam kullan; düz cam kırılınca keskin parçalara ayrılır.'}]:[])];
   return c;
 }
 
@@ -198,7 +200,8 @@ function picnic(p,o){
     BOX(parts,'cleatS','Oturak kuşağı',lk,xe+45,Hs-28-95,zc-ext,45,95,2*ext);
     for(const sg of [-1,1]){const T=[xe+22.5,Ht-40,zc+sg*(TW/2-140)],B=[xe+22.5,0,zc+sg*(sIn+160)];
       PART(parts,'leg','Çapraz ayak',lk,barRings(B,T,95,45,[1,0,0]),{cut:[R(v3.len(v3.sub(T,B))+40),95,45],cutNote:`uçlar ${(Math.atan(Math.abs(T[2]-B[2])/(T[1]-B[1]))*180/Math.PI).toFixed(0)}° açılı`});}}
-  const c={parts,hw:[['Galvaniz cıvata M10×120 + somun + pul','16 takım','ayak-kuşak'],['Paslanmaz vida 5×60',(nT+4)*4+' adet','tahtalar'],['Dış mekân ahşap yağı','2 L','2-3 kat']],join:'Cıvata + paslanmaz vida',
+  if(o.umb) PART(parts,'umb','Şemsiye deliği','hole',cylRings([L/2,Ht,zc],[L/2,Ht+1,zc],25,25,24),{deco:true,smooth:true});
+  const c={parts,hw:[...(o.umb?[['Şemsiye ayağı (en az 25 kg)','1 adet','masanın altına'],['Delik kapağı (Ø50)','1 adet','şemsiye yokken']]:[]),['Galvaniz cıvata M10×120 + somun + pul','16 takım','ayak-kuşak'],['Paslanmaz vida 5×60',(nT+4)*4+' adet','tahtalar'],['Dış mekân ahşap yağı','2 L','2-3 kat']],join:'Cıvata + paslanmaz vida',
     notes:[{t:'tip',x:`6-8 kişilik; tabla ${TW} mm genişlikte, oturaklar yerden ${Hs} mm.`},L>1800?{t:'warn',x:'1800 mm üstü boyda tabla ve oturak ortada esneyebilir; ortaya üçüncü bir kuşak çifti ekle.'}:null]};
   c.tools=stdTools(['gonyeT','aciOlcer','metre','gonye','kalem','matkap','havsa',['isk','4 adet'],'zimMak','zimKag','firca']);
   c.mkSteps=K=>[
@@ -206,6 +209,7 @@ function picnic(p,o){
     {t:'Uç çerçevelerini kur',add:['leg','cleatT','cleatS'],tools:['matkap','isk','aciOlcer'],x:`<p>İki ${K('leg')} ayağı yere X değil A biçiminde yatır; üstte aralarında ${TW-280} mm, altta ${2*(sIn+160)} mm olsun. ${K('cleatT')} tabla kuşağını üst uçlara, ${K('cleatS')} oturak kuşağını yerden ${Hs-28} mm yükseklikte (üst kenarı) yatay tut; her kesişime 10 mm delik açıp M10 cıvatayla bağla. İkinci çerçeveyi aynı yap.</p>`},
     {t:'Tablayı kur',add:['top'],tools:['matkap','havsa'],x:`<p>İki çerçeveyi uçlardan 250 mm içeride dik tut, ${nT} ${K('top')} tabla tahtasını 6 mm aralıkla kuşaklara 2'şer paslanmaz vidayla bağla.</p>`},
     {t:'Oturakları tak',add:['seat'],tools:['matkap','havsa'],x:`<p>${K('seat')} oturak tahtalarını her iki yana ikişer, oturak kuşaklarına vidala.</p>`},
+    ...(o.umb?[{t:'Şemsiye deliğini aç',add:['umb'],tools:['panc','matkap'],x:`<p>Tablanın tam ortasına (uçlardan ${R(L/2)} mm) Ø50 mm panç ile delik aç. Delik orta tahtaya denk gelir; çevresini 120 kumla yuvarlat.</p>`}]:[]),
     finishStep({outdoor:1})];
   return c;
 }
@@ -315,7 +319,7 @@ F3({id:'kedi-kulesi',name:'Kedi tırmalama kulesi',cat:'Ev mobilyası',b:catTree
 F3({id:'mama-standi',name:'Yükseltilmiş mama standı',cat:'Ev mobilyası',b:petFeeder,level:1,time:'4 saat',tags:'köpek kedi evcil hayvan kap',desc:'İki paslanmaz kaplı, yükseltilmiş mama ve su standı.',
   P:{D:[120,300,10],H:[80,450,10]},def:()=>({}),o:{},ax:[['D',[160,200,240]],['H',[100,200,350]],['mat',['ply18','mdf18'],MATL]],lbl:{D:'Kap çapı'}});
 F3({id:'palet-sehpa',name:'Palet sehpa',cat:'Ev mobilyası',b:pallet,level:1,time:'6 saat',tags:'palet geri dönüşüm tekerlekli',desc:'Tekerlekli, palet biçimli salon sehpası.',
-  P:{L:[600,1400,10],W:[500,1000,10]},def:()=>({}),o:{},ax:[['L',[800,1000,1200]],['W',[600,800]],['layers',[1,2],{1:'tek katlı',2:'iki katlı'}]]});
+  P:{L:[600,1400,10],W:[500,1000,10]},def:()=>({}),o:{},ax:[['L',[800,1000,1200]],['W',[600,800]],['layers',[1,2],{1:'tek katlı',2:'iki katlı'}],['glass',[false,true],{false:'camsız',true:'cam tablalı'}]]});
 F3({id:'gizli-raf',name:'Gizli konsollu duvar rafı',cat:'Ev mobilyası',b:floatShelf,level:1,time:'3 saat',tags:'yüzer raf floating',desc:'Konsolu görünmeyen, kalın masif duvar rafı.',
   P:{L:[300,1500,10],D:[120,250,10]},def:()=>({}),o:{},ax:[['L',[400,600,800,1000,1200]],['D',[150,220]],['sp',['mese','ceviz','cam'],SPL]]});
 F3({id:'monitor-yukseltici',name:'Monitör yükseltici',cat:'Ev mobilyası',b:riser,level:1,time:'3 saat',tags:'masa üstü ofis ekran',desc:'Dübelli, sade masa üstü monitör yükseltici.',
@@ -323,13 +327,13 @@ F3({id:'monitor-yukseltici',name:'Monitör yükseltici',cat:'Ev mobilyası',b:ri
 F3({id:'masa-sandalyesi',name:'Çıtalı yemek sandalyesi',cat:'Ev mobilyası',b:recline,level:3,time:'1,5 gün',tags:'sandalye mutfak yemek',desc:'Hafif geriye yatık sırtlı, çıtalı iç mekân sandalyesi.',
   P:{W:[400,520,10],D:[380,480,10],H:[430,480,5],BA:[5,15,1]},def:()=>({D:420,H:450}),o:{indoor:true},ax:[['W',[420,460]],['BA',[8,12]],['sp',['kayin','mese','cam'],SPL]],lbl:{BA:'Sırt açısı (°)'}});
 F3({id:'piknik-masasi',name:'Piknik masası',cat:'Bahçe ve dış mekân',b:picnic,level:3,time:'1,5 gün',tags:'bank masa bahçe aile',desc:'Oturakları gövdeye bağlı, A ayaklı klasik piknik masası.',
-  P:{L:[1000,2400,10]},def:()=>({}),o:{},ax:[['L',[1200,1500,1800,2000]],['sp',['emp','mese'],SPL]]});
+  P:{L:[1000,2400,10]},def:()=>({}),o:{},ax:[['L',[1200,1500,1800,2000]],['sp',['emp','mese'],SPL],['umb',[false,true],{false:'şemsiyesiz',true:'şemsiye delikli'}]]});
 F3({id:'cornhole',name:'Torba atma oyunu (cornhole)',cat:'Hobi',b:cornhole,level:2,time:'1 gün',tags:'bahçe oyun parti',desc:'Delikli eğik tahtaya torba atma oyunu; iki tahta yapılır.',
   P:{W:[400,700,10],L:[800,1300,10]},def:()=>({}),o:{},ax:[['size',['std','jr'],{std:'standart',jr:'çocuk boyu'}],['paint',[false,true],{false:'doğal',true:'boyalı'}],['sp',['cam','kayin'],SPL]],vd:v=>v.size==='std'?{W:600,L:1200}:{W:450,L:900}});
 F3({id:'bahce-kafesi',name:'Bahçe kafesi',cat:'Bahçe ve dış mekân',b:trellis,level:1,time:'4 saat',tags:'sarmaşık çit kafes trellis',desc:'Sarmaşık ve tırmanıcı bitkiler için çerçeveli kafes.',
   P:{W:[400,1500,10],H:[800,2200,10]},def:()=>({}),o:{},ax:[['W',[600,900,1200]],['H',[1200,1800]],['s',[100,150],{100:'sık kafes',150:'seyrek kafes'}]]});
 F3({id:'kum-havuzu',name:'Kum havuzu',cat:'Çocuk',b:slatBox,level:1,time:'5 saat',tags:'bahçe oyun kum',desc:'Tabansız, altı jeotekstil örtülü bahçe kum havuzu.',
-  P:{W:[800,2000,10],D:[800,2000,10],H:[140,420,140]},def:()=>({H:280}),o:{bottom:'none',gap:0,post:45,prof:[28,140],sp:'emp',outdoor:true,liner:true},ax:[['W',[1000,1200,1500]],['D',[1000,1200]]]});
+  P:{W:[800,2000,10],D:[800,2000,10],H:[140,420,140]},def:()=>({H:280}),o:{bottom:'none',gap:0,post:45,prof:[28,140],sp:'emp',outdoor:true,liner:true},ax:[['W',[1000,1200,1500]],['D',[1000,1200]],['seats',[true,false],{true:'köşe oturaklı',false:'oturaksız'}]]});
 F3({id:'altigen-raf',name:'Altıgen duvar rafı',cat:'Ev mobilyası',b:hexShelf,level:2,time:'4 saat',tags:'bal peteği hexagon dekor',desc:'Gönyeli kenarlardan bal peteği biçimli duvar rafı.',
   P:{W:[150,400,10],D:[95,190,5]},def:()=>({}),o:{},ax:[['W',[200,250,300]],['D',[120,150]],['set',[1,3],{1:'tekli',3:'üçlü set'}],['sp',['cam','mese','ceviz'],SPL]],lbl:{W:'Kenar uzunluğu'}});
 F3({id:'kus-yemligi',name:'Kuş yemliği',cat:'Bahçe ve dış mekân',b:birdFeeder,level:1,time:'3 saat',tags:'kuş yem asma',desc:'Çatılı, kenarlı, asılan açık kuş yemliği.',
