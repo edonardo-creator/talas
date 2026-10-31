@@ -9,7 +9,7 @@ import shutil
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
-SCRIPTS = ("aileler.js", "sekilli.js", "katalog.js", "urunler.js")
+SCRIPTS = ("aileler.js", "sekilli.js", "katalog.js", "urunler.js", "fotograf.js")
 
 HEAD = """<!doctype html>
 <html lang="tr">

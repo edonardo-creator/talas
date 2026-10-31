@@ -316,6 +316,44 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 .card .dims{font-size:12.5px}
 .badge{position:absolute;left:10px;top:10px;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:var(--hero);color:var(--hero-fg)}
 .viewer{border:0;border-radius:12px;box-shadow:var(--lift)}
+.photolay{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:22px;align-items:start}
+@media (max-width:860px){.photolay{grid-template-columns:minmax(0,1fr)}}
+.photo-in{padding:14px;display:grid;gap:12px;position:sticky;top:calc(76px + env(safe-area-inset-top,0px))}
+@media (max-width:860px){.photo-in{position:static}}
+.drop{display:grid;place-items:center;gap:8px;text-align:center;min-height:240px;border:2px dashed var(--line);border-radius:12px;padding:16px;cursor:pointer;background:var(--paper);overflow:hidden}
+.drop:hover{border-color:var(--accent)}
+.drop img{max-width:100%;max-height:420px;border-radius:8px;object-fit:contain}
+.drop-ic{width:56px;height:56px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center}
+.drop-ic svg{width:28px;height:28px;stroke:var(--accent);fill:none;stroke-width:1.6}
+.btn.big{min-height:50px;font-size:16px;width:100%}
+.photo-out{display:grid;gap:14px;min-width:0}
+.aistat{display:flex;gap:14px;align-items:center;padding:14px 16px}
+.aistat p{margin:2px 0 0;font-size:13px}
+.aistat .btn{margin-left:auto}
+.spin{width:22px;height:22px;border-radius:50%;border:3px solid var(--accent-soft);border-top-color:var(--accent);animation:spin 1s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.seen{padding:14px 16px;display:grid;gap:6px}
+.seen h4,.manual h4{margin:0;font:500 11px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mh{font-size:24px;margin-top:4px}
+.matches{display:grid;gap:12px}
+.match{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;background:var(--panel);border-radius:12px;box-shadow:var(--lift);padding:10px}
+@media (max-width:480px){.match{grid-template-columns:minmax(0,1fr)}}
+.match .pic{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;padding:6px}
+.match .pic svg{width:100%;height:100%}
+.mbody{display:grid;gap:6px;align-content:start;min-width:0}
+.mbody h3{font-size:22px}
+.mbody .btn{justify-self:start;margin-top:4px}
+.mopts{font-size:13.5px;margin:0}
+.fit{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden;max-width:220px}
+.fit i{display:block;height:100%;background:var(--ok)}
+.diff{margin:0;padding-left:18px;font-size:13px;color:var(--muted);display:grid;gap:2px}
+.manual{padding:6px 16px 16px}
+.manual summary{font:700 19px/1 var(--f-disp);padding:12px 0;cursor:pointer;min-height:44px}
+.dims3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dims3 label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.dims3 input{padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--paper);font-family:var(--f-mono);min-height:40px;width:100%}
+#manOut{margin-top:14px}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
 .card,.cattile{content-visibility:auto;contain-intrinsic-size:auto 380px}
 .tag.ok{background:var(--ok-soft);color:var(--ok)}
 .copybar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;font-size:13px}
@@ -347,6 +385,7 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 <nav class="nav" aria-label="Ana gezinme">
   <a class="navbrand" href="#projeler" data-nav="brand">Talaş<span>.</span></a>
   <a href="#projeler" data-nav="projeler"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5V20H3z"/><path d="M9.5 20v-6h5v6"/></svg>Projeler</a>
+  <a href="#fotograf" data-nav="fotograf"><svg viewBox="0 0 24 24"><path d="M4 7.5h3l2-3h6l2 3h3V19H4z"/><circle cx="12" cy="12.5" r="3.6"/></svg>Fotoğraf</a>
   <a href="#rehber" data-nav="rehber"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7"/><rect x="13.5" y="3.5" width="7" height="7"/><rect x="3.5" y="13.5" width="7" height="7"/><rect x="13.5" y="13.5" width="7" height="7"/></svg>Rehber</a>
   <a href="#defterim" data-nav="defterim"><svg viewBox="0 0 24 24"><path d="M3.5 6.5h6l2 2h9v11h-17z"/></svg>Defterim</a>
 </nav>
@@ -881,7 +920,7 @@ function viewHome(){
     <h1>Ölçüsünü sen ver. Kesimini, malzemesini ve yapımını biz çıkaralım.</h1>
     <p>Her ürünün kesim listesi, kereste ve plaka yerleşimi, ekipmanı, ölçülü planları ve adım adım montajı, seçtiğin ölçüye göre yeniden hesaplanır.</p>
     <div class="stats"><div><b>${fmt(PRODUCTS.length)}</b><span>ürün</span></div><div><b>${nmod}</b><span>model</span></div><div><b>${fmt(nvar)}</b><span>hazır seçenek</span></div><div><b>${nsub}</b><span>alt kategori</span></div></div>
-    <div class="cta"><a class="btn primary" href="#projeler" data-jump="katalog">Kataloğa göz at</a><a class="btn ghost" href="#${hp.id}">Bu ürünü aç</a></div></div>
+    <div class="cta"><a class="btn primary" href="#projeler" data-jump="katalog">Kataloğa göz at</a><a class="btn ghost" href="#fotograf">Fotoğraftan bul</a><a class="btn ghost" href="#${hp.id}">Bu ürünü aç</a></div></div>
     <a class="hero-art" href="#${hp.id}" aria-label="${esc(hp.name)}">${iso(hc.parts,{studio:true,aria:hp.name})}<span class="hero-cap">${esc(hp.name)}<em class="mono">${hc.dims.join(' × ')} mm</em></span></a></section>
   <section class="sec"><header><h2>Kategoriler</h2><span class="muted">${fmt(PRODUCTS.length)} ürün, ${CATS.length} kategoride</span></header><div class="cats">${CATS.map(cn=>{const rp=BYID[CAT_REP[cn]]||byCat[cn][0], rc=compute(rp,params(rp));
       return `<button class="cattile" data-cat="${esc(cn)}" data-jump="katalog"><span class="pic stage">${iso(rc.parts,{studio:true,grain:false})}</span><span class="ct-body"><b>${esc(cn)}</b><span class="mono ct-n">${fmt(byCat[cn].length)} ürün</span><span class="ct-subs">${SUBS[cn].map(esc).join(' · ')}</span></span></button>`;}).join('')}</div></section>
@@ -1036,10 +1075,10 @@ function viewMine(){
 /* ---------- yönlendirme ---------- */
 function route(){
   const h=(location.hash||'').slice(1)||'projeler';
-  const r=resolveHash(h), sect=r?'projeler':['rehber','defterim'].includes(h)?h:'projeler';
+  const r=resolveHash(h), sect=r?'projeler':['rehber','defterim','fotograf'].includes(h)?h:'projeler';
   document.querySelectorAll('.nav a').forEach(a=>a.toggleAttribute('aria-current',a.dataset.nav===sect)||a.setAttribute('aria-current',a.dataset.nav===sect?'page':'false'));
   document.querySelectorAll('.nav a').forEach(a=>{if(a.dataset.nav===sect)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
-  if(r) viewProduct(r); else {CUR=null; if(h==='rehber')viewGuide(); else if(h==='defterim')viewMine(); else viewHome();}
+  if(r) viewProduct(r); else {CUR=null; if(h==='rehber')viewGuide(); else if(h==='defterim')viewMine(); else if(h==='fotograf')viewPhoto(); else viewHome();}
   window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',route);
@@ -1089,6 +1128,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t
 <script src="sekilli.js?v=9db7b1ba"></script>
 <script src="katalog.js?v=a85b87bc"></script>
 <script src="urunler.js?v=76d2ed82"></script>
+<script src="fotograf.js?v=a30d60ac"></script>
 
 </body>
 </html>

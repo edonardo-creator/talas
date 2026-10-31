@@ -15,6 +15,7 @@ Katalogda 72 ürün var. Aynı tarzdaki ürünler tek üründe toplanır: ürün
 | `sekilli.js` | Eğik ve yuvarlak parça yardımcıları ve bu parçaları kullanan aileler |
 | `katalog.js` | Web taramasıyla eklenen ürün türleri (tabela, şamdan, şarap rafı, kedi kulesi, piknik masası, altıgen raf…) ve alt kategori sınıflandırması |
 | `urunler.js` | Aileleri ürünlere toplar (model grupları), seçim durumu, malzeme açıklamaları, ürün sayfası ve eski bağlantıların yönlendirilmesi |
+| `fotograf.js` | Fotoğraftan ürün bulma: Claude içinde fotoğrafı katalogla eşleştirir (sample + images); her yerde çalışan "kendin tarif et" eşleştiricisi |
 | `tools/pages.py` | GitHub Pages çıktısını `docs/` altına üretir (kaynak dosyalar değişince çalıştır) |
 | `docs/` | Yayındaki sürüm; elle düzenleme, `python tools/pages.py` ile üret |
 
