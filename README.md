@@ -16,6 +16,8 @@ Katalogda 72 ürün var. Aynı tarzdaki ürünler tek üründe toplanır: ürün
 | `katalog.js` | Web taramasıyla eklenen ürün türleri (tabela, şamdan, şarap rafı, kedi kulesi, piknik masası, altıgen raf…) ve alt kategori sınıflandırması |
 | `urunler.js` | Aileleri ürünlere toplar (model grupları), seçim durumu, malzeme açıklamaları, ürün sayfası ve eski bağlantıların yönlendirilmesi |
 | `fotograf.js` | Fotoğraftan ürün bulma: Claude içinde fotoğrafı katalogla eşleştirir (sample + images); her yerde çalışan "kendin tarif et" eşleştiricisi |
+| `atolye.css`, `atolye.js` | Talaş Atölye arayüzü (Codex tasarımı): turuncu-gri görsel dil, fotoğraflı seçki, ürün sayfası iskeleti, Atölyem, PDF planı. En son yüklenir, önceki sayfa fonksiyonlarını sarar |
+| `assets/` | Uygulama simgesi ve üç ilham fotoğrafı (Codex'in özgün görsel üretimi; ürün ölçüsüne göre değişmez) |
 | `tools/pages.py` | GitHub Pages çıktısını `docs/` altına üretir (kaynak dosyalar değişince çalıştır) |
 | `docs/` | Yayındaki sürüm; elle düzenleme, `python tools/pages.py` ile üret |
 

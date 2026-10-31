@@ -9,13 +9,15 @@ import shutil
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
-SCRIPTS = ("aileler.js", "sekilli.js", "katalog.js", "urunler.js", "fotograf.js")
+SCRIPTS = ("aileler.js", "sekilli.js", "katalog.js", "urunler.js", "fotograf.js", "atolye.js", "atolye.css")
 
 HEAD = """<!doctype html>
 <html lang="tr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f2f1ec">
+<link rel="icon" href="assets/app-icon.png">
 <meta name="description" content="Ölçüsü ayarlanabilir ahşap ürünler: kesim listesi, kereste ve plaka yerleşimi, ekipman, planlar ve adım adım yapım kılavuzu.">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
@@ -37,7 +39,9 @@ def main():
         shutil.copyfile(ROOT / name, DOCS / name)
         # Sürüm eki: tarayıcı yeni sayfayı eski önbellekli betikle birleştirmesin
         ver = hashlib.md5((ROOT / name).read_bytes()).hexdigest()[:8]
-        page = page.replace(f'src="{name}"', f'src="{name}?v={ver}"')
+        page = page.replace(f'src="{name}"', f'src="{name}?v={ver}"').replace(f'href="{name}"', f'href="{name}?v={ver}"')
+    if (ROOT / "assets").exists():
+        shutil.copytree(ROOT / "assets", DOCS / "assets", dirs_exist_ok=True)
     (DOCS / "index.html").write_text(page, encoding="utf-8")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
     print("docs/ güncellendi")
