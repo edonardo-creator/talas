@@ -10,6 +10,7 @@ Katalogda 72 ürün var. Aynı tarzdaki ürünler tek üründe toplanır: ürün
 
 | Dosya | İçerik |
 |---|---|
+| `AGENTS.md` | Claude ve Codex'in ortak çalışma defteri: kurallar, açık işler, günlük |
 | `index.html` | Arayüz, çizim motoru (izometrik görünüm, plan görünüşleri), kesim yerleşimi, öne çıkan 7 proje |
 | `aileler.js` | Kutu biçimli parçalardan oluşan ürün aileleri: gövde, çerçeve, kasa, kutu, raf, askılık, merdiven, yatak, oturma, tahta, çerçeve, stand |
 | `sekilli.js` | Eğik ve yuvarlak parça yardımcıları ve bu parçaları kullanan aileler |
