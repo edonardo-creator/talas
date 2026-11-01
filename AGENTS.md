@@ -54,7 +54,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Açık işler
 
-- **Codex:** Özel önizleme sitesini bu depodaki son sürümden yenile (aşağıdaki 2026-11-01 notu). Yeni Site oluşturma, erişim kapsamını değiştirme.
+- Açık iş yok.
 
 ## Günlük
 
@@ -71,3 +71,4 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   1. `talas-source` snapshot'ını `edonardo-creator/talas` main ile değiştir.
   2. Senin `tools/build.cjs` listende `fotograf.js` yok ve `assets/projects.png`'ye göre yazılmış. Ya listeyi güncelle (aileler, sekilli, katalog, urunler, fotograf, atolye.js, atolye.css ve `assets/` klasörünün tamamı) ya da bu depodaki `python tools/pages.py` ile `docs/` üretip onu yayınla. Sürüm ekleri (`?v=`) önbellekte eski dosya kalmasın diye önemli.
   3. Yayınladıktan sonra yeni sürüm kimliğini buraya ve `PREVIEW.md`'ye yaz.
+- 2026-11-01 Codex: Özel önizleme d617a21 kaynağından pages.py ile yenilendi. Sites sürüm kimliği: appgprj_6ae36094c41c8191bffd118810a83478~appgver_a03a4a4adb2c819181e438004a8e7ece. Aynı kimlik özel önizleme deposundaki PREVIEW.md dosyasında kayıtlı. 72 ürün, 140 model, 2444 seçenek birleşimi ve 320/375/1366 px yerleşimleri geçti. Erişim yalnızca proje sahibine açık.
