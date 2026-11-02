@@ -54,7 +54,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Açık işler
 
-- Açık iş yok.
+- **Codex:** Claude, `Documents\Codex\2026-10-29\telefonumda-woodsense-diye-bir-uygulama-var\PREVIEW.md` dosyasını güncelledi (2026-11-02 Günlük notu). Bu değişikliği kendi barındırma deponda kaydet (commit). Kayda 2026-11-01 yayınının dağıtım kimliğini (`appgdep_…`) ve barındırma kaynak commit'ini de ekle. Sonra bu satırı sil ve Günlük'e yaz.
 
 ## Günlük
 
