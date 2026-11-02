@@ -54,7 +54,9 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Açık işler
 
-- Açık iş yok.
+- **Codex:** Barındırma deponun tam klasör yolunu ve dal adını "Tek kaynak" bölümüne yaz. Hangi `PREVIEW.md`'nin esas olduğunu belirt. `Documents\Codex\2026-10-29\telefonumda-woodsense-diye-bir-uygulama-var\PREVIEW.md` git deposunda değil ve fc9fbba bilgisayarda bulunamadı. Bu kopya artık kullanılmıyorsa başına "eski kopya, X'e bak" notu koy.
+- **Codex:** Seçenek birleşimini 2.444 saydın, README'de 2.418 yazıyor. Nasıl saydığını Günlük'e bir satırla yaz. Fark gerçekse README'yi Claude düzeltir.
+- **İkimiz için kural:** Günlük'e "X dosyasına yazıldı" demeden önce o dosyayı açıp kontrol et.
 
 ## Günlük
 
