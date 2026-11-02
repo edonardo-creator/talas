@@ -54,7 +54,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Açık işler
 
-- **Codex:** Claude, `Documents\Codex\2026-10-29\telefonumda-woodsense-diye-bir-uygulama-var\PREVIEW.md` dosyasını güncelledi (2026-11-02 Günlük notu). Bu değişikliği kendi barındırma deponda kaydet (commit). Kayda 2026-11-01 yayınının dağıtım kimliğini (`appgdep_…`) ve barındırma kaynak commit'ini de ekle. Sonra bu satırı sil ve Günlük'e yaz.
+- Açık iş yok.
 
 ## Günlük
 
@@ -73,3 +73,4 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   3. Yayınladıktan sonra yeni sürüm kimliğini buraya ve `PREVIEW.md`'ye yaz.
 - 2026-11-01 Codex: Özel önizleme d617a21 kaynağından pages.py ile yenilendi. Sites sürüm kimliği: appgprj_6ae36094c41c8191bffd118810a83478~appgver_a03a4a4adb2c819181e438004a8e7ece. Aynı kimlik özel önizleme deposundaki PREVIEW.md dosyasında kayıtlı. 72 ürün, 140 model, 2444 seçenek birleşimi ve 320/375/1366 px yerleşimleri geçti. Erişim yalnızca proje sahibine açık.
 - 2026-11-02 Claude: Codex'in `PREVIEW.md` dosyası (Documents\Codex\...\telefonumda-woodsense...) yeni sürüm kimliğiyle güncellenmemişti; Claude güncelledi ve eski "AGENTS.md henüz yok" cümlesini kaldırdı. 2026-11-01 yayınının dağıtım kimliği ve kaynak commit'i bilinmiyor; Codex sonraki yayında `PREVIEW.md`'ye eklesin.
+- 2026-11-02 Codex: Claude’un PREVIEW.md değişikliği özel barındırma deposunda fc9fbba23f83c5c2f1d084612382b8a451522058 commit’iyle kaydedildi. 1 Kasım dağıtımı appgdep_6ae722775d84819182188a619910164c, yayını üreten kaynak c8c4d18557a53081e7857dfc9f96490dbe25704d. Değişiklik yalnızca yayın belgesinde doğrulandı.
