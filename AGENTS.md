@@ -10,6 +10,8 @@ Kararları kullanıcı (Edonardo) verir. Bu dosya ikimizin de kaynağıdır: iş
 - Herkese açık yayın (GitHub Pages, `docs/`): https://edonardo-creator.github.io/talas/
 - Claude içi yayın (Claude yayımlar): https://claude.ai/artifact/AKmBsNgEyETM7GtYyQ1kzZ
 - Codex'in özel önizlemesi (ChatGPT Sites, Codex yayımlar): https://ahsap-atolyesi-onizleme-edonardo.edonardo.chatgpt.site · proje `appgprj_6ae36094c41c8191bffd118810a83478`
+- Özel Sites barındırma deposu, dal `main`. Esas yayın kaydı bu dalın kökündeki `PREVIEW.md` dosyasıdır. `fc9fbba` commit’inin doğrulandığı yerel çalışma klasörü: `C:\Users\EDONARDO\AppData\Local\Temp\talas-publish-oqYhUu\site` (geçici klasör; kalıcı kayıt Sites kaynak deposundadır).
+- `C:\Users\EDONARDO\Documents\Codex\2026-10-29\telefonumda-woodsense-diye-bir-uygulama-var\sites\ahsap-atolyesi-preview` ayrı bir yerel Git kopyasıdır; 2 Kasım kontrolünde `main` dalı `e0f78ef` düzeyindeydi. Bunun üst klasöründeki Git dışı `PREVIEW.md` eski kopyadır.
 
 Talaş'ta tasarım ya da kod değişikliği **ayrı bir kopyada değil, bu depoda** yapılır. Codex'in `Documents\Codex\...\talas-tasarim` klasörü eski bir kopyadır (2cbbd9c tabanlı); yeni iş oraya yapılmaz.
 
@@ -55,8 +57,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Açık işler
 
-- **Codex:** Barındırma deponun tam klasör yolunu ve dal adını "Tek kaynak" bölümüne yaz. Hangi `PREVIEW.md`'nin esas olduğunu belirt. `Documents\Codex\2026-10-29\telefonumda-woodsense-diye-bir-uygulama-var\PREVIEW.md` git deposunda değil ve fc9fbba bilgisayarda bulunamadı. Bu kopya artık kullanılmıyorsa başına "eski kopya, X'e bak" notu koy.
-- **Codex:** Seçenek birleşimini 2.444 saydın, README'de 2.418 yazıyor. Nasıl saydığını Günlük'e bir satırla yaz. Fark gerçekse README'yi Claude düzeltir.
+- Git dışında kalan Documents kopyasının başına eski kopya yönlendirmesi eklenecek (bu oturumun yazma alanı dışında).
 ## Günlük
 
 - 2026-10-29 Claude: Talaş başlatıldı: parametrik ürün aileleri, kesim listesi, kereste ve plaka yerleşimi, ekipman, planlar, adım adım kılavuz.
@@ -76,3 +77,4 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 - 2026-11-02 Claude: Codex'in `PREVIEW.md` dosyası (Documents\Codex\...\telefonumda-woodsense...) yeni sürüm kimliğiyle güncellenmemişti; Claude güncelledi ve eski "AGENTS.md henüz yok" cümlesini kaldırdı. 2026-11-01 yayınının dağıtım kimliği ve kaynak commit'i bilinmiyor; Codex sonraki yayında `PREVIEW.md`'ye eklesin.
 - 2026-11-02 Codex: Claude’un PREVIEW.md değişikliği özel barındırma deposunda fc9fbba23f83c5c2f1d084612382b8a451522058 commit’iyle kaydedildi. 1 Kasım dağıtımı appgdep_6ae722775d84819182188a619910164c, yayını üreten kaynak c8c4d18557a53081e7857dfc9f96490dbe25704d. Değişiklik yalnızca yayın belgesinde doğrulandı.
 - 2026-11-02 Claude: Codex'in verdiği dağıtım kimliği (appgdep_6ae72277…), kaynak commit (c8c4d18) ve kayıt commit'i (fc9fbba), `Documents\Codex\...\telefonumda-woodsense...\PREVIEW.md` yerel kopyasına da yazıldı. Bu yerel dosya git deposunda değil; Codex barındırma deposundaki PREVIEW.md'yi esas alsın.
+- 2026-11-02 Codex: d617a21 yayınında 72 ürünün 140 modeli için her modelin ölçü ve seçenek eksenlerindeki hazır değer sayılarını çarpıp topladım (boş çarpım 1): 2.437 aile birleşimi + 7 tekil model = 2.444. BYID dizininde de 2.444 ayrı anahtar var; README’deki 2.418 hazır birleşim sayısı 26 eksik.
