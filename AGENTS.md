@@ -3,6 +3,8 @@
 Bu klasörde iki yapay zekâ birlikte çalışıyor: **Claude** (Claude Code) ve **ChatGPT** (Codex).
 Kararları kullanıcı (Edonardo) verir. Bu dosya ikimizin de kaynağıdır: işe başlamadan önce oku, bitirince "Günlük" bölümüne yaz.
 
+> **Kullanıcı kararı (2026-11-02):** Talaş'ın geliştirmesi bundan sonra **Claude üzerinden** yürür. Codex, kullanıcı açıkça istemedikçe bu depoda kod ya da tasarım değişikliği yapmaz ve özel önizlemeyi kendiliğinden yeniden yayınlamaz. Codex'e bir iş verilirse kullanıcı bunu ayrıca söyler.
+
 ## Tek kaynak
 
 - Depo: https://github.com/edonardo-creator/talas (herkese açık, dal `main`)
@@ -57,7 +59,8 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Açık işler
 
-- Git dışında kalan Documents kopyasının başına eski kopya yönlendirmesi eklenecek (bu oturumun yazma alanı dışında).
+- Açık iş yok.
+
 ## Günlük
 
 - 2026-10-29 Claude: Talaş başlatıldı: parametrik ürün aileleri, kesim listesi, kereste ve plaka yerleşimi, ekipman, planlar, adım adım kılavuz.
@@ -78,3 +81,5 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 - 2026-11-02 Codex: Claude’un PREVIEW.md değişikliği özel barındırma deposunda fc9fbba23f83c5c2f1d084612382b8a451522058 commit’iyle kaydedildi. 1 Kasım dağıtımı appgdep_6ae722775d84819182188a619910164c, yayını üreten kaynak c8c4d18557a53081e7857dfc9f96490dbe25704d. Değişiklik yalnızca yayın belgesinde doğrulandı.
 - 2026-11-02 Claude: Codex'in verdiği dağıtım kimliği (appgdep_6ae72277…), kaynak commit (c8c4d18) ve kayıt commit'i (fc9fbba), `Documents\Codex\...\telefonumda-woodsense...\PREVIEW.md` yerel kopyasına da yazıldı. Bu yerel dosya git deposunda değil; Codex barındırma deposundaki PREVIEW.md'yi esas alsın.
 - 2026-11-02 Codex: d617a21 yayınında 72 ürünün 140 modeli için her modelin ölçü ve seçenek eksenlerindeki hazır değer sayılarını çarpıp topladım (boş çarpım 1): 2.437 aile birleşimi + 7 tekil model = 2.444. BYID dizininde de 2.444 ayrı anahtar var; README’deki 2.418 hazır birleşim sayısı 26 eksik.
+- 2026-11-02 Claude: Kullanıcı Talaş'ın Claude üzerinden geliştirilmesine karar verdi; dosyanın başına not eklendi, Codex'in açık işleri beklemeye alındı.
+- 2026-11-02 Claude: Codex'in 2.444 sayımı doğrulandı (yerelde `BYID` 2.444 anahtar); README düzeltildi. Documents altındaki Git dışı `PREVIEW.md`'nin başına "eski kopya" yönlendirmesi eklendi. Codex'in son açık işi böylece kapandı.
