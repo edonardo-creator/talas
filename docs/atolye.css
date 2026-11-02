@@ -28,3 +28,25 @@ html{scroll-behavior:auto}
 .match .pic{border-radius:5px}.mbody h3{font-size:18px;letter-spacing:-.03em}.manual summary{font:650 15px var(--f-body)}
 .seen h4,.manual h4{font:650 9px var(--f-body);letter-spacing:.1em}.fit i{background:var(--accent)}
 @media(max-width:899px){.photo-cta{padding:12px 14px}.photo-cta strong{font-size:14px}}
+/* Telefon: okunur en küçük yazı, 44 px dokunma alanı, iOS'ta odakta yakınlaşmayan giriş kutuları */
+@media(max-width:899px){
+  .site-word small{font-size:9px;letter-spacing:1.2px}
+  .eyebrow,.welcome .eyebrow,.phead .eyebrow{font-size:11px}.card .eyebrow{font-size:10px;letter-spacing:.06em}
+  .photo-caption,.project-photo .photo-caption{font-size:10px}.card .photo-caption{font-size:9px;padding:3px 5px}
+  .badge{font-size:10px}.card .tag,.tag{font-size:11px}.card .tag{padding:3px 7px}
+  .fgroup h4,.seen h4,.manual h4{font-size:11px}.tree button span,.cmap-row .n{font-size:12px}
+  .viewer-label,.plans figcaption,.preview-plans figcaption{font-size:11px}.facts b{font-size:11px}
+  .home-facts,.site-foot,.photo-note,.spec-note,.row .s,.tool .s,.cl-item .s,.mine-stats span{font-size:12px}
+  input,select,textarea,.search,.prm input[type=number],.opts select,.rbar select,.row.cost input{font-size:16px}
+  .rbar select,.opts select{min-height:44px}
+  .card .fav{width:44px;height:44px;right:4px;top:4px}
+  .cmap-row{min-height:44px}.tree button,.quick-cats button,.seg button,.text-link{min-height:44px}
+  .vtoggle button,.btn.sm{min-height:44px}.print-action{min-width:44px}
+  input[type=range]{height:36px}
+  .tabs{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent);scroll-padding-inline:8px}
+  .tabs.at-end{-webkit-mask-image:none;mask-image:none}
+  .tabs button{min-height:44px;font-size:12px}
+  .feature-rail{scroll-padding-inline:20px}
+  .nav{padding-bottom:env(safe-area-inset-bottom,0px)}
+}
+@media(max-width:360px){.feature-rail{scroll-padding-inline:14px}.card .tag{font-size:10px}}

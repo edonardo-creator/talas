@@ -96,6 +96,13 @@ refresh = function() {
   const viewer = document.getElementById('viewer');
   if (viewer) viewer.insertAdjacentHTML('beforeend', '<span class="viewer-label">SEÇTİĞİN ÖLÇÜLERLE · CANLI ÇİZİM</span>');
   const page = document.getElementById('tabbody');
+  // Telefonda sekme çubuğu yana kayar; seçili sekme görünür kalsın
+  const tab = document.querySelector('.tabs button[aria-selected="true"]'), bar = tab && tab.parentElement;
+  if (bar && bar.scrollWidth > bar.clientWidth) {
+    bar.onscroll = () => bar.classList.toggle('at-end', bar.scrollLeft + bar.clientWidth >= bar.scrollWidth - 2);
+    bar.scrollLeft = tab.offsetLeft - (bar.clientWidth - tab.offsetWidth) / 2;
+    bar.onscroll();
+  }
   if (page && CUR.tab === 'yapim') { const caption = page.querySelector('.player > p.muted'); if (caption) caption.textContent = 'Turuncu çerçeveli parçalar bu adımda eklenenlerdir. Kesik çizgili parçalar sonraki adımlarda gelecek.'; }
   const actions = document.getElementById('project-actions');
   if (!actions) return;
