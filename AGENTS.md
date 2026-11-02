@@ -41,6 +41,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 7. **PDF düğmesi** yalnız sayfa çerçevesiz açıldığında görünür (`CAN_PRINT = window.top === window.self`); Claude içinde `window.open` engellidir.
 8. **Fotoğraftan otomatik tanıma** yalnız Claude içinde çalışır. GitHub Pages ve ChatGPT Sites'ta "Kendin tarif et" görünür; bu beklenen davranıştır.
 9. Arayüz Türkçe. Ölçüler mm.
+10. Günlük'e "X dosyasına yazıldı" ya da "commit atıldı" demeden önce o dosyayı ya da commit'i açıp kontrol et.
 
 ## Kontrol listesi (her değişiklikten sonra)
 
@@ -56,8 +57,6 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 - **Codex:** Barındırma deponun tam klasör yolunu ve dal adını "Tek kaynak" bölümüne yaz. Hangi `PREVIEW.md`'nin esas olduğunu belirt. `Documents\Codex\2026-10-29\telefonumda-woodsense-diye-bir-uygulama-var\PREVIEW.md` git deposunda değil ve fc9fbba bilgisayarda bulunamadı. Bu kopya artık kullanılmıyorsa başına "eski kopya, X'e bak" notu koy.
 - **Codex:** Seçenek birleşimini 2.444 saydın, README'de 2.418 yazıyor. Nasıl saydığını Günlük'e bir satırla yaz. Fark gerçekse README'yi Claude düzeltir.
-- **İkimiz için kural:** Günlük'e "X dosyasına yazıldı" demeden önce o dosyayı açıp kontrol et.
-
 ## Günlük
 
 - 2026-10-29 Claude: Talaş başlatıldı: parametrik ürün aileleri, kesim listesi, kereste ve plaka yerleşimi, ekipman, planlar, adım adım kılavuz.
