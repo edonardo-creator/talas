@@ -49,7 +49,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Kontrol listesi (her değişiklikten sonra)
 
-- 72 ürünün 140 modeli ve bütün seçenekleri hatasız hesaplanmalı (`compute`, `stock`, `iso`); parçalar birbirine geçmemeli.
+- 75 ürünün 153 modeli ve bütün seçenekleri hatasız hesaplanmalı (`compute`, `stock`, `iso`); parçalar birbirine geçmemeli.
 - Eski bağlantılar (`#yuvarlak-tabure-3` gibi) `resolveHash` ile doğru ürüne, modele ve seçeneğe gitmeli.
 - 320, 375 ve 1366 px genişlikte yatay taşma olmamalı.
 
@@ -84,3 +84,4 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 - 2026-11-02 Claude: Kullanıcı Talaş'ın Claude üzerinden geliştirilmesine karar verdi; dosyanın başına not eklendi, Codex'in açık işleri beklemeye alındı.
 - 2026-11-02 Claude: Codex'in 2.444 sayımı doğrulandı (yerelde `BYID` 2.444 anahtar); README düzeltildi. Documents altındaki Git dışı `PREVIEW.md`'nin başına "eski kopya" yönlendirmesi eklendi. Codex'in son açık işi böylece kapandı.
 - 2026-11-02 Claude: Telefon görünümü iyileştirildi (`atolye.css` sonundaki telefon bloğu, `atolye.js` `refresh`): en küçük yazı 9-10 px'ten 10-12 px'e çıktı, dokunma alanları 44 px, giriş kutuları 16 px (iOS odakta yakınlaşmasın), sekme çubuğu sağda soluklaşır ve seçili sekmeyi ortalar, seçki kaydırıcısında ilk kart kenara yapışmaz, alt menüde güvenli alan payı. `index.html`: dolu parça olmayan adımlarda (yalnız kesim) gölge elipsi NaN üretiyordu, çizilmiyor. 320/375/1366 px'te 8 sayfa ve tüm sekmelerde taşma yok.
+- 2026-11-03 Claude: 13 yeni aile eklendi (`katalog.js`, 15-27 numaralı yapım fonksiyonları ve `F3` tanımları). Yeni ürünler: Testere sehpası, Atölye duvar düzeni (alet panosu + işkence rafı), Öğrenme kulesi. Mevcut ürünlere model olarak eklenenler: çocuk kitaplığı → Kitaplık, lavabo altı → Kapaklı dolap, ayaklı portmanto → Askılık (eski adı "Duvar askılığı", kimliği `duvar-askiligi` aynı), bıçak bloğu → Mutfak kutusu, tezgâh üstü katlı raf → Mutfak rafı, kâğıt havluluk → Mutfak askısı. Tek modelli üç ürün gruba dönüştü, kimlikleri aynı kaldı: `oyuncak-sandigi` (+ çekme arabası), `calisma-masasi` (+ duvara katlanır masa), `tepsi` (adı "Tepsi"; + yatak tepsisi). Katalog 75 ürün, 153 model, 2.578 seçenek birleşimi (`BYID`). Tarayıcıda 2.578 birleşimin tamamı `compute`/`stock`/`iso` ile hatasız; eski bağlantılar (`#oyuncak-sandigi-1`, `#calisma-masasi-2`, `#tepsi`) doğru ürüne gidiyor; yeni ürün sayfalarında 320/375/1366 px'te taşma yok. Bilerek iç içe olan parçalar: aks–takoz–tekerlek, havluluk çubuğu–taban/kulak, portmanto çubuğu–direk.
