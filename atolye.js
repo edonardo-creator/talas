@@ -2,7 +2,8 @@
 /* Talaş Atölye arayüzü (Codex tasarımı). Hesap motoru ve sayfaların içeriği önceki betiklerden gelir;
    bu dosya yalnız görünümü ve sayfa iskeletlerini değiştirir. En son yüklenir. */
 const PHOTO_OF = { 'saklama-kasasi-u': 'kasa', 'bahce-koltugu-u': 'koltuk', 'orta-sehpa': 'sehpa', 'testere-sehpasi': 'testere', 'atolye-duvari': 'atolye-duvari', 'ogrenme-kulesi': 'ogrenme-kulesi', 'kitaplik': 'kitaplik', 'duvar-askiligi': 'askilik', 'dolap': 'dolap', 'oyuncak-sandigi': 'oyuncak-sandigi', 'tepsi': 'tepsi', 'calisma-masasi': 'calisma-masasi', 'mutfak-kutusu': 'ekmeklik', 'mutfak-rafi': 'baharatlik', 'mutfak-askisi': 'havlu-askisi', 'bahce-banki-u': 'bahce-banki', 'sezlong-u': 'sezlong', 'bahce-masasi-u': 'bahce-masasi', 'kus-evi-u': 'kus-evi', 'saksi-standi-u': 'saksi-standi', 'kopek-kulubesi': 'kopek-kulubesi', 'sovale-u': 'sovale', 'hobi-kutusu': 'hobi-kutusu', 'sergi-rafi': 'sergi-rafi', 'plak-dolabi': 'plak-dolabi', 'duvar-saati': 'duvar-saati', 'cornhole': 'cornhole', 'komodin': 'komodin', 'tv-unitesi-u': 'tv-unitesi', 'yemek-masasi-u': 'yemek-masasi', 'yatak': 'yatak', 'ayna': 'ayna', 'ayakkabilik': 'ayakkabilik' };
-const photoHTML = (n, label) => `<div class="photo"><img src="assets/foto-${n}.jpg" alt="${esc(label)} için ilham fotoğrafı" decoding="async" loading="lazy" width="900" height="900"><span class="photo-caption">İlham fotoğrafı</span></div>`;
+// Kartlar 450 px kopyayı, geniş görünümler 900 px aslını seçer (assets/kucuk)
+const photoHTML = (n, label, wide) => `<div class="photo"><img src="assets/kucuk/foto-${n}.jpg" srcset="assets/kucuk/foto-${n}.jpg 450w, assets/foto-${n}.jpg 900w" sizes="${wide ? '(max-width:899px) 100vw, 1112px' : '(max-width:899px) 50vw, 360px'}" alt="${esc(label)} için ilham fotoğrafı" decoding="async" loading="${wide ? 'eager' : 'lazy'}" width="900" height="900"><span class="photo-caption">İlham fotoğrafı</span></div>`;
 // PDF önizlemesi yeni pencere açar; Claude içinde çerçeveli sayfada bu engellidir.
 const CAN_PRINT = window.top === window.self;
 const shareIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v8h14v-8"/></svg>';
@@ -76,7 +77,7 @@ viewProduct = function(r) {
   pageMode('product');
   const pic = PHOTO_OF[prod.id], open = matchMedia('(min-width:900px)').matches ? 'open' : '';
   app.innerHTML = `<div class="project-toolbar"><a class="back" href="#projeler" aria-label="Projelere dön">←<span>Projelere dön</span></a><div class="toolbar-title">${esc(prod.name)}</div>${favoriteButton(prod)}</div>
-    ${pic !== undefined ? `<div class="project-photo">${photoHTML(pic, prod.name)}</div>` : ''}
+    ${pic !== undefined ? `<div class="project-photo">${photoHTML(pic, prod.name, true)}</div>` : ''}
     <section class="phead"><p class="eyebrow">${esc(prod.cat)} / ${esc(prod.sub)}</p><h1>${esc(prod.name)}</h1><div class="meta" id="pmeta"></div><p class="muted">${esc(prod.desc)}</p></section>
     <div class="layout"><div class="side"><div class="viewer stage" id="viewer"></div><div class="facts" id="facts"></div><details class="config-panel" ${open}><summary>Model ve malzeme</summary><div class="panel choices" id="choices"></div></details><details class="config-panel" ${open}><summary>Ölçülerini ayarla</summary><div class="panel params" id="params"></div></details></div>
       <div class="detail-pane"><div class="tabs" role="tablist" aria-label="Proje bölümleri">${[['genel', 'Genel'], ['kesim', 'Kesim'], ['malzeme', 'Malzeme'], ['ekipman', 'Ekipman'], ['plan', 'Planlar'], ['yapim', 'Yapım']].map(([key, label]) => `<button role="tab" data-tab="${key}" aria-selected="${CUR.tab === key}">${label}</button>`).join('')}</div><div id="tabbody"></div></div></div><div class="project-actions" id="project-actions"></div>`;
