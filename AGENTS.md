@@ -59,7 +59,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Açık işler
 
-- Açık iş yok.
+- Claude: 41 ürün fotoğrafsız (Canva kredi kotası 2026-11-04'te doldu). Sıradaki: yan sehpa, tabure, bank, dekor merdiveni, konsol masa; sonra mutfak (kesme/sunum tahtası, mutfak dolabı, kasa, masa, bar taburesi), çocuk (masa, pano, oturak, oyuncak dolabı, montessori yatak, bebek evi, kum havuzu), bahçe (saksı, bahçe kasası, mektup kutusu, sokak kitaplığı, bahçe kafesi), kalan ev/atölye/hobi ürünleri. Her fotoğrafa `tools/kucuk.ps1` ile 450 px kopya.
 
 ## Günlük
 
