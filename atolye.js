@@ -5,6 +5,7 @@ const PHOTO_OF = { 'saklama-kasasi-u': 'kasa', 'bahce-koltugu-u': 'koltuk', 'ort
 const photoHTML = (n, label) => `<div class="photo"><img src="assets/foto-${n}.jpg" alt="${esc(label)} için ilham fotoğrafı" decoding="async" loading="lazy" width="900" height="900"><span class="photo-caption">İlham fotoğrafı</span></div>`;
 // PDF önizlemesi yeni pencere açar; Claude içinde çerçeveli sayfada bu engellidir.
 const CAN_PRINT = window.top === window.self;
+const shareIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v8h14v-8"/></svg>';
 const arrowIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg>';
 const brand = `<a class="site-brand" href="#projeler" aria-label="Talaş Atölye ana sayfa"><img src="assets/app-icon.png" alt="" width="38" height="40"><span class="site-word">Talaş<b> Atölye</b><small>KENDİ ELLERİNLE, KENDİ HİKÂYEN.</small></span></a>`;
 document.getElementById('app').insertAdjacentHTML('beforebegin', `<header class="site-top"><div class="top-inner">${brand}<nav class="site-links" aria-label="Üst gezinme"><a href="#projeler" data-site-nav="projeler">Keşfet</a><a href="#fotograf" data-site-nav="fotograf">Fotoğraftan bul</a><a href="#rehber" data-site-nav="rehber">Rehber</a><a href="#defterim" data-site-nav="defterim">Atölyem</a></nav></div></header>`);
@@ -110,7 +111,7 @@ refresh = function() {
   let attr = 'data-tab="yapim"', label = 'Yapıma başla →';
   if (CUR.tab === 'genel') { attr = 'data-tab="kesim"'; label = 'Kesim listesini aç →'; }
   if (CUR.tab === 'yapim') { attr = completed ? 'data-finish="1"' : 'data-go="1"'; label = completed ? 'Atölyeme dön ✓' : curStep() === CUR.c.steps.length - 1 ? 'Projeyi tamamla ✓' : 'Sonraki adım →'; }
-  actions.innerHTML = `<div class="action-inner">${CAN_PRINT ? `<button class="print-action" data-print="1" aria-label="Proje planını PDF olarak yazdır">${arrowIcon}<span>PDF</span></button>` : ''}<span class="action-hint">${esc(CUR.prod.name)} · ${CUR.c.dims.join(' × ')} mm</span><button class="btn primary" ${attr}>${label}</button></div>`;
+  actions.innerHTML = `<div class="action-inner">${CAN_PRINT ? `<button class="print-action" data-print="1" aria-label="Proje planını PDF olarak yazdır">${arrowIcon}<span>PDF</span></button><button class="print-action" data-share="1" aria-label="Projeyi paylaş">${shareIcon}<span>Paylaş</span></button>` : ''}<span class="action-hint">${esc(CUR.prod.name)} · ${CUR.c.dims.join(' × ')} mm</span><button class="btn primary" ${attr}>${label}</button></div>`;
 };
 TABS.genel = function() {
   const { pr, c, p } = CUR, notes = (pr.notes(p, c) || []).filter(Boolean), list = pr.tools(p, c).slice(0, 4);
@@ -130,6 +131,7 @@ viewGuide = function() {
   const intro = app.querySelector('p.muted'); if (intro) intro.textContent = 'Ahşap türleri, birleştirme yöntemleri ve aletlerin için bir başvuru köşesi.';
   const toc = app.querySelector('.toc');
   toc.outerHTML = `<div class="guide-tiles">${[['g-ahsap', 'Ahşabı tanı', 'Türünü, dokusunu ve kullanımını öğren.', '◫'], ['g-birlesim', 'Sağlam bağlantılar', 'Projene uygun birleştirmeyi keşfet.', '⌑'], ['g-alet', 'Alet çantam', 'Elindeki aletleri işaretle, projeleri süz.', '⌁']].map(([id, title, desc, symbol]) => `<a class="guide-tile" href="#rehber" data-jump="${id}"><span class="guide-symbol" aria-hidden="true">${symbol}</span><span><strong>${title}</strong><small>${desc}</small></span></a>`).join('')}</div>`;
+  app.insertAdjacentHTML('beforeend', `<section class="sec mine-section about" id="hakkinda"><header><h2>Hakkında ve gizlilik</h2></header><div class="prose"><p>Talaş Atölye, girdiğin ölçülerden kesim listesi, kereste ve plaka yerleşimi, malzeme listesi ve adım adım yapım kılavuzu hesaplar. ${PRODUCTS.length} ürün ve ${PRODUCTS.reduce((n, p) => n + p.models.length, 0)} model içerir.</p><p><b>Güvenlik:</b> Ölçüler ve bağlantılar hesaplanır, dayanım doğrulaması yapılmaz. Taşıyıcı, çocuklara yönelik ya da yük altında çalışan ürünlerde bağlantıları ve malzemeyi üretimden önce bir ustaya kontrol ettir. Elektrikli aletleri üreticisinin kılavuzuna göre, koruyucu gözlük ve kulaklıkla kullan.</p><p><b>Fotoğraflar:</b> Ürün kartlarındaki "İlham fotoğrafı" görselleri yapay zekâyla üretilmiştir; ölçüye göre değişmez ve planın birebir görünümü değildir. Planın kendisi çizimlerde ve ölçülü görünüşlerde yer alır.</p><p><b>Gizlilik:</b> Hesap açman gerekmez. Favorilerin, ilerlemen ve alet çantan yalnız bu tarayıcıda saklanır; sunucuya gönderilmez, reklam ya da izleme kodu yoktur. Uygulama Claude içinde açıldığında "Fotoğraftan bul" bölümünde seçtiğin fotoğraf yalnız tanıma için Claude'a gönderilir. Tarayıcı verilerini silersen kayıtların da silinir.</p></div></section>`);
 };
 function savedProgress(prod) {
   const models = prod.models.map((_, mi) => {
@@ -149,6 +151,14 @@ viewMine = function() {
   app.innerHTML = `<header class="welcome"><p class="eyebrow">FİKİRDEN GERÇEĞE</p><h1>Benim atölyem</h1><p>Sakladığın fikirler, başladığın hikâyeler.</p></header><div class="mine-stats"><div><b>${fav.length}</b><span>Favori</span></div><div><b>${active.length}</b><span>Devam eden</span></div><div><b>${complete.length}</b><span>Tamamlanan</span></div></div><section class="sec mine-section"><header><h2>Devam eden</h2></header>${active.length ? rows(active) : '<div class="empty">İlk adımını at. Bir projenin yapım adımlarında ilerledikçe burada göreceksin.<a class="btn" href="#projeler">Projelere göz at</a></div>'}</section><section class="sec"><header><h2>Favoriler</h2></header>${fav.length ? `<div class="grid">${fav.map(prodCard).join('')}</div>` : '<div class="empty">Beğendiğin projedeki kalbe dokun. İlhamlarını burada biriktir.</div>'}</section>${complete.length ? `<section class="sec mine-section"><header><h2>Tamamlanan projeler</h2></header>${rows(complete)}</section>` : ''}<section class="sec mine-section"><header><h2>Alet çantam</h2><span class="muted">${have.length} alet</span></header><p class="muted">${have.length ? have.map(id => esc(TOOLS[id].n)).join(' · ') : 'Rehberde veya proje ekipmanında “Bende var” kutularını işaretle.'}</p><a class="text-link" href="#rehber">Aletlerini düzenle →</a></section><p class="photo-note">Kayıtların bu tarayıcıda saklanır. Hesaplar arası eşitleme henüz yok.</p>`;
 };
 
+// Telefonda sistem paylaşım menüsü; masaüstünde bağlantı panoya kopyalanır
+function shareProject(btn) {
+  if (!CUR) return;
+  const data = { title: CUR.prod.name + ' · Talaş Atölye', text: CUR.prod.name + ' için ölçüsü ayarlanabilir plan, kesim listesi ve yapım adımları.', url: location.href };
+  const done = msg => { const label = btn.querySelector('span'); label.textContent = msg; setTimeout(() => { label.textContent = 'Paylaş'; }, 1800); };
+  if (navigator.share) { navigator.share(data).catch(() => {}); return; }
+  if (navigator.clipboard) navigator.clipboard.writeText(data.url).then(() => done('Kopyalandı'), () => done('Kopyalanamadı'));
+}
 function printProject() {
   if (!CUR) return;
   const { prod, pr, c, p } = CUR, win = window.open('', '_blank');
@@ -164,6 +174,7 @@ document.addEventListener('click', e => {
   if (target.dataset.quickCat) { Q.cat = target.dataset.quickCat; Q.sub = ''; Q.lvl = 0; Q.page = 1; renderCatalog(); }
   if (target.dataset.beginner) { Q.cat = ''; Q.sub = ''; Q.lvl = Q.lvl === 1 ? 0 : 1; Q.page = 1; renderCatalog(); }
   if (target.dataset.print) printProject();
+  if (target.dataset.share) shareProject(target);
   if (target.dataset.finish) location.hash = 'defterim';
   if (target.dataset.resume != null) { const prod = PROD[target.dataset.product]; if (prod) { stOf(prod).m = +target.dataset.resume; persist(); } }
   if (target.dataset.fav) favoriteLabels();

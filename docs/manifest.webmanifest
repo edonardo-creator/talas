@@ -1,0 +1,12 @@
+{
+  "name": "Talaş Atölye",
+  "short_name": "Talaş",
+  "description": "Ölçüsü ayarlanabilir ahşap projeler: kesim listesi, plaka yerleşimi ve yapım kılavuzu.",
+  "lang": "tr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eceeea",
+  "theme_color": "#f2f1ec",
+  "icons": [{"src": "assets/app-icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any"}]
+}

@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f2f1ec">
 <link rel="icon" href="assets/app-icon.png">
+<link rel="apple-touch-icon" href="assets/app-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Talaş">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Talaş Atölye">
+<meta property="og:title" content="Talaş Atölye: ölçüsü ayarlanabilir ahşap projeler">
+<meta property="og:description" content="75 ürün, 153 model. Ölçüyü gir; kesim listesi, plaka yerleşimi, malzeme ve adım adım yapım kılavuzu hazır.">
+<meta property="og:image" content="https://edonardo-creator.github.io/talas/assets/foto-kasa.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Ölçüsü ayarlanabilir ahşap ürünler: kesim listesi, kereste ve plaka yerleşimi, ekipman, planlar ve adım adım yapım kılavuzu.">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Talaş Atölye</title>
@@ -1134,7 +1144,8 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t
 <script src="katalog.js?v=661acdbe"></script>
 <script src="urunler.js?v=feff325a"></script>
 <script src="fotograf.js?v=a30d60ac"></script>
-<script src="atolye.js?v=831ff4e3"></script>
+<script src="atolye.js?v=80f0dc96"></script>
 
+<script>if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js')</script>
 </body>
 </html>
