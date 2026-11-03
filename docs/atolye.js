@@ -1,7 +1,7 @@
 'use strict';
 /* Talaş Atölye arayüzü (Codex tasarımı). Hesap motoru ve sayfaların içeriği önceki betiklerden gelir;
    bu dosya yalnız görünümü ve sayfa iskeletlerini değiştirir. En son yüklenir. */
-const PHOTO_OF = { 'saklama-kasasi-u': 'kasa', 'bahce-koltugu-u': 'koltuk', 'orta-sehpa': 'sehpa', 'testere-sehpasi': 'testere', 'atolye-duvari': 'atolye-duvari', 'ogrenme-kulesi': 'ogrenme-kulesi', 'kitaplik': 'kitaplik', 'duvar-askiligi': 'askilik', 'dolap': 'dolap', 'oyuncak-sandigi': 'oyuncak-sandigi', 'tepsi': 'tepsi', 'calisma-masasi': 'calisma-masasi', 'mutfak-kutusu': 'ekmeklik' };
+const PHOTO_OF = { 'saklama-kasasi-u': 'kasa', 'bahce-koltugu-u': 'koltuk', 'orta-sehpa': 'sehpa', 'testere-sehpasi': 'testere', 'atolye-duvari': 'atolye-duvari', 'ogrenme-kulesi': 'ogrenme-kulesi', 'kitaplik': 'kitaplik', 'duvar-askiligi': 'askilik', 'dolap': 'dolap', 'oyuncak-sandigi': 'oyuncak-sandigi', 'tepsi': 'tepsi', 'calisma-masasi': 'calisma-masasi', 'mutfak-kutusu': 'ekmeklik', 'mutfak-rafi': 'baharatlik', 'mutfak-askisi': 'havlu-askisi' };
 const photoHTML = (n, label) => `<div class="photo"><img src="assets/foto-${n}.jpg" alt="${esc(label)} için ilham fotoğrafı" decoding="async" loading="lazy" width="900" height="900"><span class="photo-caption">İlham fotoğrafı</span></div>`;
 // PDF önizlemesi yeni pencere açar; Claude içinde çerçeveli sayfada bu engellidir.
 const CAN_PRINT = window.top === window.self;
