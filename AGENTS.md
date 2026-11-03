@@ -28,7 +28,7 @@ Talaş'ta tasarım ya da kod değişikliği **ayrı bir kopyada değil, bu depod
 | `urunler.js` | Aileleri ürünlere toplar (`GROUPS`), seçim durumu, malzeme açıklamaları, süzgeçler, maliyet, kopyalama | Claude |
 | `fotograf.js` | Fotoğraftan ürün bulma (Claude içinde `sample` + görsel; her yerde "Kendin tarif et") | Claude |
 | `atolye.css`, `atolye.js` | Talaş Atölye arayüzü: turuncu-gri görsel dil, fotoğraflı seçki, ürün sayfası iskeleti, Atölyem, PDF planı | Codex (tasarım), Claude (birleştirme) |
-| `assets/` | `app-icon.png`, `foto-kasa.jpg`, `foto-koltuk.jpg`, `foto-sehpa.jpg` (Codex'in özgün görsel üretimi); `foto-testere.jpg`, `foto-atolye-duvari.jpg`, `foto-ogrenme-kulesi.jpg` (Claude, Canva görsel üretimi) | Codex, Claude |
+| `assets/` | `app-icon.png`, `foto-kasa.jpg`, `foto-koltuk.jpg`, `foto-sehpa.jpg` (Codex'in özgün görsel üretimi); `foto-testere.jpg`, `foto-atolye-duvari.jpg`, `foto-ogrenme-kulesi.jpg`, `foto-kitaplik.jpg`, `foto-askilik.jpg`, `foto-dolap.jpg`, `foto-oyuncak-sandigi.jpg` (Claude, Canva görsel üretimi) | Codex, Claude |
 | `tools/pages.py` | GitHub Pages çıktısını `docs/` altına üretir; betiklere ve `atolye.css`'e içerik özetinden `?v=` sürüm eki koyar | Claude |
 | `docs/` | Yayındaki sürüm. Elle düzenlenmez; `python tools/pages.py` ile üretilir | — |
 
@@ -59,7 +59,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Açık işler
 
-- Açık iş yok.
+- İlham fotoğrafı eksik: Tepsi, Çalışma masası, Mutfak kutusu (ekmeklik), Mutfak rafı (baharatlık), Mutfak askısı (havlu askısı). Canva kotası yenilenince aynı yolla eklenecek (Claude).
 
 ## Günlük
 
@@ -86,3 +86,4 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 - 2026-11-02 Claude: Telefon görünümü iyileştirildi (`atolye.css` sonundaki telefon bloğu, `atolye.js` `refresh`): en küçük yazı 9-10 px'ten 10-12 px'e çıktı, dokunma alanları 44 px, giriş kutuları 16 px (iOS odakta yakınlaşmasın), sekme çubuğu sağda soluklaşır ve seçili sekmeyi ortalar, seçki kaydırıcısında ilk kart kenara yapışmaz, alt menüde güvenli alan payı. `index.html`: dolu parça olmayan adımlarda (yalnız kesim) gölge elipsi NaN üretiyordu, çizilmiyor. 320/375/1366 px'te 8 sayfa ve tüm sekmelerde taşma yok.
 - 2026-11-03 Claude: 13 yeni aile eklendi (`katalog.js`, 15-27 numaralı yapım fonksiyonları ve `F3` tanımları). Yeni ürünler: Testere sehpası, Atölye duvar düzeni (alet panosu + işkence rafı), Öğrenme kulesi. Mevcut ürünlere model olarak eklenenler: çocuk kitaplığı → Kitaplık, lavabo altı → Kapaklı dolap, ayaklı portmanto → Askılık (eski adı "Duvar askılığı", kimliği `duvar-askiligi` aynı), bıçak bloğu → Mutfak kutusu, tezgâh üstü katlı raf → Mutfak rafı, kâğıt havluluk → Mutfak askısı. Tek modelli üç ürün gruba dönüştü, kimlikleri aynı kaldı: `oyuncak-sandigi` (+ çekme arabası), `calisma-masasi` (+ duvara katlanır masa), `tepsi` (adı "Tepsi"; + yatak tepsisi). Katalog 75 ürün, 153 model, 2.578 seçenek birleşimi (`BYID`). Tarayıcıda 2.578 birleşimin tamamı `compute`/`stock`/`iso` ile hatasız; eski bağlantılar (`#oyuncak-sandigi-1`, `#calisma-masasi-2`, `#tepsi`) doğru ürüne gidiyor; yeni ürün sayfalarında 320/375/1366 px'te taşma yok. Bilerek iç içe olan parçalar: aks–takoz–tekerlek, havluluk çubuğu–taban/kulak, portmanto çubuğu–direk.
 - 2026-11-03 Claude: Yeni üç ürüne ilham fotoğrafı eklendi: `assets/foto-testere.jpg`, `foto-atolye-duvari.jpg`, `foto-ogrenme-kulesi.jpg` (kullanıcının Canva hesabında görsel üretimiyle yapıldı, 900×900 JPG, 155-200 KB). `atolye.js`: `PHOTO_OF`'a `testere-sehpasi`, `atolye-duvari`, `ogrenme-kulesi` eklendi; ana sayfa seçkisi 3'ten 6 ürüne çıktı. 320/375/1366 px'te ana sayfa ve üç ürün sayfasında taşma yok.
+- 2026-11-03 Claude: Dört ürüne daha ilham fotoğrafı: Kitaplık (`foto-kitaplik`), Askılık (`foto-askilik`), Kapaklı dolap (`foto-dolap`), Oyuncak sandığı (`foto-oyuncak-sandigi`); `PHOTO_OF` güncellendi. Tepsi, Çalışma masası, Mutfak kutusu, Mutfak rafı ve Mutfak askısı için üretim Canva kredi kotası dolduğu için yapılamadı; açık iş olarak duruyor.
