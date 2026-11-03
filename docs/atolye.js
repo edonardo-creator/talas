@@ -1,7 +1,7 @@
 'use strict';
 /* Talaş Atölye arayüzü (Codex tasarımı). Hesap motoru ve sayfaların içeriği önceki betiklerden gelir;
    bu dosya yalnız görünümü ve sayfa iskeletlerini değiştirir. En son yüklenir. */
-const PHOTO_OF = { 'saklama-kasasi-u': 'kasa', 'bahce-koltugu-u': 'koltuk', 'orta-sehpa': 'sehpa' };
+const PHOTO_OF = { 'saklama-kasasi-u': 'kasa', 'bahce-koltugu-u': 'koltuk', 'orta-sehpa': 'sehpa', 'testere-sehpasi': 'testere', 'atolye-duvari': 'atolye-duvari', 'ogrenme-kulesi': 'ogrenme-kulesi' };
 const photoHTML = (n, label) => `<div class="photo"><img src="assets/foto-${n}.jpg" alt="${esc(label)} için ilham fotoğrafı" decoding="async" loading="lazy" width="900" height="900"><span class="photo-caption">İlham fotoğrafı</span></div>`;
 // PDF önizlemesi yeni pencere açar; Claude içinde çerçeveli sayfada bu engellidir.
 const CAN_PRINT = window.top === window.self;
@@ -40,7 +40,7 @@ function featureTile(prod) {
 const quickCategories = [['', 'Tümü'], ['beginner', 'Başlangıç'], ['Bahçe ve dış mekân', 'Bahçe'], ['Ev mobilyası', 'Ev'], ['Mutfak ve küçük eşya', 'Mutfak'], ['Çocuk', 'Çocuk'], ['Atölye', 'Atölye'], ['Hobi', 'Hobi']];
 viewHome = function() {
   pageMode('projeler');
-  const picks = ['saklama-kasasi-u', 'orta-sehpa', 'bahce-koltugu-u'].map(id => PROD[id]).filter(Boolean);
+  const picks = ['saklama-kasasi-u', 'orta-sehpa', 'ogrenme-kulesi', 'bahce-koltugu-u', 'atolye-duvari', 'testere-sehpasi'].map(id => PROD[id]).filter(Boolean);
   const nmod = PRODUCTS.reduce((sum, p) => sum + p.models.length, 0);
   const rec = (SAVE.recent || []).map(id => PROD[id]).filter(Boolean).slice(0, 4);
   const byCat = Object.fromEntries(CATS.map(c => [c, PRODUCTS.filter(p => p.cat === c)]));
