@@ -4,7 +4,7 @@
    (PROJECTS/BYID) eski bağlantılar ve hazır ölçüler için kaynak olarak kalır. */
 
 const ALLFAMS=[...FAMS,...FAMS2,...FAMS3], FAMBY=Object.fromEntries(ALLFAMS.map(f=>[f.id,f])), FEATBY=Object.fromEntries(FEATURED.map(p=>[p.id,p]));
-const AXL={legs:'Ayak',low:'Taban',back:'Sırt',board:'Alet panosu',bar:'Oturma çıkıntısı',door:'Kapı',fill:'Dolgu',shade:'Gölgelik',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
+const AXL={legs:'Ayak',base:'Taban',pieces:'Taşlar',low:'Taban',back:'Sırt',board:'Alet panosu',bar:'Oturma çıkıntısı',door:'Kapı',fill:'Dolgu',shade:'Gölgelik',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
   style:'Yazı tekniği',hole:'Giriş deliği',pitch:'Çatı eğimi',floors:'Kat sayısı',insert:'Yüzey',prof:'Çerçeve genişliği',size:'Boyut',paint:'Yüzey',
   shelf:'Üst raf',space:'Askı aralığı',set:'Set',layers:'Kat',s:'Kafes aralığı',H:'Yükseklik',glass:'Cam tabla',umb:'Şemsiye',seats:'Oturak',stand:'Tablet dayama',slots:'Kablo yarığı'};
 const INFO={
@@ -61,7 +61,7 @@ const GROUPS=[
   {id:'sovale-u',name:'Şövale',desc:'Ayaklı ya da masa üstü A çerçeve şövale.',models:[['sovale','Ayaklı'],['masa-sovalesi','Masa üstü']]},
   {id:'dolap',name:'Kapaklı dolap',desc:'Raflı ve kapaklı dolaplar: çok amaçlı, gardırop, çekmeceli, dosya ya da duvara asılan banyo dolabı.',models:[['kapakli-dolap','Çok amaçlı'],['gardirop','Gardırop'],['vitrin-dolap','Çekmeceli kapaklı'],['dosya-dolabi','Dosya dolabı'],['banyo-dolabi','Banyo (asma)'],['lavabo-dolabi','Lavabo altı']]},
   {id:'mutfak-kutusu',name:'Mutfak kutusu',desc:'Tezgâh üstü ekmeklik, bölmeli çay kutusu ya da kaşıklık.',models:[['ekmek-kutusu','Ekmeklik'],['cay-kutusu','Çay kutusu'],['kasiklik','Kaşıklık'],['bicak-blogu','Bıçak bloğu']]},
-  {id:'mutfak-rafi',name:'Mutfak rafı',desc:'Duvar baharatlığı, dolap içi basamaklı raf ya da şarap rafı.',models:[['baharatlik','Baharatlık'],['basamakli-raf','Basamaklı'],['sarap-rafi','Şarap rafı'],['tezgah-rafi','Tezgâh üstü katlı raf']]},
+  {id:'mutfak-rafi',name:'Mutfak rafı',desc:'Duvar baharatlığı, dolap içi basamaklı raf, şarap rafı ya da kadeh askılı şarap rafı.',models:[['baharatlik','Baharatlık'],['basamakli-raf','Basamaklı'],['sarap-rafi','Şarap rafı'],['kadeh-rafi','Kadeh askılı şarap rafı'],['tezgah-rafi','Tezgâh üstü katlı raf']]},
   {id:'mutfak-kasasi',name:'Mutfak kasası',desc:'Havadar meyve-sebze kasası ya da şişe kasası.',models:[['meyve-kasasi','Meyve ve sebze'],['sarap-kasasi','Şarap']]},
   {id:'mutfak-askisi',name:'Mutfak askısı',desc:'Duvara havlu ve önlük askısı ya da tezgâh üstü kupa ağacı.',models:[['havlu-askisi','Havlu askısı'],['kupa-agaci','Kupa ağacı'],['havluluk','Kâğıt havluluk']]},
   {id:'saklama-kutusu-u',name:'Saklama kutusu',desc:'Kapaklı saklama kutusu, bölmeli çekmece düzenleyici ya da kabloları gizleyen şarj istasyonu.',models:[['saklama-kutusu','Kapaklı kutu'],['cekmece-duzen','Çekmece düzenleyici'],['sarj-kutusu','Şarj istasyonu']]},
