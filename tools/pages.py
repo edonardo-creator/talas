@@ -17,8 +17,8 @@ HEAD = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f2f1ec">
-<link rel="icon" href="assets/app-icon.png">
-<link rel="apple-touch-icon" href="assets/app-icon.png">
+<link rel="icon" href="assets/app-icon-192.png">
+<link rel="apple-touch-icon" href="assets/app-icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Talaş">
@@ -44,7 +44,7 @@ MANIFEST = """{
   "display": "standalone",
   "background_color": "#eceeea",
   "theme_color": "#f2f1ec",
-  "icons": [{"src": "assets/app-icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any"}]
+  "icons": [{"src": "assets/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"}, {"src": "assets/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}, {"src": "assets/app-icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any"}]
 }
 """
 

@@ -8,5 +8,5 @@
   "display": "standalone",
   "background_color": "#eceeea",
   "theme_color": "#f2f1ec",
-  "icons": [{"src": "assets/app-icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any"}]
+  "icons": [{"src": "assets/app-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"}, {"src": "assets/app-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"}, {"src": "assets/app-icon.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any"}]
 }

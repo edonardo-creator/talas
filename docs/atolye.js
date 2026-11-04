@@ -8,7 +8,7 @@ const photoHTML = (n, label, wide) => `<div class="photo"><img src="assets/kucuk
 const CAN_PRINT = window.top === window.self;
 const shareIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M5 12v8h14v-8"/></svg>';
 const arrowIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg>';
-const brand = `<a class="site-brand" href="#projeler" aria-label="Talaş Atölye ana sayfa"><img src="assets/app-icon.png" alt="" width="38" height="40"><span class="site-word">Talaş<b> Atölye</b><small>KENDİ ELLERİNLE, KENDİ HİKÂYEN.</small></span></a>`;
+const brand = `<a class="site-brand" href="#projeler" aria-label="Talaş Atölye ana sayfa"><img src="assets/app-icon-192.png" alt="" width="38" height="40"><span class="site-word">Talaş<b> Atölye</b><small>KENDİ ELLERİNLE, KENDİ HİKÂYEN.</small></span></a>`;
 document.getElementById('app').insertAdjacentHTML('beforebegin', `<header class="site-top"><div class="top-inner">${brand}<nav class="site-links" aria-label="Üst gezinme"><a href="#projeler" data-site-nav="projeler">Keşfet</a><a href="#fotograf" data-site-nav="fotograf">Fotoğraftan bul</a><a href="#rehber" data-site-nav="rehber">Rehber</a><a href="#defterim" data-site-nav="defterim">Atölyem</a></nav></div></header>`);
 for (const [key, name] of [['projeler', 'Keşfet'], ['fotograf', 'Fotoğraf'], ['rehber', 'Rehber'], ['defterim', 'Atölyem']]) {
   const link = document.querySelector(`.nav a[data-nav="${key}"]`);
