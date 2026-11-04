@@ -4,7 +4,7 @@
    (PROJECTS/BYID) eski bağlantılar ve hazır ölçüler için kaynak olarak kalır. */
 
 const ALLFAMS=[...FAMS,...FAMS2,...FAMS3], FAMBY=Object.fromEntries(ALLFAMS.map(f=>[f.id,f])), FEATBY=Object.fromEntries(FEATURED.map(p=>[p.id,p]));
-const AXL={legs:'Ayak',bar:'Oturma çıkıntısı',door:'Kapı',fill:'Dolgu',shade:'Gölgelik',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
+const AXL={legs:'Ayak',board:'Alet panosu',bar:'Oturma çıkıntısı',door:'Kapı',fill:'Dolgu',shade:'Gölgelik',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
   style:'Yazı tekniği',hole:'Giriş deliği',pitch:'Çatı eğimi',floors:'Kat sayısı',insert:'Yüzey',prof:'Çerçeve genişliği',size:'Boyut',paint:'Yüzey',
   shelf:'Üst raf',space:'Askı aralığı',set:'Set',layers:'Kat',s:'Kafes aralığı',H:'Yükseklik',glass:'Cam tabla',umb:'Şemsiye',seats:'Oturak',stand:'Tablet dayama',slots:'Kablo yarığı'};
 const INFO={
@@ -73,6 +73,8 @@ const GROUPS=[
   {id:'atolye-duvari',name:'Atölye duvar düzeni',desc:'Fransız askılı alet panosu ya da kollu işkence rafı.',models:[['alet-panosu','Alet panosu'],['iskence-rafi','İşkence rafı']]},
   {id:'oyuncak-sandigi',name:'Oyuncak sandığı',desc:'Kapaklı tekerlekli sandık ya da ipli çekme arabası biçiminde oyuncak kutusu.',models:[['oyuncak-sandigi','Kapaklı sandık'],['oyuncak-arabasi','Çekme arabası']]},
   {id:'calisma-masasi',name:'Çalışma masası',desc:'Ayaklı sade çalışma masası ya da dar alan için duvara katlanır masa.',models:[['calisma-masasi','Ayaklı'],['duvar-masasi','Duvara katlanır']]},
+  {id:'evcil-merdiven',name:'Evcil hayvan merdiveni',desc:'Koltuğa ya da yatağa çıkmak için kaydırmaz basamaklı merdiven ya da çıtalı rampa.',models:[['kopek-merdiveni','Merdiven'],['kopek-rampasi','Rampa']]},
+  {id:'tezgah',name:'Atölye tezgâhı',desc:'Ayaklı, alt raflı sağlam tezgâh ya da kullanılmadığında duvara kalkan katlanır tezgâh.',models:[['tezgah','Ayaklı'],['katlanir-tezgah','Duvara katlanır']]},
   {id:'asma-raf',name:'Asma raf',desc:'Tavandan halatla sarkan katlı raf ya da ayaksız, duvara asılan konsol masa.',models:[['sarkit-raf','Halatlı sarkıt raf'],['duvar-konsolu','Duvar konsolu']]},
   {id:'pergola',name:'Pergola',desc:'Dört dikmeli serbest duran ya da duvar kirişine bağlanan, istenirse gölgelik çıtalı pergola.',models:[['pergola','Serbest duran'],['duvar-pergolasi','Duvara bitişik']]},
   {id:'bisiklet-standi',name:'Bisiklet standı',desc:'Tekerlek yuvalı zemin standı ya da iki kollu duvar askısı.',models:[['bisiklet-standi','Zemin standı'],['bisiklet-askisi','Duvar askısı']]},
