@@ -200,6 +200,11 @@ p{margin:0}
 .dimtx{fill:var(--dim);font-family:var(--f-mono);text-anchor:middle}
 .shrect{fill:var(--sunk);stroke:var(--edge);vector-effect:non-scaling-stroke}
 .shp{stroke:var(--edge);vector-effect:non-scaling-stroke}
+.keep{border:1px solid var(--line);background:var(--paper);border-radius:4px;font:inherit;font-size:11px;padding:2px 8px;min-height:28px;cursor:pointer;color:var(--ink);margin-left:4px}
+.leftadd{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;align-items:end;margin-top:12px}
+.leftadd label{display:grid;gap:4px;font-size:12px;color:var(--muted)}
+.leftadd select,.leftadd input{min-height:40px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);font:inherit;color:var(--ink);min-width:0}
+.kept{color:var(--muted);margin-left:4px;white-space:nowrap}
 .shleft{fill:none;stroke:var(--ink);stroke-dasharray:6 4;opacity:.45;vector-effect:non-scaling-stroke}
 .shtx{fill:#2a1d0e;font-family:var(--f-mono);font-weight:600;text-anchor:middle;dominant-baseline:central}
 .empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:6px;display:grid;gap:10px;justify-items:center}
@@ -388,7 +393,7 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 "use strict";
 /* ---------- kayıt ---------- */
 const KEY='talas.v1';
-let SAVE={params:{},steps:{},cut:{},have:{},fav:{},shop:{},opt:{rot:false,lumL:2400}};
+let SAVE={params:{},steps:{},cut:{},have:{},fav:{},shop:{},left:[],opt:{rot:false,lumL:2400}};
 try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) SAVE=Object.assign(SAVE,s);}catch(e){}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(SAVE));}catch(e){}}
 
@@ -879,27 +884,46 @@ function packSheet(items,SW,SH,rot){
   best.forEach(s=>{s.left=s.free.reduce((m,f)=>!m||f.w*f.h>m.w*m.h?f:m,null);});
   return {sheets:best,over};
 }
+// Atölyem'deki artan parçalar (SAVE.left): kereste {m,L}, plaka {m,W,H}; W plakanın uzun kenarı (lif) yönünde
+const useLeft=()=>SAVE.opt.useLeft!==false;
+// Açık projeden saklanan artan aynı projenin planına geri girmez (yoksa plan kendi artanını kullanırdı)
+function leftFor(m){const own=CUR&&CUR.pr?CUR.pr.id+'|':null;return (SAVE.left||[]).filter(o=>o.m===m&&!(own&&o.k&&o.k.startsWith(own)));}
 function stock(c){
   const rows=cutRows(c), byMat={};
   rows.forEach(r=>{(byMat[r.mat]=byMat[r.mat]||[]).push(r);});
   const res=[];
-  Object.entries(byMat).forEach(([m,rs])=>{const M=MAT[m];
-    if(M.type==='lumber'){const items=[];rs.forEach(r=>{for(let i=0;i<r.n;i++)items.push({len:r.d[0],num:r.num});});
-      const L=stockL(m),pk=packLumber(items,L),used=items.reduce((a,b)=>a+b.len,0);
-      res.push({m,M,type:'lumber',L,count:pk.boards.length,pk,eff:used/(pk.boards.length*L||1)});}
-    else{const items=[];rs.forEach(r=>{for(let i=0;i<r.n;i++)items.push({a:r.d[0],b:r.d[1],num:r.num});});
-      const pk=packSheet(items,M.SW,M.SH,SAVE.opt.rot),used=items.reduce((a,b)=>a+b.a*b.b,0);
-      res.push({m,M,type:'sheet',count:pk.sheets.length,pk,eff:used/(pk.sheets.length*M.SW*M.SH||1)});}
+  Object.entries(byMat).forEach(([m,rs])=>{const M=MAT[m],offs=useLeft()?leftFor(m):[];
+    if(M.type==='lumber'){let items=[];rs.forEach(r=>{for(let i=0;i<r.n;i++)items.push({len:r.d[0],num:r.num});});
+      const L=stockL(m),offB=[];items.sort((a,b)=>b.len-a.len);
+      // Artan boylar önce doldurulur (uzundan kısaya); artan zaten temiz kesik olduğu için uç payı yok
+      offs.slice().sort((a,b)=>b.L-a.L).forEach(o=>{const bd={used:0,cuts:[],off:o,L:o.L};
+        items=items.filter(it=>{const k=bd.cuts.length?3:0;if(bd.used+k+it.len>o.L)return true;bd.used+=k+it.len;bd.cuts.push(it);return false;});
+        if(bd.cuts.length)offB.push(bd);});
+      const pk=packLumber(items,L),n=pk.boards.length,used=pk.boards.reduce((a,b)=>a+b.cuts.reduce((x,y)=>x+y.len,0),0);
+      pk.boards=offB.concat(pk.boards);
+      res.push({m,M,type:'lumber',L,count:n,offUsed:offB.length,pk,eff:n?used/(n*L):1});}
+    else{let items=[];rs.forEach(r=>{for(let i=0;i<r.n;i++)items.push({a:r.d[0],b:r.d[1],num:r.num,i:items.length});});
+      const offS=[],area=sh=>sh.items.reduce((x,y)=>x+y.w*y.h,0);
+      // Her artan plakaya en çok alanı dolduran yerleşim konur, kalanlar yeni plakaya
+      offs.slice().sort((a,b)=>b.W*b.H-a.W*a.H).forEach(o=>{if(!items.length)return;
+        const sh=packSheet(items,o.W,o.H,SAVE.opt.rot).sheets.reduce((x,y)=>!x||area(y)>area(x)?y:x,null);if(!sh)return;
+        Object.assign(sh,{off:o,W:o.W,H:o.H});offS.push(sh);const got=new Set(sh.items.map(x=>x.i));items=items.filter(x=>!got.has(x.i));});
+      const pk=packSheet(items,M.SW,M.SH,SAVE.opt.rot),n=pk.sheets.length,used=pk.sheets.reduce((a,sh)=>a+area(sh),0);
+      pk.sheets=offS.concat(pk.sheets);
+      res.push({m,M,type:'sheet',count:n,offUsed:offS.length,pk,eff:n?used/(n*M.SW*M.SH):1});}
   });
   return res;
 }
+// Kesim yerleşimindeki artanı Atölyem'e saklama düğmesi; k aynı ürün/yerleşimde ikinci kez saklanmasın diye
+function keepBtn(k,o){return (SAVE.left||[]).some(x=>x.k===k)?'<span class="kept">Saklandı ✓</span>':`<button class="keep" data-keep="${esc(JSON.stringify(Object.assign({k},o)))}">Artanı sakla</button>`;}
 function partColor(m){return col(MAT[m].tone,'t','n');}
 function lumberHTML(s){
-  return `<div class="boards">${s.pk.boards.map((b,i)=>`<div class="board"><small>Kereste ${i+1} · ${s.L} mm · artan ${R(s.L-b.used)} mm</small><div class="bar"><span class="kerf" style="width:${(10/s.L*100).toFixed(2)}%"></span>${b.cuts.map((c,j)=>`${j?`<span class="kerf" style="width:${(3/s.L*100).toFixed(2)}%"></span>`:''}<span class="seg" style="width:${(c.len/s.L*100).toFixed(2)}%;background:${partColor(s.m)}" title="${c.len} mm">${c.len/s.L>.06?c.num+(c.len/s.L>.16?' · '+c.len:''):''}</span>`).join('')}</div></div>`).join('')}</div>`;
+  return `<div class="boards">${s.pk.boards.map((b,i)=>{const L=b.L||s.L,left=R(L-b.used);
+    return `<div class="board"><small>${b.off?`Atölyemdeki artan · ${L} mm`:`Kereste ${i+1-s.offUsed} · ${L} mm`} · artan ${left} mm${left>=150?' '+keepBtn(`${CUR.pr.id}|${s.m}|${i}|${left}`,{m:s.m,L:left}):''}</small><div class="bar">${b.off?'':`<span class="kerf" style="width:${(10/L*100).toFixed(2)}%"></span>`}${b.cuts.map((c,j)=>`${j?`<span class="kerf" style="width:${(3/L*100).toFixed(2)}%"></span>`:''}<span class="seg" style="width:${(c.len/L*100).toFixed(2)}%;background:${partColor(s.m)}" title="${c.len} mm">${c.len/L>.06?c.num+(c.len/L>.16?' · '+c.len:''):''}</span>`).join('')}</div></div>`;}).join('')}</div>`;
 }
 function sheetHTML(s){
-  const {SW,SH}=s.M;
-  return s.pk.sheets.map((sh,i)=>`<div class="board"><small>Plaka ${i+1} · ${SW}×${SH} mm${sh.left&&sh.left.w>=100&&sh.left.h>=100?` · en büyük artan ${R(Math.max(sh.left.w,sh.left.h))}×${R(Math.min(sh.left.w,sh.left.h))} mm`:''}</small><div class="sheet"><svg viewBox="-10 -10 ${SW+20} ${SH+20}"><rect class="shrect" x="0" y="0" width="${SW}" height="${SH}"/>${sh.left&&sh.left.w>=100&&sh.left.h>=100?`<rect class="shleft" x="${sh.left.x}" y="${sh.left.y}" width="${sh.left.w}" height="${sh.left.h}"/>`:''}${sh.items.map(it=>`<rect class="shp" x="${it.x}" y="${it.y}" width="${it.w}" height="${it.h}" fill="${partColor(s.m)}"/>${it.w>110&&it.h>70?`<text class="shtx" x="${it.x+it.w/2}" y="${it.y+it.h/2}" font-size="${Math.min(56,it.h*.32,it.w*.18)}">${it.num}${it.w>380&&it.h>120?' · '+R(Math.max(it.w,it.h))+'×'+R(Math.min(it.w,it.h)):''}</text>`:''}`).join('')}</svg></div></div>`).join('');
+  return s.pk.sheets.map((sh,i)=>{const SW=sh.W||s.M.SW,SH=sh.H||s.M.SH,lf=sh.left,big=lf&&lf.w>=100&&lf.h>=100;
+    return `<div class="board"><small>${sh.off?'Atölyemdeki artan':`Plaka ${i+1-s.offUsed}`} · ${SW}×${SH} mm${big?` · en büyük artan ${R(Math.max(lf.w,lf.h))}×${R(Math.min(lf.w,lf.h))} mm ${keepBtn(`${CUR.pr.id}|${s.m}|${i}|${R(lf.w)}x${R(lf.h)}`,{m:s.m,W:R(lf.w),H:R(lf.h)})}`:''}</small><div class="sheet"><svg viewBox="-10 -10 ${SW+20} ${SH+20}"><rect class="shrect" x="0" y="0" width="${SW}" height="${SH}"/>${big?`<rect class="shleft" x="${lf.x}" y="${lf.y}" width="${lf.w}" height="${lf.h}"/>`:''}${sh.items.map(it=>`<rect class="shp" x="${it.x}" y="${it.y}" width="${it.w}" height="${it.h}" fill="${partColor(s.m)}"/>${it.w>110&&it.h>70?`<text class="shtx" x="${it.x+it.w/2}" y="${it.y+it.h/2}" font-size="${Math.min(56,it.h*.32,it.w*.18)}">${it.num}${it.w>380&&it.h>120?' · '+R(Math.max(it.w,it.h))+'×'+R(Math.min(it.w,it.h)):''}</text>`:''}`).join('')}</svg></div></div>`;}).join('');
 }
 
 /* ---------- görünümler ---------- */
@@ -1011,16 +1035,18 @@ const TABS={
     </div>
     <div class="sec"><header><h2>Kesim yerleşimi</h2></header>
     <div class="opts"><label for="lumL">Kereste boyu <select id="lumL">${[2000,2400,3000,4000].map(v=>`<option ${SAVE.opt.lumL==v?'selected':''}>${v}</option>`).join('')}</select></label>
-    <label><input type="checkbox" id="rot" ${SAVE.opt.rot?'checked':''}> Plakada parça döndürmeye izin ver</label></div>
+    <label><input type="checkbox" id="rot" ${SAVE.opt.rot?'checked':''}> Plakada parça döndürmeye izin ver</label>
+    ${st.some(x=>leftFor(x.m).length)?`<label><input type="checkbox" id="useLeft" ${useLeft()?'checked':''}> Atölyemdeki artanları kullan</label>`:''}</div>
+    ${st.some(x=>x.offUsed)?`<div class="note"><b>Artanlardan</b><span>${st.reduce((a,x)=>a+x.offUsed,0)} artan parça bu planda kullanılıyor. Kesimi yapınca <button class="text-link" data-useleft="1">kullanılanları Atölyem'den düş</button>.</span></div>`:''}
     <p class="muted" style="font-size:13px">Testere payı kerestede 3 mm, plakada 4 mm; kereste başında 10 mm uç temizleme payı ayrıldı. Taralı alan artan parçadır.</p>
-    ${st.map(s=>`<div class="matgroup"><h3>${esc(s.M.n)}</h3><span class="muted mono" style="font-size:13px">${s.count} ${s.type==='sheet'?'plaka':'boy'} · verim %${R(s.eff*100)}</span></div>
+    ${st.map(s=>`<div class="matgroup"><h3>${esc(s.M.n)}</h3><span class="muted mono" style="font-size:13px">${s.count} ${s.type==='sheet'?'plaka':'boy'}${s.offUsed?` + ${s.offUsed} artan`:''} · verim %${R(s.eff*100)}</span></div>
       ${s.pk.over.length?`<div class="note warn"><b>Dikkat</b><span>${s.pk.over.length} parça stok boyundan uzun; daha uzun kereste ya da plaka seç.</span></div>`:''}
       ${s.type==='lumber'?lumberHTML(s):sheetHTML(s)}`).join('')}
     </div>`;},
   malzeme(){const {pr,c}=CUR; const st=stock(c), sh=SAVE.shop[pr.id]||{};
     const it=(k,t,s,q)=>`<label class="row" style="grid-template-columns:auto minmax(0,1fr) auto"><input type="checkbox" class="check" data-shop="${esc(k)}" ${sh[k]?'checked':''} aria-label="Alındı"><div><div class="t">${esc(t)}</div>${s?`<div class="s">${esc(s)}</div>`:''}</div><span class="q">${esc(q)}</span></label>`;
     return `<div class="sec"><header><h2>Alışveriş listesi</h2><span class="muted" style="font-size:13px">Aldıklarını işaretle</span></header>
-    <div class="list">${st.map(s=>it('m:'+s.m,s.M.n,s.type==='sheet'?`${s.M.SW}×${s.M.SH} mm plaka`:`${s.L} mm boy`,'×'+s.count)).join('')}</div></div>
+    <div class="list">${st.map(s=>it('m:'+s.m,s.M.n,(s.type==='sheet'?`${s.M.SW}×${s.M.SH} mm plaka`:`${s.L} mm boy`)+(s.offUsed?` · ${s.offUsed} artan parça Atölyem'den`:''),s.count?'×'+s.count:'artandan')).join('')}</div></div>
     <div class="sec"><header><h2>Hırdavat ve sarf</h2></header><div class="list">${c.hw.map(h=>it('h:'+h[0],h[0],h[2],h[1])).join('')}</div></div>
     <div class="note tip"><b>İpucu</b><span>Kerestede %10 fire payı bırak. Budaklı ya da çatlak bir boy çıkarsa elinde yedek olur.</span></div>`;},
   ekipman(){const {pr,p,c}=CUR; const list=pr.tools(p,c).concat(SAFETY);
@@ -1116,6 +1142,7 @@ document.addEventListener('change',e=>{const t=e.target;
   if(t.id==='sortSel'){Q.sort=t.value;Q.page=1;renderCatalog();}
   if(t.id==='lumL'){SAVE.opt.lumL=+t.value;persist();refresh();}
   if(t.id==='rot'){SAVE.opt.rot=t.checked;persist();refresh();}
+  if(t.id==='useLeft'){SAVE.opt.useLeft=t.checked;persist();refresh();}
   if(t.id==='stepdone'){const a=SAVE.steps[CUR.pr.id]=SAVE.steps[CUR.pr.id]||[];a[curStep()]=t.checked;persist();refresh();}
 });
 document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t)return;

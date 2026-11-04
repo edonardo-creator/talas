@@ -37,7 +37,7 @@ html{scroll-behavior:auto}
   .fgroup h4,.seen h4,.manual h4{font-size:11px}.tree button span,.cmap-row .n{font-size:12px}
   .viewer-label,.plans figcaption,.preview-plans figcaption{font-size:11px}.facts b{font-size:11px}
   .home-facts,.site-foot,.photo-note,.spec-note,.row .s,.tool .s,.cl-item .s,.mine-stats span{font-size:12px}
-  input,select,textarea,.search,.prm input[type=number],.opts select,.rbar select,.row.cost input{font-size:16px}
+  input,select,textarea,.search,.prm input[type=number],.opts select,.rbar select,.row.cost input,.leftadd input,.leftadd select{font-size:16px}
   .rbar select,.opts select{min-height:44px}
   .card .fav{width:44px;height:44px;right:4px;top:4px}
   .cmap-row{min-height:44px}.tree button,.quick-cats button,.seg button,.text-link{min-height:44px}

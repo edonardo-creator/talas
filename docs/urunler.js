@@ -260,7 +260,7 @@ function cutText(){const {prod,c}=CUR, by={};cutRows(c).forEach(r=>(by[r.mat]=by
   Object.entries(by).forEach(([k,rs])=>{t+=`\n${MAT[k].n}\n`;rs.forEach(r=>{t+=`  ${r.num}. ${r.name}: ${r.n} adet, ${r.d.join(' × ')}${r.note?' ('+r.note+')':''}\n`;});});
   return t+'\nTalaş ile hazırlandı.';}
 function shopText(){const {prod,c}=CUR;let t=`${prod.name}: alışveriş listesi\n\nAhşap\n`;
-  stock(c).forEach(s=>{t+=`  • ${s.M.n}: ${s.count} ${s.type==='sheet'?`plaka (${s.M.SW}×${s.M.SH} mm)`:`boy (${s.L} mm)`}\n`;});
+  stock(c).filter(s=>s.count).forEach(s=>{t+=`  • ${s.M.n}: ${s.count} ${s.type==='sheet'?`plaka (${s.M.SW}×${s.M.SH} mm)`:`boy (${s.L} mm)`}\n`;});
   t+='\nHırdavat ve sarf\n';c.hw.forEach(h=>{t+=`  • ${h[0]}: ${h[1]}${h[2]?' ('+h[2]+')':''}\n`;});return t;}
 function copyText(btn,text){
   const label=btn.dataset.label||(btn.dataset.label=btn.textContent);
@@ -274,6 +274,25 @@ const tl=n=>n.toLocaleString('tr-TR',{maximumFractionDigits:0})+' TL';
 function costRows(){const st=stock(CUR.c);let tot=0,miss=0;
   const rows=st.map(s=>{const u=SAVE.price[s.m];if(u>0)tot+=u*s.count;else miss++;return {s,u};});
   const x=SAVE.priceX[CUR.prod.id];if(x>0)tot+=x;return {rows,tot,miss};}
+// Parça başına maliyet: alınan stokun bedeli, o stoktan çıkan parçalara alanı (plaka) ya da boyu (kereste) oranında paylaştırılır.
+// Böylece fire payı da parçalara dağılır; Atölyem'deki artandan çıkan parçalar 0 TL sayılır.
+function partCosts(){const st=stock(CUR.c),cost={},cnt={},over={};let fire=0;
+  const key=(m,x,sh)=>m+'|'+x.num+'|'+(sh?x.a+'x'+x.b:x.len);
+  st.forEach(s=>{const sh=s.type==='sheet',u=SAVE.price[s.m];s.pk.over.forEach(x=>{const k=key(s.m,x,sh);over[k]=(over[k]||0)+1;});
+    const list=(sh?s.pk.sheets:s.pk.boards).filter(b=>!b.off).flatMap(b=>sh?b.items:b.cuts),size=x=>sh?x.a*x.b:x.len,tot=list.reduce((a,x)=>a+size(x),0),pay=u>0&&tot>0;
+    if(pay)fire+=u*s.count*(1-Math.min(1,s.eff));
+    list.forEach(x=>{const k=key(s.m,x,sh);if(pay)cost[k]=(cost[k]||0)+u*s.count*size(x)/tot;cnt[k]=(cnt[k]||0)+1;});});
+  const cnt0={...cnt};
+  // Aynı numara ve ölçüde birden çok satır olabilir (farklı not ya da en): parçalar satırlara sırayla dağıtılır
+  const rows=cutRows(CUR.c).map(r=>{const lum=MAT[r.mat].type==='lumber',k=key(r.mat,{num:r.num,len:r.d[0],a:r.d[0],b:r.d[1]},!lum),per=cost[k]?cost[k]/cnt0[k]:0;
+    const n=Math.min(r.n,cnt[k]||0),o=Math.min(r.n-n,over[k]||0);if(cnt[k])cnt[k]-=n;if(over[k])over[k]-=o;
+    return {r,tot:n*per,n,off:r.n-n-o,over:o,priced:SAVE.price[r.mat]>0};});
+  return {rows,fire};}
+function partCostHTML(){const {rows,fire}=partCosts();
+  if(!rows.some(x=>x.priced))return '<p class="cinfo">Birim fiyatları girince her parçanın payına düşen tutar burada görünür.</p>';
+  const q=({r,tot,n,off,over,priced})=>!priced?'fiyat yok':!n?(off?'artandan':'—'):tl(tot)+(n>1||off||over?`<br><span class="muted">${n>1?'adet '+tl(tot/n):''}${off?(n>1?' · ':'')+off+' tanesi artandan':''}${over?' · '+over+' tanesi stoktan uzun':''}</span>`:'');
+  return `<div class="list">${rows.map(x=>`<div class="row"><div><div class="t"><b class="pn">${x.r.num}</b> ${esc(x.r.name)} ×${x.r.n}</div><div class="s">${x.r.d.join(' × ')} mm · ${esc(MAT[x.r.mat].n)}</div></div><span class="q mono" style="text-align:right">${q(x)}</span></div>`).join('')}</div>
+  <p class="cinfo">Tutarlara fire payı dahildir${fire>0?`: alınan malzemenin yaklaşık ${tl(fire)} tutarındaki kısmı artan olarak kalır`:''}. Atölyem'deki artandan çıkan parçalar 0 TL sayılır.</p>`;}
 const missTxt=m=>m?`${m} malzemenin fiyatı eksik; toplam yalnızca girdiklerini içerir. `:'';
 function costHTML(){const {rows,tot,miss}=costRows();
   return `<div class="sec"><header><h2>Maliyet tahmini</h2><span class="muted" style="font-size:13px">Birim fiyatları kendi marketinden gir</span></header>
@@ -281,14 +300,39 @@ function costHTML(){const {rows,tot,miss}=costRows();
     <input type="number" min="0" step="1" inputmode="decimal" data-price="${s.m}" value="${u>0?u:''}" placeholder="birim TL" id="price-${s.m}" aria-label="${esc(s.M.n)} birim fiyatı"><span class="q mono" data-ltot="${s.m}">${u>0?tl(u*s.count):'—'}</span></div>`).join('')}
     <div class="row cost"><div><div class="t">Hırdavat, tutkal, boya</div><div class="s">bu ürün için toplam</div></div><input type="number" min="0" step="1" inputmode="decimal" data-pricex="1" value="${SAVE.priceX[CUR.prod.id]||''}" placeholder="TL" id="pricex" aria-label="Hırdavat toplamı"><span class="q mono">&nbsp;</span></div>
     <div class="row cost total"><div class="t">Toplam</div><span></span><b class="q mono" id="costTot">${tot>0?tl(tot):'—'}</b></div></div>
-  <p class="cinfo"><span id="costMiss">${missTxt(miss)}</span>Malzeme fiyatları bu tarayıcıda saklanır ve bütün ürünlerde kullanılır. Uygulama fiyat bilgisi içermez; değerleri sen girersin.</p></div>`;}
+  <p class="cinfo"><span id="costMiss">${missTxt(miss)}</span>Malzeme fiyatları bu tarayıcıda saklanır ve bütün ürünlerde kullanılır. Uygulama fiyat bilgisi içermez; değerleri sen girersin.</p></div>
+  <div class="sec"><header><h2>Parça başına maliyet</h2><span class="muted" style="font-size:13px">Numaralar kesim listesiyle aynı</span></header><div id="partCost">${partCostHTML()}</div></div>`;}
 document.addEventListener('input',e=>{const t=e.target;if(!CUR||!CUR.prod)return;
   if(t.dataset.price){const v=parseFloat(t.value);if(v>0)SAVE.price[t.dataset.price]=v;else delete SAVE.price[t.dataset.price];}
   else if(t.dataset.pricex){const v=parseFloat(t.value);if(v>0)SAVE.priceX[CUR.prod.id]=v;else delete SAVE.priceX[CUR.prod.id];}
   else return;
   persist();const {rows,tot,miss}=costRows();
   rows.forEach(({s,u})=>{const el=document.querySelector(`[data-ltot="${s.m}"]`);if(el)el.textContent=u>0?tl(u*s.count):'—';});
-  document.getElementById('costTot').textContent=tot>0?tl(tot):'—';document.getElementById('costMiss').textContent=missTxt(miss);});
+  document.getElementById('costTot').textContent=tot>0?tl(tot):'—';document.getElementById('costMiss').textContent=missTxt(miss);
+  const pc=document.getElementById('partCost');if(pc)pc.innerHTML=partCostHTML();});
 const _tKesim=TABS.kesim, _tMalz=TABS.malzeme;
 TABS.kesim=()=>`<div class="copybar"><button class="btn sm" data-copy="kesim">Kesim listesini kopyala</button><span class="muted">Ebatlama servisine mesajla gönderebilirsin</span></div>`+_tKesim();
 TABS.malzeme=()=>`<div class="copybar"><button class="btn sm" data-copy="malzeme">Alışveriş listesini kopyala</button><span class="muted">Hırdavatçıya ya da kendine gönder</span></div>`+_tMalz()+costHTML();
+
+/* ---------- artan parçalar (Atölyem) ---------- */
+SAVE.left=SAVE.left||[];
+const leftDims=o=>o.L?`${o.L} mm boy`:`${o.W} × ${o.H} mm`;
+function leftHTML(){const mats=Object.keys(MAT).filter(m=>MAT[m].type!=='hw');
+  return `<section class="sec mine-section" id="artanlar"><header><h2>Artan parçalarım</h2><span class="muted">${SAVE.left.length} parça</span></header>
+  ${SAVE.left.length?`<div class="list">${SAVE.left.map(o=>`<div class="row"><div><div class="t">${esc(MAT[o.m]?MAT[o.m].n:o.m)}</div><div class="s">${leftDims(o)}${o.src?' · '+esc(o.src):''}</div></div><button class="text-link" data-delleft="${esc(o.id)}" aria-label="${esc(leftDims(o))} artanını sil">Sil</button></div>`).join('')}</div>`:'<p class="muted">Kesim yerleşiminde “Artanı sakla”ya dokun ya da elindeki parçayı aşağıdan ekle. Sonraki projelerde parçalar önce bunlardan kesilir.</p>'}
+  <div class="leftadd"><label>Malzeme <select id="leftMat">${mats.map(m=>`<option value="${m}">${esc(MAT[m].n)}</option>`).join('')}</select></label>
+  <label>Boy (lif yönü) <input type="number" id="leftL" min="50" step="1" inputmode="numeric" placeholder="mm"></label>
+  <label>En <input type="number" id="leftW" min="50" step="1" inputmode="numeric" placeholder="plaka için, mm"></label>
+  <button class="btn sm" data-addleft="1">Ekle</button></div></section>`;}
+function addLeft(o){SAVE.left.push(Object.assign({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),t:new Date().toISOString().slice(0,10)},o));persist();}
+document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  if(t.dataset.keep){const o=JSON.parse(t.dataset.keep);addLeft(Object.assign(o,{src:CUR&&CUR.prod?CUR.prod.name:''}));refresh();return;}
+  if(t.dataset.useleft&&CUR){const ids=new Set(stock(CUR.c).flatMap(s=>(s.type==='sheet'?s.pk.sheets:s.pk.boards).filter(b=>b.off).map(b=>b.off.id)));
+    SAVE.left=SAVE.left.filter(o=>!ids.has(o.id));persist();refresh();return;}
+  if(t.dataset.delleft){SAVE.left=SAVE.left.filter(o=>o.id!==t.dataset.delleft);persist();viewMine();return;}
+  if(t.dataset.addleft){const m=document.getElementById('leftMat').value,L=Math.round(+document.getElementById('leftL').value),W=Math.round(+document.getElementById('leftW').value);
+    if(!(L>=50)){document.getElementById('leftL').focus();return;}
+    if(MAT[m].type==='lumber')addLeft({m,L,src:'Elle eklendi'});
+    else{if(!(W>=50)){document.getElementById('leftW').focus();return;}if(L>MAT[m].SW&&L>MAT[m].SH){document.getElementById('leftL').focus();return;}addLeft({m,W:L,H:W,src:'Elle eklendi'});}
+    viewMine();document.getElementById('artanlar').scrollIntoView();return;}
+});
