@@ -4,7 +4,7 @@
    (PROJECTS/BYID) eski bağlantılar ve hazır ölçüler için kaynak olarak kalır. */
 
 const ALLFAMS=[...FAMS,...FAMS2,...FAMS3], FAMBY=Object.fromEntries(ALLFAMS.map(f=>[f.id,f])), FEATBY=Object.fromEntries(FEATURED.map(p=>[p.id,p]));
-const AXL={legs:'Ayak',base:'Taban',pieces:'Taşlar',low:'Taban',back:'Sırt',board:'Alet panosu',bar:'Oturma çıkıntısı',door:'Kapı',fill:'Dolgu',shade:'Gölgelik',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
+const AXL={legs:'Ayak',led:'Aydınlatma',base:'Taban',pieces:'Taşlar',low:'Taban',back:'Sırt',board:'Alet panosu',bar:'Oturma çıkıntısı',door:'Kapı',fill:'Dolgu',shade:'Gölgelik',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
   style:'Yazı tekniği',hole:'Giriş deliği',pitch:'Çatı eğimi',floors:'Kat sayısı',insert:'Yüzey',prof:'Çerçeve genişliği',size:'Boyut',paint:'Yüzey',
   shelf:'Üst raf',space:'Askı aralığı',set:'Set',layers:'Kat',s:'Kafes aralığı',H:'Yükseklik',glass:'Cam tabla',umb:'Şemsiye',seats:'Oturak',stand:'Tablet dayama',slots:'Kablo yarığı'};
 const INFO={
@@ -82,7 +82,7 @@ const GROUPS=[
   {id:'oturma-grubu',name:'Oturma grubu',desc:'Çıtalı gövdeli, minderli tekli koltuk, kanepe ve köşe kanepe; bahçe için emprenye, salon için meşe.',models:[['tekli-koltuk','Tekli koltuk'],['kanepe','Kanepe'],['kose-kanepe','Köşe kanepe']]},
   {id:'epoksi-masa',name:'Epoksi masa',desc:'Canlı kenarlı kütüklerin arasına epoksi nehir dökülen yemek masası ya da orta sehpa.',models:[['epoksi-yemek-masasi','Yemek masası'],['epoksi-sehpa','Orta sehpa']]},
   {id:'banyo-rafi',name:'Banyo rafı',desc:'Duvara asılan arkalıklı dar raf ya da küvetin iki kenarına oturan çıtalı tahta.',models:[['banyo-rafi','Duvar rafı'],['kuvet-rafi','Küvet tahtası']]},
-  {id:'kedi-kulesi',name:'Kedi mobilyası',desc:'Sisal direkli tırmalama kulesi ya da kum kabını gizleyen, üstü sehpa olan dolap.',models:[['kedi-kulesi','Tırmalama kulesi'],['kum-dolabi','Kum kabı dolabı']]},
+  {id:'kedi-kulesi',name:'Kedi mobilyası',desc:'Sisal direkli tırmalama kulesi ya da kum kabını gizleyen, üstü sehpa olan dolap.',models:[['kedi-kulesi','Tırmalama kulesi'],['kum-dolabi','Kum kabı dolabı'],['kedi-parkuru','Duvar parkuru']]},
   {id:'tepsi',name:'Tepsi',desc:'Tutma delikli servis tepsisi ya da ayaklı yatak ve laptop tepsisi.',models:[['tepsi','Servis tepsisi'],['yatak-tepsisi','Ayaklı yatak tepsisi']]},
 ];
 const PRODUCTS=[], PROD={}, MODEL_OWNER={};
