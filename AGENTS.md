@@ -28,7 +28,7 @@ Talaş'ta tasarım ya da kod değişikliği **ayrı bir kopyada değil, bu depod
 | `urunler.js` | Aileleri ürünlere toplar (`GROUPS`), seçim durumu, malzeme açıklamaları, süzgeçler, maliyet, kopyalama | Claude |
 | `fotograf.js` | Fotoğraftan ürün bulma (Claude içinde `sample` + görsel; her yerde "Kendin tarif et") | Claude |
 | `atolye.css`, `atolye.js` | Talaş Atölye arayüzü: turuncu-gri görsel dil, fotoğraflı seçki, ürün sayfası iskeleti, Atölyem, PDF planı | Codex (tasarım), Claude (birleştirme) |
-| `assets/` | `app-icon.png`, `foto-kasa.jpg`, `foto-koltuk.jpg`, `foto-sehpa.jpg` (Codex'in özgün görsel üretimi); `foto-testere.jpg`, `foto-atolye-duvari.jpg`, `foto-ogrenme-kulesi.jpg`, `foto-kitaplik.jpg`, `foto-askilik.jpg`, `foto-dolap.jpg`, `foto-oyuncak-sandigi.jpg`, `foto-tepsi.jpg`, `foto-calisma-masasi.jpg`, `foto-ekmeklik.jpg`, `foto-baharatlik.jpg`, `foto-havlu-askisi.jpg`, `foto-bahce-banki.jpg`, `foto-sezlong.jpg`, `foto-bahce-masasi.jpg`, `foto-kus-evi.jpg`, `foto-saksi-standi.jpg`, `foto-kopek-kulubesi.jpg`, `foto-sovale.jpg`, `foto-hobi-kutusu.jpg`, `foto-sergi-rafi.jpg`, `foto-plak-dolabi.jpg`, `foto-duvar-saati.jpg`, `foto-cornhole.jpg`, `foto-komodin.jpg`, `foto-tv-unitesi.jpg`, `foto-yemek-masasi.jpg`, `foto-yatak.jpg`, `foto-ayna.jpg`, `foto-ayakkabilik.jpg` (Claude, Canva görsel üretimi); `kucuk/` altında her fotoğrafın 450 px kopyası (kartlar bunu kullanır) | Codex, Claude |
+| `assets/` | `app-icon.png`, `foto-kasa.jpg`, `foto-koltuk.jpg`, `foto-sehpa.jpg` (Codex'in özgün görsel üretimi); `foto-testere.jpg`, `foto-atolye-duvari.jpg`, `foto-ogrenme-kulesi.jpg`, `foto-kitaplik.jpg`, `foto-askilik.jpg`, `foto-dolap.jpg`, `foto-oyuncak-sandigi.jpg`, `foto-tepsi.jpg`, `foto-calisma-masasi.jpg`, `foto-ekmeklik.jpg`, `foto-baharatlik.jpg`, `foto-havlu-askisi.jpg`, `foto-bahce-banki.jpg`, `foto-sezlong.jpg`, `foto-bahce-masasi.jpg`, `foto-kus-evi.jpg`, `foto-saksi-standi.jpg`, `foto-kopek-kulubesi.jpg`, `foto-sovale.jpg`, `foto-hobi-kutusu.jpg`, `foto-sergi-rafi.jpg`, `foto-plak-dolabi.jpg`, `foto-duvar-saati.jpg`, `foto-cornhole.jpg`, `foto-komodin.jpg`, `foto-tv-unitesi.jpg`, `foto-yemek-masasi.jpg`, `foto-yatak.jpg`, `foto-ayna.jpg`, `foto-ayakkabilik.jpg` ve 2026-11-04'ten beri katalogdaki her ürünün `foto-<ad>.jpg` dosyası (Claude, Canva görsel üretimi; eşleme `atolye.js` `PHOTO_OF`); `kucuk/` altında her fotoğrafın 450 px kopyası (kartlar bunu kullanır) | Codex, Claude |
 | `tools/pages.py` | GitHub Pages çıktısını `docs/` altına üretir; betiklere ve `atolye.css`'e içerik özetinden `?v=` sürüm eki koyar | Claude |
 | `docs/` | Yayındaki sürüm. Elle düzenlenmez; `python tools/pages.py` ile üretilir | — |
 
@@ -49,7 +49,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Kontrol listesi (her değişiklikten sonra)
 
-- 75 ürünün 153 modeli ve bütün seçenekleri hatasız hesaplanmalı (`compute`, `stock`, `iso`); parçalar birbirine geçmemeli.
+- 76 ürünün 161 modeli ve bütün seçenekleri hatasız hesaplanmalı (`compute`, `stock`, `iso`); parçalar birbirine geçmemeli.
 - Eski bağlantılar (`#yuvarlak-tabure-3` gibi) `resolveHash` ile doğru ürüne, modele ve seçeneğe gitmeli.
 - 320, 375 ve 1366 px genişlikte yatay taşma olmamalı.
 
@@ -59,7 +59,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 
 ## Açık işler
 
-- Claude: 41 ürün fotoğrafsız (Canva kredi kotası 2026-11-04'te doldu). Sıradaki: yan sehpa, tabure, bank, dekor merdiveni, konsol masa; sonra mutfak (kesme/sunum tahtası, mutfak dolabı, kasa, masa, bar taburesi), çocuk (masa, pano, oturak, oyuncak dolabı, montessori yatak, bebek evi, kum havuzu), bahçe (saksı, bahçe kasası, mektup kutusu, sokak kitaplığı, bahçe kafesi), kalan ev/atölye/hobi ürünleri. Her fotoğrafa `tools/kucuk.ps1` ile 450 px kopya.
+- (boş)
 
 ## Günlük
 
@@ -95,3 +95,5 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 - 2026-11-04 Claude: Ticari hazırlık: `tools/pages.py` artık `docs/manifest.webmanifest` ve `docs/sw.js` üretiyor (ana ekrana eklenebilir uygulama, çevrimdışı açılış; önbellek adı sayfa özetinden, her yayında eskisi silinir; yalnız https'te kaydolur) ve sayfaya Open Graph/Twitter paylaşım etiketleri, apple-touch-icon ekliyor. `atolye.js`: ürün sayfası alt çubuğuna "Paylaş" (telefonda sistem menüsü, masaüstünde bağlantı kopyalama; PDF gibi yalnız çerçevesiz sayfada), Rehber sonuna "Hakkında ve gizlilik" bölümü (#hakkinda: güvenlik, yapay zekâ fotoğraf notu, yerel kayıt). 320/375 px'te taşma yok. Şifonyer fotoğrafı Canva'da üretildi (MAHZ5drLO6o), kota dolduğu için bu tura henüz eklenmedi.
 - 2026-11-04 Claude: Fotoğraflar için `assets/kucuk/` (450 px, %78 JPEG; 33 dosya toplam 1,2 MB, asılları 7 MB). `photoHTML(n, label, wide)`: kartlar ve seçki `srcset` ile küçük kopyayı, ürün sayfası (`wide`) 900 px aslını alır ve hemen yüklenir. Yeni fotoğraf eklerken küçük kopyasını da üret (PowerShell System.Drawing, 450×450).
 - 2026-11-04 Claude: Şifonyer fotoğrafı eklendi (`foto-sifonyer`, küçük kopyasıyla); `PHOTO_OF` 34 ürün. `tools/kucuk.ps1` eksik 450 px kopyaları üretir (içeriği PowerShell'de çalıştırılır; betik çalıştırma ilkesine dokunulmaz).
+- 2026-11-04 Claude: Kalan 41 ürüne ilham fotoğrafı eklendi (commit 7144d3a); `PHOTO_OF` 75 ürünün tamamını kapsıyor, her fotoğrafın `kucuk/` kopyası var. Tabure fotoğrafı bar taburesine benzemesin diye alçak yuvarlak tabureyle yeniden üretildi.
+- 2026-11-04 Claude: 8 yeni aile (`katalog.js` 28-32 numaralı yapım fonksiyonları ve `F3` tanımları). Yeni ürün: Tırmanma üçgeni (`tirmanma-ucgeni`, katlanır, kavela basamaklı; fotoğraflı). Mevcut ürünlere model olarak: yer sofrası → Yemek masası, banyo taburesi → Tabure, sandıklı bank → Bank, laptop yükseltici → Masa üstü stand, şarj istasyonu → Saklama kutusu. İki tek modelli ürün gruba dönüştü, kimlikleri ve fotoğrafları aynı: `banyo-rafi` (+ küvet tahtası), `kedi-kulesi` (adı "Kedi mobilyası"; + kum kabı dolabı). `AXL`'a `stand` ve `slots` etiketleri eklendi. Katalog 76 ürün, 161 model, 2.668 seçenek birleşimi; tarayıcıda hepsi `compute`/`stock`/`iso` ile hatasız, yeni ailelerde kutu parçalar birbirine geçmiyor; eski bağlantılar (`#banyo-rafi-1`, `#kedi-kulesi-2`) doğru ürüne gidiyor.

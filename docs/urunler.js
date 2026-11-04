@@ -6,7 +6,7 @@
 const ALLFAMS=[...FAMS,...FAMS2,...FAMS3], FAMBY=Object.fromEntries(ALLFAMS.map(f=>[f.id,f])), FEATBY=Object.fromEntries(FEATURED.map(p=>[p.id,p]));
 const AXL={mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
   style:'Yazı tekniği',hole:'Giriş deliği',pitch:'Çatı eğimi',floors:'Kat sayısı',insert:'Yüzey',prof:'Çerçeve genişliği',size:'Boyut',paint:'Yüzey',
-  shelf:'Üst raf',space:'Askı aralığı',set:'Set',layers:'Kat',s:'Kafes aralığı',H:'Yükseklik',glass:'Cam tabla',umb:'Şemsiye',seats:'Oturak'};
+  shelf:'Üst raf',space:'Askı aralığı',set:'Set',layers:'Kat',s:'Kafes aralığı',H:'Yükseklik',glass:'Cam tabla',umb:'Şemsiye',seats:'Oturak',stand:'Tablet dayama',slots:'Kablo yarığı'};
 const INFO={
   mat:{ply18:'Huş kontrplak: katmanlı yapısı sayesinde sağlam ve vidayı iyi tutar, nemde az çalışır. Kenarı bantlanır ya da katmanlı kenar açık bırakılır. Orta fiyat.',
     mlam18:'Beyaz suntalam: en ekonomik seçenek; yüzeyi hazır, silinebilir. Neme ve vidanın sökülüp takılmasına dayanıksız; kenar bandı şart.',
@@ -37,9 +37,9 @@ const GROUPS=[
   {id:'tv-unitesi-u',name:'TV ünitesi',desc:'Çift kapaklı alçak TV ünitesi; düz ya da açılı konik ayaklı.',models:[['tv-unitesi','Düz ayaklı'],['acili-tv','Açılı ayaklı']]},
   {id:'orta-sehpa',name:'Orta sehpa',desc:'Salon sehpası: kayıtlı ve raflı, açılı ayaklı, yuvarlak ya da palet modeli.',models:[['orta-sehpa','Klasik (ayrıntılı kılavuz)'],['orta-sehpa-f','Raflı'],['acili-sehpa','Açılı ayaklı'],['yuvarlak-sehpa','Yuvarlak'],['palet-sehpa','Palet']]},
   {id:'yan-sehpa-u',name:'Yan sehpa',desc:'Koltuk ya da yatak yanı için kare veya üç ayaklı yuvarlak sehpa.',models:[['yan-sehpa','Kare'],['yuvarlak-yan-sehpa','Yuvarlak üç ayaklı']]},
-  {id:'yemek-masasi-u',name:'Yemek masası',desc:'Masif tablalı, kayıtlı yemek masası; dikdörtgen ya da yuvarlak.',models:[['yemek-masasi','Dikdörtgen'],['yuvarlak-yemek','Yuvarlak']]},
-  {id:'tabure',name:'Tabure',desc:'Kare ya da yuvarlak oturaklı, ayak dayamalı tabure.',models:[['tabure','Klasik kare (ayrıntılı kılavuz)'],['tabure-f','Ayak dayamalı kare'],['yuvarlak-tabure','Yuvarlak']]},
-  {id:'ic-bank',name:'Bank',desc:'Antre ve salon için oturma bankı; raflı ya da açılı ayaklı.',models:[['giris-banki','Raflı giriş bankı'],['acili-bank','Açılı ayaklı']]},
+  {id:'yemek-masasi-u',name:'Yemek masası',desc:'Masif tablalı, kayıtlı yemek masası; dikdörtgen, yuvarlak ya da minderle oturulan alçak yer sofrası.',models:[['yemek-masasi','Dikdörtgen'],['yuvarlak-yemek','Yuvarlak'],['yer-sofrasi','Yer sofrası']]},
+  {id:'tabure',name:'Tabure',desc:'Kare ya da yuvarlak oturaklı, ayak dayamalı tabure; alt raflı banyo taburesi.',models:[['tabure','Klasik kare (ayrıntılı kılavuz)'],['tabure-f','Ayak dayamalı kare'],['yuvarlak-tabure','Yuvarlak'],['banyo-taburesi','Banyo taburesi']]},
+  {id:'ic-bank',name:'Bank',desc:'Antre ve salon için oturma bankı; raflı, açılı ayaklı ya da içi depolamalı sandıklı.',models:[['giris-banki','Raflı giriş bankı'],['acili-bank','Açılı ayaklı'],['sandikli-bank','Sandıklı bank']]},
   {id:'yatak',name:'Yatak',desc:'Çıtalı bazalı, sökülebilir karyola; tek ya da çift kişilik.',models:[['tek-yatak','Tek kişilik'],['cift-yatak','Çift kişilik']]},
   {id:'ayna',name:'Ayna',desc:'Masif çerçeveli dikdörtgen ya da yuvarlak tabanlı ayna.',models:[['ayna-cercevesi','Dikdörtgen çerçeveli'],['yuvarlak-ayna','Yuvarlak']]},
   {id:'duvar-askiligi',name:'Askılık',desc:'Kavela çubuklu duvar askılığı, raflı kısa anahtarlık ya da dört ayaklı portmanto.',models:[['askilik','Askılık'],['anahtarlik','Anahtarlık'],['portmanto','Ayaklı portmanto']]},
@@ -64,15 +64,17 @@ const GROUPS=[
   {id:'mutfak-rafi',name:'Mutfak rafı',desc:'Duvar baharatlığı, dolap içi basamaklı raf ya da şarap rafı.',models:[['baharatlik','Baharatlık'],['basamakli-raf','Basamaklı'],['sarap-rafi','Şarap rafı'],['tezgah-rafi','Tezgâh üstü katlı raf']]},
   {id:'mutfak-kasasi',name:'Mutfak kasası',desc:'Havadar meyve-sebze kasası ya da şişe kasası.',models:[['meyve-kasasi','Meyve ve sebze'],['sarap-kasasi','Şarap']]},
   {id:'mutfak-askisi',name:'Mutfak askısı',desc:'Duvara havlu ve önlük askısı ya da tezgâh üstü kupa ağacı.',models:[['havlu-askisi','Havlu askısı'],['kupa-agaci','Kupa ağacı'],['havluluk','Kâğıt havluluk']]},
-  {id:'saklama-kutusu-u',name:'Saklama kutusu',desc:'Kapaklı saklama kutusu ya da bölmeli çekmece düzenleyici.',models:[['saklama-kutusu','Kapaklı kutu'],['cekmece-duzen','Çekmece düzenleyici']]},
+  {id:'saklama-kutusu-u',name:'Saklama kutusu',desc:'Kapaklı saklama kutusu, bölmeli çekmece düzenleyici ya da kabloları gizleyen şarj istasyonu.',models:[['saklama-kutusu','Kapaklı kutu'],['cekmece-duzen','Çekmece düzenleyici'],['sarj-kutusu','Şarj istasyonu']]},
   {id:'hobi-kutusu',name:'Hobi kutusu',desc:'Bölmeli, menteşeli kapaklı takı, dikiş ve oyun kutuları ile kalemlik.',models:[['taki-kutusu','Takı'],['dikis-kutusu','Dikiş'],['oyun-kutusu','Masa oyunu'],['kalemlik','Kalemlik']]},
   {id:'sergi-rafi',name:'Sergi rafı',desc:'Koleksiyon için sık raflı duvar rafı ya da önü camlı vitrin kutusu.',models:[['koleksiyon-rafi','Koleksiyon rafı'],['maket-vitrini','Vitrin kutusu']]},
-  {id:'masa-ustu-stand',name:'Masa üstü stand',desc:'Kulaklık standı ya da L biçimli kitap desteği.',models:[['kulaklik-standi','Kulaklık standı'],['kitap-destegi','Kitap desteği']]},
+  {id:'masa-ustu-stand',name:'Masa üstü stand',desc:'Kulaklık standı, L biçimli kitap desteği ya da laptop yükseltici.',models:[['kulaklik-standi','Kulaklık standı'],['kitap-destegi','Kitap desteği'],['laptop-yukseltici','Laptop yükseltici']]},
   {id:'bahce-kasasi',name:'Bahçe kasası',desc:'Havalandırmalı odunluk ya da tabansız kompost kasası.',models:[['odunluk','Odunluk'],['kompost','Kompost']]},
   {id:'cocuk-oturagi',name:'Çocuk oturağı',desc:'Üç ayaklı çocuk taburesi ya da sırtlı küçük bank.',models:[['cocuk-taburesi','Tabure'],['cocuk-banki','Bank']]},
   {id:'atolye-duvari',name:'Atölye duvar düzeni',desc:'Fransız askılı alet panosu ya da kollu işkence rafı.',models:[['alet-panosu','Alet panosu'],['iskence-rafi','İşkence rafı']]},
   {id:'oyuncak-sandigi',name:'Oyuncak sandığı',desc:'Kapaklı tekerlekli sandık ya da ipli çekme arabası biçiminde oyuncak kutusu.',models:[['oyuncak-sandigi','Kapaklı sandık'],['oyuncak-arabasi','Çekme arabası']]},
   {id:'calisma-masasi',name:'Çalışma masası',desc:'Ayaklı sade çalışma masası ya da dar alan için duvara katlanır masa.',models:[['calisma-masasi','Ayaklı'],['duvar-masasi','Duvara katlanır']]},
+  {id:'banyo-rafi',name:'Banyo rafı',desc:'Duvara asılan arkalıklı dar raf ya da küvetin iki kenarına oturan çıtalı tahta.',models:[['banyo-rafi','Duvar rafı'],['kuvet-rafi','Küvet tahtası']]},
+  {id:'kedi-kulesi',name:'Kedi mobilyası',desc:'Sisal direkli tırmalama kulesi ya da kum kabını gizleyen, üstü sehpa olan dolap.',models:[['kedi-kulesi','Tırmalama kulesi'],['kum-dolabi','Kum kabı dolabı']]},
   {id:'tepsi',name:'Tepsi',desc:'Tutma delikli servis tepsisi ya da ayaklı yatak ve laptop tepsisi.',models:[['tepsi','Servis tepsisi'],['yatak-tepsisi','Ayaklı yatak tepsisi']]},
 ];
 const PRODUCTS=[], PROD={}, MODEL_OWNER={};
