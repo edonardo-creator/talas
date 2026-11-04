@@ -1780,6 +1780,120 @@ function catWall(p,o){
   return c;
 }
 
+/* ---------- 2026-11-05 (9): bahçe kapısı, yapboz, dergilik, tabak süzgeci, çamaşır kurutmalığı ---------- */
+MAT.kav12={n:'Kavela çubuk Ø12 (kayın)',type:'lumber',w:12,t:12,L:1000,tone:'beech'};
+
+/* 74) Bahçe kapısı (Z kayıtlı) */
+function gardenGate(p,o){
+  const parts=[], W=p.W, H=p.H, sp=o.sp||'emp', fr=LM(sp,45,70), sl=LM(sp,20,95), vert=o.slat!=='yatay';
+  for(const x of [0,W-70]) BOX(parts,'stile','Dikey kayıt',fr,x,0,0,70,H,45);
+  for(const y of [0,H-70]) BOX(parts,'rail','Yatay kayıt',fr,70,y,0,W-140,70,45);
+  const b0=[105,70,22.5], b1=[W-105,H-70,22.5], bl=R(Math.hypot(b1[0]-b0[0],b1[1]-b0[1])+60);
+  PART(parts,'brace','Çapraz destek',fr,barRings(b0,b1,70,45,[0,0,1]),{cut:[bl,70,45],cutNote:'uçları kayıtlara oturacak açıyla'});
+  let n;
+  if(vert){n=Math.max(2,Math.floor((W+15)/110));spread(n,0,W,95).forEach(x=>BOX(parts,'slat','Dikey tahta',sl,x,0,45,95,H,20));}
+  else{n=0;for(let y=0;y+95<=H;y+=110){BOX(parts,'slat','Yatay tahta',sl,0,y,45,W,95,20);n++;}}
+  const c={parts,hw:[['Kapı menteşesi (T tipi, galvaniz, 300 mm)','2 adet','çapraz destek menteşe tarafında alttan başlar'],['Bahçe kapısı mandalı (kendinden kilitli)','1 takım',''],['Kapı stoperi (dikmeye)','1 adet',''],
+      ['Paslanmaz vida 4,5×50','1 kutu',''],['Dış mekân ahşap yağı',`${Math.max(1,Math.ceil(W*H/1e6))} L`,'2 kat, her iki yüz']],join:'Vida + tutkal (dış mekân)',
+    notes:[{t:'tip',x:`Kanat ${W} × ${H} mm; kapı boşluğu ${W+20} mm olmalı (menteşe ve mandal tarafında 10'ar mm). ${n} ${vert?'dikey':'yatay'} tahta, aralar 15 mm.`},
+      {t:'warn',x:'Çapraz destek mutlaka menteşe tarafının altından mandal tarafının üstüne doğru gitmeli; ters takılırsa kanat zamanla sarkar.'}]};
+  c.tools=stdTools(['gonyeT','daire','aciOlcer','metre','gonye','kalem','terazi','matkap','havsa',['isk','4 adet'],'zimKag','firca']);
+  c.mkSteps=K=>[
+    {t:'Parçaları kes',tools:['gonyeT','daire'],x:cutUL(c,K)},
+    {t:'Çerçeveyi kur',add:['stile','rail'],tools:['matkap','havsa','gonye','isk'],x:`<p>${K('stile')} ve ${K('rail')} kayıtları düz bir zeminde dikdörtgen olarak dizip tutkal ve iki vidayla birleştir; köşegenleri ölçerek gönyesini al.</p>`},
+    {t:'Çapraz desteği yerleştir',add:['brace'],tools:['aciOlcer','gonyeT','matkap'],x:`<p>${K('brace')} desteği çerçevenin üstüne yatır, uç açılarını kayıtlardan işaretle ve kes. Menteşe tarafının altından mandal tarafının üstüne gelecek şekilde vidala.</p>`},
+    {t:'Tahtaları çak',add:['slat'],tools:['matkap','metre'],x:`<p>${K('slat')} tahtaları 15 mm ara takozuyla diz, her tahtayı her kayıta ve desteğe ikişer vidayla bağla.</p>`},
+    {t:'Kapıyı as',tools:['terazi','matkap'],x:'<p>Kanadı boşluğa 10 mm takozların üstüne koy, menteşeleri dikmeye vidala. Mandalı ve stoperi tak, kapıyı açıp kapatarak ayarla.</p>'},
+    finishStep({outdoor:1})];
+  return c;
+}
+
+/* 75) Ahşap yapboz (çerçeveli) */
+function jigsaw(p,o){
+  const parts=[], W=p.W, D=p.D, N=p.N, tray=o.tray!==false, f=tray?20:0, iw=W-2*f, id=D-2*f;
+  const nx=Math.max(2,Math.round(Math.sqrt(N*iw/id))), nz=Math.max(2,Math.ceil(N/nx)), pw=R(iw/nx), pd=R(id/nz), y0=tray?6:0;
+  if(tray){BOX(parts,'base','Taban','ply6',0,0,0,W,6,D);
+    for(const z of [0,D-f]) BOX(parts,'frL','Çerçeve (uzun)','ply6',0,6,z,W,6,f);
+    for(const x of [0,W-f]) BOX(parts,'frS','Çerçeve (kısa)','ply6',x,6,f,f,6,D-2*f);}
+  BOX(parts,'blank','Yapboz levhası','ply6',f,y0,f,iw,6,id,{cutNote:`${nx*nz} parçaya dekupajla bölünür`});
+  for(let i=1;i<nx;i++) BOX(parts,'line','Kesim çizgisi','inlay',f+i*iw/nx-0.5,y0+6,f,1,0.4,id,{deco:true});
+  for(let j=1;j<nz;j++) BOX(parts,'line','Kesim çizgisi','inlay',f,y0+6,f+j*id/nz-0.5,iw,0.4,1,{deco:true});
+  const c={parts,hw:[['Resim baskısı (mat kâğıt) ya da çocuğun çizimi',`${iw} × ${id} mm`,'levhaya yapıştırılır'],['Dekupaj tutkalı / ahşap tutkalı','1 şişe','ince ve eşit sürülür'],
+      ['Dekupaj bıçağı (ince, 15-20 diş)','3 adet','yedekli'],['Oyuncağa uygun (EN 71-3) su bazlı vernik','0,1 L','resmin üstüne']],join:'Tutkal',
+    notes:[{t:'tip',x:`${nx} × ${nz} = ${nx*nz} parça, her parça yaklaşık ${pw} × ${pd} mm. ${tray?'Çerçeveli tepsi parçaları bir arada tutar; çocuk için kenarlar yol gösterir.':'Çerçevesiz düz yapboz.'}`},
+      {t:'warn',x:pw<45||pd<45?'Parçalar 45 mm\'den küçük: 3 yaş altı çocuklar yutabilir, onlara verme.':'3 yaş altı için parçaların 45 mm\'den küçük olmamasına dikkat et; kenarları iyice zımparala.'}]};
+  c.tools=stdTools(['dekupaj','metre','gonye','kalem','bicak',['isk','2 adet'],'zimKag','firca']);
+  c.mkSteps=K=>[
+    {t:'Parçaları kes',tools:['dekupaj','metre'],x:cutUL(c,K)},
+    {t:'Resmi yapıştır',add:['blank'],tools:['bicak','isk'],x:`<p>${K('blank')} levhaya tutkalı ince sür, resmi kabarcık kalmayacak şekilde ortadan dışa doğru yapıştır. Üstüne kâğıt ve düz bir tahta koyup bir gece işkenceyle bastır; taşan kâğıdı maket bıçağıyla kes.</p>`},
+    {t:'Parçaları kes',add:['line'],tools:['dekupaj','kalem'],x:`<p>Levhanın arkasına ${nx} × ${nz} ızgarayı çiz, her çizgiye bir geçme (yuvarlak dil) ekle. Önce tüm uzun çizgileri, sonra kısa çizgileri ince dekupaj bıçağıyla yavaşça kes.</p>`,tip:'Levhanın altına koli bandı yapıştırırsan alt yüzde kıymık kalkmaz.'},
+    ...(tray?[{t:'Tepsiyi kur',add:['base','frL','frS'],tools:['isk'],x:`<p>${K('frL')} ve ${K('frS')} çerçeve parçalarını ${K('base')} tabanın kenarlarına tutkalla yapıştır, işkenceyle sık.</p>`}]:[]),
+    {t:'Zımpara ve vernik',tools:['zimKag','firca'],x:'<p>Parçaların kesim kenarlarını 240 kumla hafifçe kır. Resmin üstüne oyuncağa uygun su bazlı verniği ince sür; parçalar birbirine yapışmasın diye ayrı ayrı kurut.</p>'}];
+  return c;
+}
+
+/* 76) Dergilik */
+function magRack(p,o){
+  const parts=[], W=p.W, H=p.H, D=p.D, sp=o.sp||'mese', end=WORKTOP(sp,20,D), iw=W-40;
+  for(const x of [0,W-20]) BOX(parts,'end','Yan panel',end,x,0,0,20,H,D,{cutNote:'üst köşeler R40, tutamak deliği Ø25'});
+  BOX(parts,'bottom','Taban',WORKTOP(sp,20,D-40),20,40,20,iw,20,D-40);
+  BOX(parts,'div','Orta bölme','ply12',20,60,D/2-6,iw,H-140,12);
+  for(const z of [5,D-25]) for(const y of [R(H*0.4),R(H*0.7)]) BOX(parts,'rod','Yan çubuk','kav20',20,y,z,iw,20,20,{cut:[iw+20,20,20]});
+  BOX(parts,'handle','Tutamak çubuğu','kav25',20,H-55,D/2-12.5,iw,25,25,{cut:[iw+20,25,25]});
+  const c={parts,hw:[['Kavela 8×35','8 adet','taban-yan panel'],['Vida 4×30','8 adet','orta bölme'],['Kaydırmaz keçe ayak','4 adet',''],['Sert yağ ya da vernik','0,25 L','']],join:'Kavela + tutkal',
+    notes:[{t:'tip',x:`${W} × ${D} mm, yükseklik ${H} mm. Orta bölme iki göz oluşturur; yan çubuklar dergilerin kaymasını önler, tutamakla taşınır.`}]};
+  c.tools=stdTools(['gonyeT','dekupaj','metre','gonye','kalem','pergel','matkap','dubelSet','forstnerSet',['isk','2 adet'],'zimMak','zimKag','firca']);
+  c.mkSteps=K=>[
+    {t:'Parçaları kes',tools:['gonyeT','dekupaj'],x:cutUL(c,K)},
+    {t:'Yan panelleri şekillendir',add:['end'],tools:['pergel','dekupaj','forstnerSet'],x:`<p>${K('end')} panellerin üst köşelerini R40 yuvarlat. Çubuk ve tutamak yerlerini işaretleyip 20 ve 25 mm Forstner uçla 10 mm derinlikte yuva aç; orta bölme için iç yüze 12 mm oluk aç ya da vida yeri işaretle.</p>`},
+    {t:'Birleştir',add:['bottom','div','rod','handle'],tools:['dubelSet','matkap','isk'],x:`<p>${K('bottom')} tabanı kavelayla bir panele tak, ${K('div')} bölmeyi, ${K('rod')} çubukları ve ${K('handle')} tutamağı tutkallı yuvalara oturt. İkinci paneli kapat ve işkenceyle sık.</p>`},
+    finishStep({})];
+  return c;
+}
+
+/* 77) Tabak süzgeci */
+function dishRack(p,o){
+  const parts=[], W=p.W, D=p.D, sp=o.sp||'kayin', ft=LM(sp,20,45), rl=LM(sp,20,45), n=Math.max(4,Math.floor((W-40)/35)), zs=[20,D-65];
+  for(const x of [0,W-45]) BOX(parts,'foot','Ayak',ft,x,0,0,45,20,D,{cutNote:'alt kenarı suya karşı 2 mm pahlı'});
+  for(const z of zs) BOX(parts,'rail','Kuşak',rl,0,20,z,W,20,45);
+  const xs=spread(n,25,W-25,12);
+  xs.forEach(x=>{BOX(parts,'pegH','Uzun çubuk','kav12',x,40,zs[0]+16.5,12,130,12,{cut:[145,12,12],cutNote:'15 mm yuvaya girer'});
+    BOX(parts,'pegL','Kısa çubuk','kav12',x,40,zs[1]+16.5,12,80,12,{cut:[95,12,12],cutNote:'15 mm yuvaya girer'});});
+  const c={parts,hw:[['Damlama tepsisi (silikon ya da paslanmaz)',`${W} × ${D} mm`,'altına'],['Su geçirmez tutkal (D3)','1 şişe',''],['Gıdaya uygun mineral yağ','0,1 L','ayda bir tazele']],join:'Tutkal + yuva',
+    notes:[{t:'tip',x:`${n} tabak yuvası, çubuk aralığı ${R((W-62)/(n-1))} mm. Tabaklar uzun çubuklara yaslanır, kısa sıra küçük tabak ve kesme tahtası tutar.`},
+      {t:'warn',x:'Sürekli ıslak kalacağı için kayın, meşe ya da akçaağaç kullan; çamda küf yapar. Vernik değil yağ sür.'}]};
+  c.tools=stdTools(['gonyeT','metre','gonye','kalem','matkap',['forstnerSet','12 mm uç'],'isk','zimKag','firca']);
+  c.mkSteps=K=>[
+    {t:'Parçaları kes',tools:['gonyeT','metre'],x:cutUL(c,K)},
+    {t:'Çubuk yuvalarını del',add:['rail'],tools:['matkap','kalem','metre'],x:`<p>İki ${K('rail')} kuşağı yan yana işkencele, ${R((W-62)/(n-1))} mm arayla ortalarına ${n} yuva işaretle. 12 mm uçla 15 mm derinlikte del; uca derinlik bandı sar.</p>`,tip:'Uzun çubuk sırasındaki yuvaları dışa doğru 10° eğik delersen tabaklar daha rahat yaslanır.'},
+    {t:'Kur',add:['foot','pegH','pegL'],tools:['isk','gonye'],x:`<p>Kuşakları ${K('foot')} ayaklara tutkalla bağla. ${K('pegH')} çubukları arka, ${K('pegL')} çubukları ön kuşağa su geçirmez tutkalla çak.</p>`},
+    finishStep({food:1})];
+  return c;
+}
+
+/* 78) Duvara katlanır çamaşır kurutmalığı */
+function dryingRack(p,o){
+  const parts=[], W=p.W, H=p.H, sp=o.sp||'cam', st=LM(sp,20,45), Lr=H-60, n=Math.max(3,Math.floor(Lr/80));
+  for(const x of [0,W-45]) BOX(parts,'stile','Duvar dikmesi',st,x,0,0,45,H,20);
+  for(const y of [0,H-45]) BOX(parts,'wrail','Duvar kuşağı',st,45,y,0,W-90,45,20);
+  for(const x of [0,W-20]) BOX(parts,'arm','Açılır kol',st,x,0,20,20,45,Lr,{cutNote:'uç köşesi yuvarlatılır'});
+  spread(n,40,Lr,20).forEach(z=>BOX(parts,'rod','Askı çubuğu','kav20',20,12,20+z,W-40,20,20,{cut:[W-20,20,20],cutNote:'10 mm yuvaya girer'}));
+  for(const x of [10,W-10]) chain(parts,[x,45,20+Lr-10],[x,H-20,20],'steel');
+  const c={parts,hw:[['Menteşe 50 mm','2 adet','kolların dibi'],['Hafif zincir (askı)',`2 × ${R(Math.hypot(Lr,H-65)+50)} mm`,'kolu yatayda tutar'],['Zincir kancası + vida halkası','4 adet',''],
+      ['Kapama mandalı (mıknatıslı)','1 adet','kapalıyken tutar'],['Dübel 6 mm + vida 5×50','4 takım',''],['Su bazlı vernik','0,25 L','']],join:'Kavela yuvası + menteşe',
+    notes:[{t:'tip',x:`${W} × ${H} mm duvar çerçevesi; açılınca ${Lr} mm dışarı çıkar. ${n} çubuk, toplam ${dec(R(n*(W-40)/100)/10)} m asma yeri. Kapanınca çerçevenin içine yatar.`},
+      {t:'warn',x:'Islak çamaşır ağırdır (10 kg\'a kadar); çerçeveyi alçıpana değil, duvardaki dolu bölüme ya da dikmeye dübelle.'}]};
+  c.tools=stdTools(['gonyeT','metre','gonye','kalem','terazi','matkap',['forstnerSet','20 mm uç'],['isk','2 adet'],'zimKag','firca']);
+  c.mkSteps=K=>[
+    {t:'Parçaları kes',tools:['gonyeT','metre'],x:cutUL(c,K)},
+    {t:'Çerçeveyi kur',add:['stile','wrail'],tools:['matkap','gonye','isk'],x:`<p>${K('stile')} dikmeleri ve ${K('wrail')} kuşakları tutkal ve vidayla dikdörtgen olarak birleştir.</p>`},
+    {t:'Açılır rafı kur',add:['arm','rod'],tools:['forstnerSet','matkap','isk'],x:`<p>İki ${K('arm')} kolu yan yana işkencele, ${n} çubuk yerini işaretle, 20 mm uçla 10 mm derinlikte del. ${K('rod')} çubukları tutkalla yuvalara oturt.</p>`},
+    {t:'Menteşe ve zincir',add:['chain'],tools:['matkap','metre'],x:'<p>Kolların dibini alt kuşağa menteşeyle bağla. Kolların ucuna ve üst kuşağa vida halkası tak, zinciri kol yatay olacak boyda kancala. Üste mıknatıslı mandalı yerleştir.</p>'},
+    {t:'Duvara as',tools:['terazi','matkap'],x:'<p>Çerçeveyi terazide duvara dört noktadan dübelle; açıp kapatarak dene.</p>'},
+    finishStep({})];
+  return c;
+}
+
 /* ---------- aileler ---------- */
 const FAMS3=[], F3=d=>FAMS3.push(d);
 F3({id:'isim-tabelasi',name:'İsim tabelası',cat:'Hobi',b:signBoard,level:1,time:'4 saat',tags:'tabela yazı kapı hediye',desc:'Kapı, mutfak ya da bahçe için boyalı veya yakma yazılı ahşap tabela.',
@@ -1973,6 +2087,17 @@ F3({id:'makyaj-masasi',name:'Makyaj masası',cat:'Ev mobilyası',b:vanity,level:
   P:{W:[800,1200,10],D:[400,500,10],H:[740,780,5],M:[500,800,10]},def:()=>({W:1000,D:450,H:760,M:650}),o:{},ax:[['W',[900,1100]],['sp',['mese','ceviz','kayin'],SPL]],lbl:{W:'Genişlik',D:'Derinlik',M:'Ayna yüksekliği'}});
 F3({id:'kedi-parkuru',name:'Kedi duvar parkuru',cat:'Ev mobilyası',b:catWall,level:1,time:'4 saat',tags:'kedi duvar rafı tırmanma basamak evcil',desc:'Duvara merdiven gibi dizilen, halı kaplı kedi basamakları.',
   P:{N:[3,6,1],W:[250,400,10]},def:()=>({W:300}),o:{},ax:[['N',[3,4,5]],['sp',['cam','mese'],SPL]],nl:'basamaklı',lbl:{W:'Basamak genişliği'}});
+/* 2026-11-05 (9): bahçe kapısı, yapboz, dergilik, tabak süzgeci, çamaşır kurutmalığı */
+F3({id:'bahce-kapisi',name:'Bahçe kapısı',cat:'Bahçe ve dış mekân',b:gardenGate,level:2,time:'1 gün',tags:'bahçe kapısı çit kapısı giriş kanat menteşe',desc:'Z kayıtlı, sarkmayan, dikey ya da yatay tahtalı tek kanat bahçe kapısı.',
+  P:{W:[800,1200,10],H:[900,1800,10]},def:()=>({W:1000,H:1200}),o:{},ax:[['H',[1000,1800]],['slat',['dikey','yatay'],{dikey:'dikey tahtalı',yatay:'yatay tahtalı'}],['sp',['emp','cam'],SPL]],lbl:{W:'Kanat genişliği',H:'Yükseklik'}});
+F3({id:'yapboz',name:'Ahşap yapboz',cat:'Çocuk',b:jigsaw,level:1,time:'4 saat',tags:'yapboz puzzle bulmaca oyuncak çocuk resim dekupaj hediye',desc:'Sevdiğin bir resim ya da çocuğun çizimiyle, dekupajla kesilen çerçeveli ahşap yapboz.',
+  P:{W:[200,400,10],D:[200,400,10],N:[6,48,1]},def:()=>({W:300,D:300}),o:{},ax:[['N',[12,24,48]],['tray',[true,false],{true:'çerçeveli',false:'çerçevesiz'}]],nl:'parçalı',lbl:{W:'Genişlik',D:'Derinlik',N:'Parça sayısı'}});
+F3({id:'dergilik',name:'Dergilik',cat:'Ev mobilyası',b:magRack,level:2,time:'5 saat',tags:'dergilik gazete dergi kitap sepet salon koltuk yanı',desc:'Tutamaklı, orta bölmeli, kavela çubuklu masif dergilik.',
+  P:{W:[300,500,10],H:[350,500,10],D:[250,350,10]},def:()=>({W:400,H:420,D:300}),o:{},ax:[['W',[350,450]],['sp',['mese','ceviz','kayin'],SPL]],lbl:{W:'Genişlik',H:'Yükseklik',D:'Derinlik'}});
+F3({id:'tabak-suzgeci',name:'Tabak süzgeci',cat:'Mutfak ve küçük eşya',b:dishRack,level:1,time:'3 saat',tags:'tabak süzgeci bulaşıklık kurutma mutfak tezgah',desc:'Kavela çubuklu, iki sıralı masif tabak süzgeci.',
+  P:{W:[300,600,10],D:[200,350,10]},def:()=>({W:450,D:260}),o:{},ax:[['W',[400,550]],['sp',['kayin','mese','akc'],SPL]],lbl:{W:'Uzunluk',D:'Derinlik'}});
+F3({id:'camasir-kurutmalik',name:'Duvara katlanır çamaşır kurutmalığı',cat:'Ev mobilyası',b:dryingRack,level:2,time:'5 saat',tags:'çamaşır kurutmalık askı balkon banyo katlanır duvar',desc:'Açılınca zincirle yatay duran, kapanınca duvara yatan çubuklu çamaşır kurutmalığı.',
+  P:{W:[500,1000,10],H:[600,1000,10]},def:()=>({W:800,H:800}),o:{},ax:[['W',[600,900]],['sp',['cam','kayin'],SPL]],lbl:{W:'Genişlik',H:'Çerçeve yüksekliği'}});
 register(FAMS3);
 
 /* ---------- alt kategoriler ---------- */
@@ -1985,8 +2110,8 @@ const SUBS={
   'Hobi':['Kutular','Sergi ve raflar','Sanat','Oyunlar','Masa üstü ve dekor']
 };
 const SUBOF=(()=>{const m={},a=(sub,ids)=>ids.split(' ').forEach(i=>m[i]=sub);
-  a('Kitaplık ve raflar','sarkit-raf duvar-konsolu kuvet-rafi cocuk-kitapligi kitaplik kitaplik-p ayarli-kitaplik merdiven-kitaplik duvar-rafi banyo-rafi altigen-raf gizli-raf');
-  a('Dolap ve depolama','bar-dolabi giyinme-odasi sarj-kutusu lavabo-dolabi kapakli-dolap sifonyer acili-sifonyer gardirop banyo-dolabi vitrin-dolap tv-unitesi acili-tv citali-kasa saklama-kasasi camasir-sepeti saklama-kutusu cekmece-duzen');
+  a('Kitaplık ve raflar','dergilik sarkit-raf duvar-konsolu kuvet-rafi cocuk-kitapligi kitaplik kitaplik-p ayarli-kitaplik merdiven-kitaplik duvar-rafi banyo-rafi altigen-raf gizli-raf');
+  a('Dolap ve depolama','camasir-kurutmalik bar-dolabi giyinme-odasi sarj-kutusu lavabo-dolabi kapakli-dolap sifonyer acili-sifonyer gardirop banyo-dolabi vitrin-dolap tv-unitesi acili-tv citali-kasa saklama-kasasi camasir-sepeti saklama-kutusu cekmece-duzen');
   a('Masa ve sehpa','epoksi-yemek-masasi epoksi-sehpa yer-sofrasi orta-sehpa yemek-masasi orta-sehpa-f yan-sehpa konsol yuvarlak-yemek yuvarlak-sehpa yuvarlak-yan-sehpa acili-sehpa palet-sehpa');
   a('Oturma','yemek-banki sauna-banki merdiven-tabure banyo-taburesi sandikli-bank tabure tabure-f ayak-taburesi yuvarlak-tabure acili-bank masa-sandalyesi');
   a('Yatak odası','makyaj-masasi ranza komodin komodin-p acili-komodin gece-sehpasi tek-yatak cift-yatak');
@@ -1996,15 +2121,15 @@ const SUBOF=(()=>{const m={},a=(sub,ids)=>ids.split(' ').forEach(i=>m[i]=sub);
   a('Evcil hayvan','kedi-parkuru kopek-merdiveni kopek-rampasi kum-dolabi evcil-yatak kedi-kulesi mama-standi');
   a('Mutfak dolapları','mutfak-adasi mutfak-alt mutfak-ust kiler-dolabi');
   a('Tahtalar ve sunum','yatak-tepsisi kesme-tahtasi kesme-tahtasi-f servis-tahtasi peynir-tahtasi yuvarlak-kesme pizza-tahtasi tepsi');
-  a('Mutfak düzenleyiciler','kadeh-rafi bicak-blogu havluluk tezgah-rafi baharatlik havlu-askisi cay-kutusu ekmek-kutusu kupa-agaci meyve-kasasi sarap-kasasi sarap-rafi basamakli-raf kasiklik');
+  a('Mutfak düzenleyiciler','tabak-suzgeci kadeh-rafi bicak-blogu havluluk tezgah-rafi baharatlik havlu-askisi cay-kutusu ekmek-kutusu kupa-agaci meyve-kasasi sarap-kasasi sarap-rafi basamakli-raf kasiklik');
   a('Masa ve tabure','servis-arabasi mutfak-masasi bar-taburesi');
   a('Bahçe oturma','hamak-standi bahce-salincagi veranda-salincagi cocuk-salincagi tekli-koltuk kanepe kose-kanepe bahce-banki bahce-koltugu sezlong piknik-banki balkon-banki egik-sandalye egik-bank ayarli-sezlong');
   a('Bahçe masaları','bahce-masasi bistro-masasi piknik-masasi');
   a('Saksı ve bahçe yatakları','sebze-masasi saksi-standi saksi-kutusu yuksek-saksi bahce-yatagi cicek-rafi saksi-merdiveni saksi-basamagi kompost');
   a('Kuş ve doğa','ari-kovani kus-evi catili-kus-evi bocek-oteli kus-yemligi');
-  a('Bahçe yapıları','kaykay-rampasi bahce-citi alet-kulubesi pergola duvar-pergolasi odunluk kopek-kulubesi mektup-kutusu sokak-kitapligi bahce-kafesi');
+  a('Bahçe yapıları','bahce-kapisi kaykay-rampasi bahce-citi alet-kulubesi pergola duvar-pergolasi odunluk kopek-kulubesi mektup-kutusu sokak-kitapligi bahce-kafesi');
   a('Çocuk mobilyası','bebek-besigi okuma-kosesi ogrenme-kulesi cocuk-masasi yuvarlak-cocuk-masasi cocuk-taburesi montessori-yatak oyuncak-dolabi cocuk-banki');
-  a('Oyun ve oyuncak','yurutec denge-tahtasi oyun-evi cocuk-mutfagi oyun-cadiri tirmanma-ucgeni oyuncak-arabasi oyuncak-sandigi bebek-evi kum-havuzu');
+  a('Oyun ve oyuncak','yapboz yurutec denge-tahtasi oyun-evi cocuk-mutfagi oyun-cadiri tirmanma-ucgeni oyuncak-arabasi oyuncak-sandigi bebek-evi kum-havuzu');
   a('Pano ve duvar','pano yuvarlak-pano');
   a('Tezgâh ve depolama','katlanir-tezgah bisiklet-standi bisiklet-askisi testere-sehpasi alet-panosu iskence-rafi tezgah alet-dolabi alet-kutusu');
   a('Kutular','kamp-sandigi taki-kutusu dikis-kutusu kalemlik');
