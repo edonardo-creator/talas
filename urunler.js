@@ -73,6 +73,7 @@ const GROUPS=[
   {id:'atolye-duvari',name:'Atölye duvar düzeni',desc:'Fransız askılı alet panosu ya da kollu işkence rafı.',models:[['alet-panosu','Alet panosu'],['iskence-rafi','İşkence rafı']]},
   {id:'oyuncak-sandigi',name:'Oyuncak sandığı',desc:'Kapaklı tekerlekli sandık ya da ipli çekme arabası biçiminde oyuncak kutusu.',models:[['oyuncak-sandigi','Kapaklı sandık'],['oyuncak-arabasi','Çekme arabası']]},
   {id:'calisma-masasi',name:'Çalışma masası',desc:'Ayaklı sade çalışma masası ya da dar alan için duvara katlanır masa.',models:[['calisma-masasi','Ayaklı'],['duvar-masasi','Duvara katlanır']]},
+  {id:'asma-raf',name:'Asma raf',desc:'Tavandan halatla sarkan katlı raf ya da ayaksız, duvara asılan konsol masa.',models:[['sarkit-raf','Halatlı sarkıt raf'],['duvar-konsolu','Duvar konsolu']]},
   {id:'pergola',name:'Pergola',desc:'Dört dikmeli serbest duran ya da duvar kirişine bağlanan, istenirse gölgelik çıtalı pergola.',models:[['pergola','Serbest duran'],['duvar-pergolasi','Duvara bitişik']]},
   {id:'bisiklet-standi',name:'Bisiklet standı',desc:'Tekerlek yuvalı zemin standı ya da iki kollu duvar askısı.',models:[['bisiklet-standi','Zemin standı'],['bisiklet-askisi','Duvar askısı']]},
   {id:'salincak',name:'Salıncak',desc:'A ayaklı çerçeveli ya da tavana asılan zincirli bank, halatlı çocuk salıncağı.',models:[['bahce-salincagi','Bahçe salıncağı'],['veranda-salincagi','Veranda salıncağı'],['cocuk-salincagi','Çocuk salıncağı']]},
