@@ -1,4 +1,4 @@
-# assets/foto-*.jpg dosyalarının 450 px kopyalarını assets/kucuk/ altına üretir (kartlar bunları kullanır).
+# assets/foto-*.jpg ve alet-*.jpg dosyalarının 450 px kopyalarını assets/kucuk/ altına üretir (kartlar bunları kullanır).
 # Kullanım: içeriği bir PowerShell oturumunda çalıştır (yalnız eksik kopyaları üretir; -Hepsi ile tümünü yeniler)
 param([switch]$Hepsi)
 Add-Type -AssemblyName System.Drawing
@@ -9,7 +9,7 @@ $codec = [System.Drawing.Imaging.ImageCodecInfo]::GetImageEncoders() | Where-Obj
 $ep = New-Object System.Drawing.Imaging.EncoderParameters 1
 $ep.Param[0] = New-Object System.Drawing.Imaging.EncoderParameter ([System.Drawing.Imaging.Encoder]::Quality), 78L
 $n = 0
-Get-ChildItem $src -Filter 'foto-*.jpg' | ForEach-Object {
+Get-ChildItem $src -File | Where-Object { $_.Name -like 'foto-*.jpg' -or $_.Name -like 'alet-*.jpg' } | ForEach-Object {
   $out = Join-Path $dst $_.Name
   if ((Test-Path $out) -and -not $Hepsi) { return }
   $img = [System.Drawing.Image]::FromFile($_.FullName)

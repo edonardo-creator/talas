@@ -50,3 +50,29 @@ html{scroll-behavior:auto}
   .nav{padding-bottom:env(safe-area-inset-bottom,0px)}
 }
 @media(max-width:360px){.feature-rail{scroll-padding-inline:14px}.card .tag{font-size:10px}}
+/* Alet fotoğraflı kartlar (2026-11-04) */
+.tools{grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px}
+.tool.tool-ph{display:flex;flex-direction:column;padding:0;gap:0;overflow:hidden;border:1px solid #ebe8df;border-radius:10px;background:#fff;transition:border-color .2s,box-shadow .2s,transform .2s}
+.tool.tool-ph:hover{box-shadow:0 10px 26px -14px rgba(48,40,24,.35);transform:translateY(-2px)}
+.tool-pic{position:relative;margin:0;aspect-ratio:1;background:#ecebe6;overflow:hidden}
+.tool-pic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.tool.tool-ph:hover .tool-pic img{transform:scale(1.05)}
+.tool-badge{position:absolute;top:10px;left:10px;background:var(--accent);color:#fff;font-size:10px;font-weight:650;letter-spacing:.04em;padding:4px 9px;border-radius:20px;opacity:0;transform:translateY(-4px);transition:opacity .2s,transform .2s}
+.tool.have .tool-badge{opacity:1;transform:none}
+.tool-body{display:flex;flex-direction:column;gap:5px;padding:12px 13px 4px;flex:1}
+.tool-cat{font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600}
+.tool.tool-ph .n{font-size:14px;font-weight:650;line-height:1.3;letter-spacing:-.01em}
+.tool.tool-ph .s{font-size:11.5px;line-height:1.5;color:var(--muted)}
+.tool.tool-ph .tool-note{color:var(--ink)}
+.tool.tool-ph .tool-have{margin-top:auto;border-top:1px solid #f0ede6;padding:6px 0 4px;min-height:44px;font-size:12px;color:var(--ink);cursor:pointer}
+.tool.tool-ph .tool-have input{accent-color:var(--accent)}
+.tool.tool-ph.have{border-color:#edc8a8;background:#fffaf4}
+.tool-progress{display:grid;gap:8px;background:#f8f7f1;border-radius:8px;padding:14px;font-size:12px;color:var(--muted)}
+.tool-progress .prog{height:6px}
+.tool-sec .matgroup .muted{font-size:11px}
+.equip-mini .eq-pic{display:block;width:100%;max-width:92px;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#ecebe6}
+.equip-mini .eq-pic img{width:100%;height:100%;object-fit:cover;display:block}
+.kit{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;margin:6px 0 4px}
+.kit-item{display:grid;gap:6px;font-size:11px;line-height:1.35;text-align:center;color:var(--ink)}
+.kit-item img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#ecebe6;display:block}
+@media(max-width:899px){.tools,.detail-pane .tools{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tool-body{padding:10px 10px 2px}.tool.tool-ph .n{font-size:13px}.kit{grid-template-columns:repeat(3,minmax(0,1fr))}}
