@@ -220,6 +220,7 @@ p{margin:0}
 .dimtx{fill:var(--dim);font-family:var(--f-mono);text-anchor:middle}
 .shrect{fill:var(--sunk);stroke:var(--edge);vector-effect:non-scaling-stroke}
 .shp{stroke:var(--edge);vector-effect:non-scaling-stroke}
+.shleft{fill:none;stroke:var(--ink);stroke-dasharray:6 4;opacity:.45;vector-effect:non-scaling-stroke}
 .shtx{fill:#2a1d0e;font-family:var(--f-mono);font-weight:600;text-anchor:middle;dominant-baseline:central}
 .empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:6px;display:grid;gap:10px;justify-items:center}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -859,28 +860,44 @@ function cutRows(c){
     Object.values(m).forEach(v=>rows.push({num:gi+1,g:g.g,name:g.name,mat:g.mat,d:v.d,n:v.n,note:v.note}));});
   return rows;
 }
-function packLumber(items,L){ // items: [{len,num}]
-  const kerf=3,trim=10,boards=[]; items.sort((a,b)=>b.len-a.len);
-  const over=[];
+function packLumber(items,L){ // items: [{len,num}]; en az artan bırakan boya yerleştirir (best-fit decreasing)
+  const kerf=3,trim=10,boards=[],over=[]; items.sort((a,b)=>b.len-a.len);
   items.forEach(it=>{if(it.len+trim>L){over.push(it);return;}
-    let b=boards.find(b=>b.used+kerf+it.len<=L); if(!b){b={used:trim,cuts:[]};boards.push(b);} else b.used+=kerf;
+    let b=null,best=Infinity;
+    boards.forEach(x=>{const left=L-(x.used+kerf+it.len);if(left>=0&&left<best){best=left;b=x;}});
+    if(!b){b={used:trim,cuts:[]};boards.push(b);} else b.used+=kerf;
     b.cuts.push(it); b.used+=it.len;});
   return {boards,over};
 }
+// Plaka yerleşimi: giyotin kesim (her kesim plakayı baştan sona böler, daire testereyle yapılabilir).
+// Birkaç sıralama ve bölme kuralı denenir; en az plaka, eşitse en büyük artan parçayı bırakan seçilir.
 function packSheet(items,SW,SH,rot){
-  const kerf=4,sheets=[],over=[];
-  items=items.map(it=>{let w=Math.max(it.a,it.b),h=Math.min(it.a,it.b);return Object.assign({},it,{w,h});}).sort((a,b)=>b.h-a.h||b.w-a.w);
-  items.forEach(it=>{
-    if(it.w>SW&&!(rot&&it.w<=SH&&it.h<=SW)){over.push(it);return;}
-    if(it.h>SH){over.push(it);return;}
-    const tryPlace=(w,h)=>{for(const s of sheets){for(const sh of s.shelves){if(h<=sh.h&&sh.x+w<=SW){s.items.push({...it,x:sh.x,y:sh.y,w,h});sh.x+=w+kerf;return true;}}
-      if(s.y+h<=SH&&w<=SW){s.shelves.push({y:s.y,h,x:w+kerf});s.items.push({...it,x:0,y:s.y,w,h});s.y+=h+kerf;return true;}}return false;};
-    if(tryPlace(it.w,it.h)) return; if(rot&&tryPlace(it.h,it.w)) return;
-    const s={shelves:[],items:[],y:0};sheets.push(s);
-    if(it.w<=SW){s.shelves.push({y:0,h:it.h,x:it.w+kerf});s.items.push({...it,x:0,y:0});s.y=it.h+kerf;}
-    else{s.shelves.push({y:0,h:it.w,x:it.h+kerf});s.items.push({...it,x:0,y:0,w:it.h,h:it.w});s.y=it.w+kerf;}
-  });
-  return {sheets,over};
+  const kerf=4;
+  items=items.map(it=>Object.assign({},it,{w:Math.max(it.a,it.b),h:Math.min(it.a,it.b)}));
+  const fits=(w,h)=>w<=SW&&h<=SH, over=items.filter(it=>!fits(it.w,it.h)&&!(rot&&fits(it.h,it.w))), ok=items.filter(it=>!over.includes(it));
+  const orders=[(a,b)=>b.w*b.h-a.w*a.h,(a,b)=>b.w-a.w||b.h-a.h,(a,b)=>b.h-a.h||b.w-a.w,(a,b)=>b.w+b.h-a.w-a.h];
+  const run=(order,score,split)=>{const sheets=[];
+    ok.slice().sort(order).forEach(it=>{
+      const opts=[[it.w,it.h]];if(rot&&it.w!==it.h)opts.push([it.h,it.w]);
+      let pick=null;
+      sheets.forEach(s=>s.free.forEach((f,fi)=>opts.forEach(([w,h])=>{if(w<=f.w&&h<=f.h){const sc=score(f,w,h);if(!pick||sc<pick.sc)pick={s,fi,w,h,sc};}})));
+      if(!pick){const s={items:[],free:[{x:0,y:0,w:SW,h:SH}]};sheets.push(s);const [w,h]=opts.find(([w,h])=>fits(w,h));pick={s,fi:0,w,h};}
+      const {s,fi,w,h}=pick,f=s.free[fi];s.free.splice(fi,1);
+      s.items.push({...it,x:f.x,y:f.y,w,h});
+      const rw=f.w-w-kerf,bh=f.h-h-kerf,horiz=split(f,w,h);
+      // horiz: alttaki artan tam genişlikte kalır; değilse sağdaki artan tam yükseklikte
+      if(rw>0)s.free.push({x:f.x+w+kerf,y:f.y,w:rw,h:horiz?h:f.h});
+      if(bh>0)s.free.push({x:f.x,y:f.y+h+kerf,w:horiz?f.w:w,h:bh});
+    });
+    return sheets;};
+  const scores=[(f,w,h)=>f.w*f.h-w*h,(f,w,h)=>Math.min(f.w-w,f.h-h),(f,w,h)=>f.y*SW+f.x];
+  const splits=[(f,w,h)=>f.w-w<f.h-h,(f,w,h)=>f.w-w>=f.h-h,(f,w,h)=>w*(f.h-h)<(f.w-w)*h];
+  const big=sheets=>Math.max(0,...sheets.flatMap(s=>s.free.map(f=>f.w*f.h)));
+  let best=null;
+  orders.forEach(o=>scores.forEach(sc=>splits.forEach(sp=>{const sh=run(o,sc,sp);
+    if(!best||sh.length<best.length||sh.length===best.length&&big(sh)>big(best))best=sh;})));
+  best.forEach(s=>{s.left=s.free.reduce((m,f)=>!m||f.w*f.h>m.w*m.h?f:m,null);});
+  return {sheets:best,over};
 }
 function stock(c){
   const rows=cutRows(c), byMat={};
@@ -902,7 +919,7 @@ function lumberHTML(s){
 }
 function sheetHTML(s){
   const {SW,SH}=s.M;
-  return s.pk.sheets.map((sh,i)=>`<div class="board"><small>Plaka ${i+1} · ${SW}×${SH} mm</small><div class="sheet"><svg viewBox="-10 -10 ${SW+20} ${SH+20}"><rect class="shrect" x="0" y="0" width="${SW}" height="${SH}"/>${sh.items.map(it=>`<rect class="shp" x="${it.x}" y="${it.y}" width="${it.w}" height="${it.h}" fill="${partColor(s.m)}"/>${it.w>110&&it.h>70?`<text class="shtx" x="${it.x+it.w/2}" y="${it.y+it.h/2}" font-size="${Math.min(56,it.h*.32,it.w*.18)}">${it.num}${it.w>380&&it.h>120?' · '+R(Math.max(it.w,it.h))+'×'+R(Math.min(it.w,it.h)):''}</text>`:''}`).join('')}</svg></div></div>`).join('');
+  return s.pk.sheets.map((sh,i)=>`<div class="board"><small>Plaka ${i+1} · ${SW}×${SH} mm${sh.left&&sh.left.w>=100&&sh.left.h>=100?` · en büyük artan ${R(Math.max(sh.left.w,sh.left.h))}×${R(Math.min(sh.left.w,sh.left.h))} mm`:''}</small><div class="sheet"><svg viewBox="-10 -10 ${SW+20} ${SH+20}"><rect class="shrect" x="0" y="0" width="${SW}" height="${SH}"/>${sh.left&&sh.left.w>=100&&sh.left.h>=100?`<rect class="shleft" x="${sh.left.x}" y="${sh.left.y}" width="${sh.left.w}" height="${sh.left.h}"/>`:''}${sh.items.map(it=>`<rect class="shp" x="${it.x}" y="${it.y}" width="${it.w}" height="${it.h}" fill="${partColor(s.m)}"/>${it.w>110&&it.h>70?`<text class="shtx" x="${it.x+it.w/2}" y="${it.y+it.h/2}" font-size="${Math.min(56,it.h*.32,it.w*.18)}">${it.num}${it.w>380&&it.h>120?' · '+R(Math.max(it.w,it.h))+'×'+R(Math.min(it.w,it.h)):''}</text>`:''}`).join('')}</svg></div></div>`).join('');
 }
 
 /* ---------- görünümler ---------- */
