@@ -4,7 +4,7 @@
    (PROJECTS/BYID) eski bağlantılar ve hazır ölçüler için kaynak olarak kalır. */
 
 const ALLFAMS=[...FAMS,...FAMS2,...FAMS3], FAMBY=Object.fromEntries(ALLFAMS.map(f=>[f.id,f])), FEATBY=Object.fromEntries(FEATURED.map(p=>[p.id,p]));
-const AXL={legs:'Ayak',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
+const AXL={legs:'Ayak',fill:'Dolgu',shade:'Gölgelik',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
   style:'Yazı tekniği',hole:'Giriş deliği',pitch:'Çatı eğimi',floors:'Kat sayısı',insert:'Yüzey',prof:'Çerçeve genişliği',size:'Boyut',paint:'Yüzey',
   shelf:'Üst raf',space:'Askı aralığı',set:'Set',layers:'Kat',s:'Kafes aralığı',H:'Yükseklik',glass:'Cam tabla',umb:'Şemsiye',seats:'Oturak',stand:'Tablet dayama',slots:'Kablo yarığı'};
 const INFO={
@@ -40,7 +40,7 @@ const GROUPS=[
   {id:'yemek-masasi-u',name:'Yemek masası',desc:'Masif tablalı, kayıtlı yemek masası; dikdörtgen, yuvarlak ya da minderle oturulan alçak yer sofrası.',models:[['yemek-masasi','Dikdörtgen'],['yuvarlak-yemek','Yuvarlak'],['yer-sofrasi','Yer sofrası']]},
   {id:'tabure',name:'Tabure',desc:'Kare ya da yuvarlak oturaklı, ayak dayamalı tabure; alt raflı banyo taburesi.',models:[['tabure','Klasik kare (ayrıntılı kılavuz)'],['tabure-f','Ayak dayamalı kare'],['yuvarlak-tabure','Yuvarlak'],['banyo-taburesi','Banyo taburesi']]},
   {id:'ic-bank',name:'Bank',desc:'Antre ve salon için oturma bankı; raflı, açılı ayaklı ya da içi depolamalı sandıklı.',models:[['giris-banki','Raflı giriş bankı'],['acili-bank','Açılı ayaklı'],['sandikli-bank','Sandıklı bank']]},
-  {id:'yatak',name:'Yatak',desc:'Çıtalı bazalı, sökülebilir karyola; tek ya da çift kişilik.',models:[['tek-yatak','Tek kişilik'],['cift-yatak','Çift kişilik']]},
+  {id:'yatak',name:'Yatak',desc:'Çıtalı bazalı, sökülebilir karyola; tek ya da çift kişilik, ya da merdivenli ranza.',models:[['tek-yatak','Tek kişilik'],['cift-yatak','Çift kişilik'],['ranza','Ranza']]},
   {id:'ayna',name:'Ayna',desc:'Masif çerçeveli dikdörtgen ya da yuvarlak tabanlı ayna.',models:[['ayna-cercevesi','Dikdörtgen çerçeveli'],['yuvarlak-ayna','Yuvarlak']]},
   {id:'duvar-askiligi',name:'Askılık',desc:'Kavela çubuklu duvar askılığı, raflı kısa anahtarlık ya da dört ayaklı portmanto.',models:[['askilik','Askılık'],['anahtarlik','Anahtarlık'],['portmanto','Ayaklı portmanto']]},
   {id:'dekor-merdiven',name:'Dekor merdiveni',desc:'Duvara yaslanan battaniye ya da havlu merdiveni.',models:[['battaniye-merdiveni','Battaniye merdiveni'],['havlu-merdiveni','Havlu merdiveni']]},
@@ -73,6 +73,8 @@ const GROUPS=[
   {id:'atolye-duvari',name:'Atölye duvar düzeni',desc:'Fransız askılı alet panosu ya da kollu işkence rafı.',models:[['alet-panosu','Alet panosu'],['iskence-rafi','İşkence rafı']]},
   {id:'oyuncak-sandigi',name:'Oyuncak sandığı',desc:'Kapaklı tekerlekli sandık ya da ipli çekme arabası biçiminde oyuncak kutusu.',models:[['oyuncak-sandigi','Kapaklı sandık'],['oyuncak-arabasi','Çekme arabası']]},
   {id:'calisma-masasi',name:'Çalışma masası',desc:'Ayaklı sade çalışma masası ya da dar alan için duvara katlanır masa.',models:[['calisma-masasi','Ayaklı'],['duvar-masasi','Duvara katlanır']]},
+  {id:'pergola',name:'Pergola',desc:'Dört dikmeli serbest duran ya da duvar kirişine bağlanan, istenirse gölgelik çıtalı pergola.',models:[['pergola','Serbest duran'],['duvar-pergolasi','Duvara bitişik']]},
+  {id:'bisiklet-standi',name:'Bisiklet standı',desc:'Tekerlek yuvalı zemin standı ya da iki kollu duvar askısı.',models:[['bisiklet-standi','Zemin standı'],['bisiklet-askisi','Duvar askısı']]},
   {id:'salincak',name:'Salıncak',desc:'A ayaklı çerçeveli ya da tavana asılan zincirli bank, halatlı çocuk salıncağı.',models:[['bahce-salincagi','Bahçe salıncağı'],['veranda-salincagi','Veranda salıncağı'],['cocuk-salincagi','Çocuk salıncağı']]},
   {id:'oturma-grubu',name:'Oturma grubu',desc:'Çıtalı gövdeli, minderli tekli koltuk, kanepe ve köşe kanepe; bahçe için emprenye, salon için meşe.',models:[['tekli-koltuk','Tekli koltuk'],['kanepe','Kanepe'],['kose-kanepe','Köşe kanepe']]},
   {id:'epoksi-masa',name:'Epoksi masa',desc:'Canlı kenarlı kütüklerin arasına epoksi nehir dökülen yemek masası ya da orta sehpa.',models:[['epoksi-yemek-masasi','Yemek masası'],['epoksi-sehpa','Orta sehpa']]},
