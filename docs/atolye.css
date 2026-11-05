@@ -91,3 +91,9 @@ html{scroll-behavior:auto}
 .quick-cats{gap:8px}.quick-cats button{font:650 15px/1.2 var(--f-body);letter-spacing:-.005em;min-height:44px;padding:11px 18px;border-radius:22px;color:#5f5c51;background:#e9e7df}
 .quick-cats button[aria-pressed=true]{background:#303028;color:#fff}
 @media(max-width:360px){.quick-cats button{font-size:14px;padding:10px 15px}}
+/* Ürün sayfası sekmeleri: kalın ve büyük (2026-11-05) */
+.tabs{gap:4px;padding:5px}
+.tabs button{font:700 14.5px/1.2 var(--f-body);letter-spacing:-.005em;color:#6f6b5e;padding:11px 15px;min-height:46px;border-radius:6px}
+.tabs button[aria-selected=true]{font-weight:800;color:#fff;background:#303028}
+@media(max-width:899px){.tabs button{font-size:14px;padding:10px 13px;min-height:46px}}
+@media(max-width:360px){.tabs button{font-size:13px;padding:10px 11px}}

@@ -128,3 +128,4 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   - Bütün aileler en küçük/en büyük ölçüde tarandı, eski hatalar giderildi: meşe/ceviz/akçaağaçta 2 m'den uzun parçalar için `stock()` artık 500 mm adımlı daha uzun kereste seçer (en çok 4 m, kesim sekmesinde not); mantar levha 2000×1000 rulo; geniş ve yüksek dolapta arkalık parçalı; alet panosu en çok 1200 mm; dar çocuk bankında çıtalar daraltılır (çakışma vardı); tek/çift yatak türleri çam ve kayın (meşe yan kasa 2 m'yi aşıyordu).
   - Fotoğrafı yeniden üretilecekler (hiçbir modele uymuyor): hobi kutusu, duvar rafı, bahçe koltuğu, kaykay rampası.
   - Katalog 177 ürün, 287 model, 3.453 seçenek; hepsi hatasız, hiçbir seçenekte stoğa ya da plakaya sığmayan parça yok; 320 px'te taşma yok.
+- 2026-11-05 Claude: Ürün sayfası sekmeleri (Genel, Kesim, Malzeme, Ekipman, Planlar, Yapım) 14,5 px 700 kalınlık (seçili 800, koyu zemin); telefonda 14 px, 360 px altında 13 px (`atolye.css` sonu).
