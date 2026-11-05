@@ -165,7 +165,7 @@ function easel(p,o){
    E) ÇATILI EV (kuş evi, köpek kulübesi, sokak kitaplığı, bebek evi)
    ====================================================================== */
 function gableHouse(p,o){
-  const parts=[], W=p.W, D=p.D, H=p.H, kind=o.kind, th=deg(o.pitch||40), m=o.mat||'ply12', t=MAT[m].t, rh=(W/2)*Math.tan(th), ov=o.ov!=null?o.ov:R(W*.12), yb=kind==='dog'?50:0;
+  const parts=[], W=p.W, D=p.D, H=p.H, kind=o.kind, th=deg(o.pitch||40), m=o.mat||'ply12', t=MAT[m].t, rh=(W/2)*Math.tan(th), ov=o.ov!=null?o.ov:R(W*.12), yb=kind==='dog'?50:(o.post||0);
   const gable=[[0,yb],[W,yb],[W,yb+H],[W/2,yb+H+rh],[0,yb+H]];
   PART(parts,'gable','Arka alın (beşgen)',m,prism('z',gable,0,t),{cut:[W,R(H+rh),t],cutNote:`üst köşeler ${(90-o.pitch).toFixed(0)}° kesilir`});
   if(kind==='bird'||kind==='dog') PART(parts,'gable','Ön alın (beşgen)',m,prism('z',gable,D-t,t),{cut:[W,R(H+rh),t],cutNote:`üst köşeler ${(90-o.pitch).toFixed(0)}° kesilir`});
@@ -175,6 +175,8 @@ function gableHouse(p,o){
   if(kind==='dog') for(const x of [t+30,W-t-100]) BOX(parts,'runner','Taban kızağı',LM('emp',45,70),x,0,0,70,50,D,{cut:[D,70,45]});
   if(kind==='library'||kind==='doll'){const ns=kind==='doll'?(o.floors||2)-1:1;spread(ns,yb+t+(H-t)/(ns+1)-t/2,yb+t+(H-t)*ns/(ns+1)+t/2,t).forEach(y=>BOX(parts,'shelf',kind==='doll'?'Ara kat':'Raf',m,t,y,t,W-2*t,t,D-2*t-(kind==='library'?6:0)));}
   if(kind==='library') BOX(parts,'door','Akrilik kapak','glass',0,yb,D,W,H,4);
+  if(o.post){const pk=LM('emp',45,95);for(const x of [W/2-47.5,W/2+2.5]) BOX(parts,'post','Direk (çift)',pk,x,0,D/2-47.5,45,o.post,95,{cut:[o.post+450,95,45],cutNote:'450 mm fazlası toprağa gömülür'});
+    for(const sg of [-1,1]) PART(parts,'brace','Destek payandası',LM('emp',45,70),barRings([W/2+sg*50,o.post-300,D/2],[W/2+sg*(W/2-30),o.post,D/2],70,45,[0,0,1]),{cut:[R(Math.hypot(W/2-80,300))+60,70,45],cutNote:'iki ucu 45° kesilir'});}
   const len=(W/2)/Math.cos(th)+ov, ridge=[W/2,yb+H+rh];
   const slab=dx=>{const d=[dx*Math.cos(th),-Math.sin(th)], nv=[dx*Math.sin(th),Math.cos(th)], P0=ridge, P1=[P0[0]+d[0]*len,P0[1]+d[1]*len];
     return [P0,P1,[P1[0]+nv[0]*t,P1[1]+nv[1]*t],[P0[0]+nv[0]*t,P0[1]+nv[1]*t]];};
@@ -374,10 +376,10 @@ F2({id:'kopek-kulubesi',name:'Köpek kulübesi',cat:'Bahçe ve dış mekân',b:g
   desc:'Kızaklı yükseltilmiş tabanlı, beşik çatılı köpek kulübesi.',P:{W:[500,1200,10],D:[600,1200,10],H:[400,900,10]},def:()=>({}),o:{kind:'dog',mat:'ply18',pitch:30,ov:80},
   ax:[['W',[600,800,1000,1200]],['D',[700,900,1100]],['H',[500,700]]]});
 F2({id:'sokak-kitapligi',name:'Sokak kitaplığı',cat:'Bahçe ve dış mekân',b:gableHouse,level:2,time:'1 gün',tags:'kitap paylaşım küçük kütüphane',
-  desc:'Akrilik kapaklı, beşik çatılı kitap paylaşım kutusu.',P:{W:[350,700,10],D:[250,400,10],H:[400,800,10]},def:()=>({}),o:{kind:'library',mat:'ply18',pitch:35,ov:40},
+  desc:'Akrilik kapaklı, beşik çatılı kitap paylaşım kutusu.',P:{W:[350,700,10],D:[250,400,10],H:[400,800,10]},def:()=>({}),o:{kind:'library',mat:'ply18',pitch:35,ov:40,post:1000},
   ax:[['W',[400,500,600]],['D',[300,350]],['H',[500,600]]]});
 F2({id:'bebek-evi',name:'Bebek evi',cat:'Çocuk',b:gableHouse,level:2,time:'1 gün',tags:'oyuncak ev hobi',
-  desc:'Önü açık, katlı, beşik çatılı oyuncak ev.',P:{W:[350,800,10],D:[200,400,10],H:[350,900,10]},def:()=>({}),o:{kind:'doll',pitch:40,ov:15},
+  desc:'Önü açık, katlı, beşik çatılı oyuncak ev.',P:{W:[350,800,10],D:[200,400,10],H:[350,900,10]},def:()=>({}),o:{kind:'doll',pitch:40,ov:15},dflt:{W:600,D:300,H:500,floors:2},
   ax:[['W',[400,500,600]],['D',[250,300]],['H',[500,700]],['floors',[2,3],{2:'iki katlı',3:'üç katlı'}]]});
 F2({id:'egik-sandalye',name:'Eğik sırtlı bahçe sandalyesi',cat:'Bahçe ve dış mekân',b:recline,level:3,time:'1,5 gün',tags:'sandalye koltuk eğik sırt',
   desc:'Geriye yatık sırtlı, çıtalı bahçe sandalyesi.',P:{W:[450,700,10],D:[420,560,10],H:[380,460,5],BA:[10,25,1]},def:()=>({D:480,H:420}),o:{},

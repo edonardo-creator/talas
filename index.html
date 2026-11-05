@@ -412,7 +412,7 @@ const MAT={
   ply6:{n:'Huş kontrplak 6 mm',type:'sheet',t:6,SW:2440,SH:1220,tone:'ply'},
   mdf18:{n:'MDF 18 mm (boyanacak)',type:'sheet',t:18,SW:2800,SH:2100,tone:'paint'},
   mlam18:{n:'Beyaz suntalam 18 mm',type:'sheet',t:18,SW:3660,SH:1830,tone:'mlam'},
-  cork5:{n:'Mantar levha 5 mm',type:'sheet',t:5,SW:1000,SH:600,tone:'cork'},
+  cork5:{n:'Mantar rulo 5 mm (1 m en)',type:'sheet',t:5,SW:2000,SH:1000,tone:'cork'},
   kav20:{n:'Kavela çubuk Ø20 (kayın)',type:'lumber',w:20,t:20,L:1000,tone:'beech'},
   kav25:{n:'Kavela çubuk Ø25 (kayın)',type:'lumber',w:25,t:25,L:1000,tone:'beech'},
   rubber:{n:'Lastik',type:'hw',tone:'rubber'},
@@ -894,14 +894,15 @@ function stock(c){
   const res=[];
   Object.entries(byMat).forEach(([m,rs])=>{const M=MAT[m],offs=useLeft()?leftFor(m):[];
     if(M.type==='lumber'){let items=[];rs.forEach(r=>{for(let i=0;i<r.n;i++)items.push({len:r.d[0],num:r.num});});
-      const L=stockL(m),offB=[];items.sort((a,b)=>b.len-a.len);
+      // En uzun parça seçili boya sığmıyorsa bir üst standart boy (500 mm adımlı, en çok 4 m) alınır
+      const L0=stockL(m),need=items.reduce((a,x)=>Math.max(a,x.len),0)+10,L=need>L0?Math.min(4000,Math.ceil(need/500)*500):L0,offB=[];items.sort((a,b)=>b.len-a.len);
       // Artan boylar önce doldurulur (uzundan kısaya); artan zaten temiz kesik olduğu için uç payı yok
       offs.slice().sort((a,b)=>b.L-a.L).forEach(o=>{const bd={used:0,cuts:[],off:o,L:o.L};
         items=items.filter(it=>{const k=bd.cuts.length?3:0;if(bd.used+k+it.len>o.L)return true;bd.used+=k+it.len;bd.cuts.push(it);return false;});
         if(bd.cuts.length)offB.push(bd);});
       const pk=packLumber(items,L),n=pk.boards.length,used=pk.boards.reduce((a,b)=>a+b.cuts.reduce((x,y)=>x+y.len,0),0);
       pk.boards=offB.concat(pk.boards);
-      res.push({m,M,type:'lumber',L,count:n,offUsed:offB.length,pk,eff:n?used/(n*L):1});}
+      res.push({m,M,type:'lumber',L,L0,count:n,offUsed:offB.length,pk,eff:n?used/(n*L):1});}
     else{let items=[];rs.forEach(r=>{for(let i=0;i<r.n;i++)items.push({a:r.d[0],b:r.d[1],num:r.num,i:items.length});});
       const offS=[],area=sh=>sh.items.reduce((x,y)=>x+y.w*y.h,0);
       // Her artan plakaya en çok alanı dolduran yerleşim konur, kalanlar yeni plakaya
@@ -1041,6 +1042,7 @@ const TABS={
     <p class="muted" style="font-size:13px">Testere payı kerestede 3 mm, plakada 4 mm; kereste başında 10 mm uç temizleme payı ayrıldı. Taralı alan artan parçadır.</p>
     ${st.map(s=>`<div class="matgroup"><h3>${esc(s.M.n)}</h3><span class="muted mono" style="font-size:13px">${s.count} ${s.type==='sheet'?'plaka':'boy'}${s.offUsed?` + ${s.offUsed} artan`:''} · verim %${R(s.eff*100)}</span></div>
       ${s.pk.over.length?`<div class="note warn"><b>Dikkat</b><span>${s.pk.over.length} parça stok boyundan uzun; daha uzun kereste ya da plaka seç.</span></div>`:''}
+      ${s.type==='lumber'&&s.L>s.L0?`<div class="note"><b>Uzun kereste</b><span>En uzun parça ${s.L0} mm boya sığmadığı için ${s.L} mm boy hesaplandı; kerestecide bu boyu iste.</span></div>`:''}
       ${s.type==='lumber'?lumberHTML(s):sheetHTML(s)}`).join('')}
     </div>`;},
   malzeme(){const {pr,c}=CUR; const st=stock(c), sh=SAVE.shop[pr.id]||{};

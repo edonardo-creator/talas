@@ -91,9 +91,11 @@ function tiered(p,o){
 
 /* 5) Kedi tırmalama kulesi */
 function catTree(p,o){
-  const parts=[], H=p.H, B=p.W, m='ply18', k=H<900?2:H<1250?3:4, ps=R(B*.62), ys=spread(k,R(H*.38),H-18,18);
+  const parts=[], H=p.H, B=p.W, m='ply18', hh=o.house&&H>=1000?340:0, k=hh?(H<1150?2:3):H<900?2:H<1250?3:4, ps=R(B*.62), ys=spread(k,Math.max(R(H*.38),hh+18+220),H-18,18);
   BOX(parts,'base','Taban',m,0,0,0,B,18,B);
-  const ctr=i=>i%2?[B*.62,B*.38]:[B*.38,B*.62]; let prevTop=18, prevC=[B/2,B/2];
+  if(hh){const hw2=R(B*.72);for(const x of [0,hw2-18]) BOX(parts,'hside','Yuva yanı',m,x,18,0,18,hh,hw2);BOX(parts,'hback','Yuva arkası',m,18,18,0,hw2-36,hh,18);BOX(parts,'hfront','Yuva önü',m,18,18,hw2-18,hw2-36,hh,18,{cutNote:'Ø200 kapı açılır'});BOX(parts,'hroof','Yuva tavanı',m,0,18+hh,0,hw2,18,hw2);
+    PART(parts,'door','Yuva kapısı','hole',prism('z',circlePoly(hw2/2,18+hh*0.45,95,24),hw2,1),{deco:true,smooth:true});}
+  const ctr=i=>i%2?[B*.62,B*.38]:[B*.38,B*.62]; let prevTop=hh?18+hh+18:18, prevC=[B/2,B/2];
   ys.forEach((y,i)=>{const [cx,cz]=ctr(i), pc=i===0?[cx,cz]:[cx,cz];
     PART(parts,'post','Tırmalama direği','sisal70',cylRings([pc[0],prevTop,pc[1]],[pc[0],y,pc[1]],35,35,20),{smooth:true,cut:[R(y-prevTop),70,70],cutNote:'sisal ip sarılır'});
     BOX(parts,i===k-1?'topP':'plat',i===k-1?'Üst yatak tablası':'Ara tabla',m,cx-ps/2,y,cz-ps/2,ps,18,ps);prevTop=y+18;});
@@ -3322,10 +3324,16 @@ function parrotPerch(p,o){
   BOX(parts,'base','Taban tepsisi','ply18',-h,0,-h,B,18,B);
   for(const z of [-h,h-20]) BOX(parts,'lip','Tepsi kenarı',LM(sp,20,45),-h,18,z,B,45,20);
   for(const x of [-h,h-20]) BOX(parts,'lipS','Tepsi kenarı',LM(sp,20,45),x,18,-h+20,20,45,B-40);
-  BOX(parts,'post','Direk',LM(sp,45,45),-22.5,18,-22.5,45,H-18,45);
-  PART(parts,'perch','Üst tünek','kav25',cylRings([-250,H-40,0],[250,H-40,0],12.5,12.5),{cut:[500,25,25]});
-  PART(parts,'perch2','Alt tünek','kav20',cylRings([0,R(H*0.6),-200],[0,R(H*0.6),200],10,10),{cut:[400,20,20]});
-  for(const x of [-210,210]) PART(parts,'cup','Yem kabı','steel',cylRings([x,H-30,0],[x,H+30,0],50,55,16),{deco:true});
+  const px=[-150,130], Hs=R(H*0.8);
+  BOX(parts,'post','Direk',LM(sp,45,45),px[0]-22.5,18,-22.5,45,H-18,45);
+  BOX(parts,'post2','İkinci direk',LM(sp,45,45),px[1]-22.5,18,-22.5,45,Hs-18,45);
+  PART(parts,'perch','Üst tünek','kav25',cylRings([-250,H-40,0],[180,H-40,0],12.5,12.5),{cut:[430,25,25]});
+  PART(parts,'perch2','Orta tünek','kav20',cylRings([px[0]-60,Hs-40,0],[px[1]+100,Hs-40,0],10,10),{cut:[R(px[1]-px[0]+160),20,20]});
+  PART(parts,'perch3','Çapraz tünek','kav20',cylRings([px[0],R(H*0.55),-180],[px[0],R(H*0.55),180],10,10),{cut:[360,20,20]});
+  const lr=[px[1]+30,px[1]+95], ly0=63, ly1=Hs-60, nr=Math.max(3,Math.floor((ly1-ly0)/110));
+  for(const x of lr) PART(parts,'lrope','Merdiven ipi','rope',cylRings([x,ly1,0],[x,ly0,0],3,3,6),{deco:true});
+  for(let i=0;i<nr;i++){const y=ly0+(i+.5)*(ly1-ly0)/nr; PART(parts,'rung','Merdiven basamağı','kav12',cylRings([lr[0]-10,y,0],[lr[1]+10,y,0],6,6),{cut:[100,12,12]});}
+  for(const x of [-250,180]) PART(parts,'cup','Yem kabı','steel',cylRings([x,H-30,0],[x,H+30,0],50,55,16),{deco:true});
   const c={parts,hw:[['Paslanmaz yem ve su kabı + halka','2 takım',''],['Paslanmaz vida 4×60','1 kutu',''],['Gıdaya uygun tutkal (zehirsiz)','1 şişe',''],['Gazete ya da talaş','—','tepsiye']],join:'Paslanmaz vida',
     notes:[{t:'tip',x:`${H} mm yükseklik; üst tünek 25 mm (orta boy papağan), alt tünek 20 mm. Tünek çapını kuşun ayağına göre seç: ayak tüneği üçte iki sarmalı.`},
       {t:'warn',x:'Papağanlar kemirir: vernik, boya, emprenye ve suntalam kullanma. Kayın, akçaağaç ya da meyve ağacı uygundur; tutkal zehirsiz olmalı. Kuşu tünekte gözetimsiz bırakma.'}]};
@@ -3333,7 +3341,8 @@ function parrotPerch(p,o){
   c.mkSteps=K=>[
     {t:'Parçaları kes',tools:['gonyeT','daire'],x:cutUL(c,K)},
     {t:'Tepsi',add:['base','lip','lipS'],tools:['matkap','isk'],x:`<p>${K('base')} tabanın çevresine ${K('lip')} ve ${K('lipS')} kenarları vidala; gazete ya da talaş için kenarlıklı tepsi olur.</p>`},
-    {t:'Direk ve tünekler',add:['post','perch','perch2','cup'],tools:['forstnerSet','matkap'],x:`<p>${K('post')} direği tepsinin ortasına alttan iki uzun vidayla bağla. Direğe 25 mm ve 20 mm delik açıp ${K('perch')} ve ${K('perch2')} tünekleri geçir; tünek uçlarına yem kaplarını tak.</p>`},
+    {t:'Direkler ve tünekler',add:['post','post2','perch','perch2','perch3','cup'],tools:['forstnerSet','matkap'],x:`<p>${K('post')} uzun direği ve ${K('post2')} kısa direği tepsiye alttan ikişer uzun vidayla bağla. Direklere 25 ve 20 mm delik açıp ${K('perch')}, ${K('perch2')} ve ${K('perch3')} tünekleri geçir; üst tünek uçlarına yem kaplarını tak.</p>`},
+    {t:'İp merdiven',add:['rung','lrope'],tools:['matkap'],x:`<p>${K('rung')} basamakların iki ucuna 5 mm delik aç, iki ipi deliklerden geçirip her basamağın altına düğüm at. Merdiveni orta tüneğe bağla, alt ucu tepsiye değsin.</p>`},
     {t:'Bitiş',tools:['zimKag'],x:'<p>Yalnız 120 kumla kenarları kır. Hiçbir bitiş sürme; ahşap çıplak kalmalı.</p>'}];
   return c;
 }
@@ -3631,7 +3640,7 @@ const FAMS3=[], F3=d=>FAMS3.push(d);
 F3({id:'isim-tabelasi',name:'İsim tabelası',cat:'Hobi',b:signBoard,level:1,time:'4 saat',tags:'tabela yazı kapı hediye',desc:'Kapı, mutfak ya da bahçe için boyalı veya yakma yazılı ahşap tabela.',
   P:{W:[200,1200,10],H:[100,450,5]},def:()=>({}),o:{},ax:[['W',[300,450,600,800]],['H',[150,200,300]],['style',['boya','yakma'],{boya:'boyalı yazı',yakma:'yakma yazı'}],['sp',['cam','mese'],SPL]]});
 F3({id:'samdan',name:'Ahşap şamdan',cat:'Hobi',b:candle,level:1,time:'2 saat',tags:'mum tealight masa dekor',desc:'Tealight mumlar için yuvalı masif şamdan.',
-  P:{L:[150,700,10]},def:()=>({}),o:{},ax:[['L',[200,300,400,500]],['H',[45,70],{45:'alçak',70:'yüksek'}],['sp',['mese','ceviz','kayin'],SPL]],lbl:{L:'Uzunluk'}});
+  P:{L:[150,700,10]},def:()=>({}),o:{},dflt:{L:500,H:70},ax:[['L',[200,300,400,500]],['H',[45,70],{45:'alçak',70:'yüksek'}],['sp',['mese','ceviz','kayin'],SPL]],lbl:{L:'Uzunluk'}});
 F3({id:'kasiklik',name:'Kaşıklık',cat:'Mutfak ve küçük eşya',b:panelBox,level:1,time:'2 saat',tags:'mutfak gereci spatula kutu',desc:'Tezgâh üstü kepçe, spatula ve kaşık kutusu.',
   P:{W:[100,200,5],D:[100,200,5],H:[140,240,5]},def:()=>({}),o:{mat:'ply12',food:true,feet:true},ax:[['W',[120,150]],['D',[120,150]],['H',[160,200]]]});
 F3({id:'sarap-rafi',name:'Şarap rafı',cat:'Mutfak ve küçük eşya',b:wineRack,level:2,time:'5 saat',tags:'şişe raf bar',desc:'Yarım daire yuvalı, duvara asılan şarap rafı.',
@@ -3641,7 +3650,7 @@ F3({id:'basamakli-raf',name:'Basamaklı tezgâh rafı',cat:'Mutfak ve küçük e
 F3({id:'saksi-basamagi',name:'Basamaklı saksı standı',cat:'Bahçe ve dış mekân',b:tiered,level:2,time:'5 saat',tags:'balkon çiçek merdiven',desc:'Balkon ve teras için basamaklı saksı standı.',
   P:{W:[400,1200,10],N:[2,5,1]},def:()=>({}),o:{mat:'ply18',h:250,d:250,outdoor:true},ax:[['W',[600,800]],['N',[3,4]]],nl:'basamaklı'});
 F3({id:'kedi-kulesi',name:'Kedi tırmalama kulesi',cat:'Ev mobilyası',b:catTree,level:2,time:'1 gün',tags:'kedi evcil hayvan sisal',desc:'Sisal sarılı direkli, katlı kedi tırmalama kulesi.',
-  P:{W:[400,700,10],H:[600,1600,10]},def:()=>({}),o:{},ax:[['H',[800,1100,1400]],['W',[450,550]]],lbl:{W:'Taban genişliği'}});
+  P:{W:[400,700,10],H:[600,1600,10]},def:()=>({}),o:{house:true},dflt:{H:1400,W:550},ax:[['H',[800,1100,1400]],['W',[450,550]]],lbl:{W:'Taban genişliği'}});
 F3({id:'mama-standi',name:'Yükseltilmiş mama standı',cat:'Ev mobilyası',b:petFeeder,level:1,time:'4 saat',tags:'köpek kedi evcil hayvan kap',desc:'İki paslanmaz kaplı, yükseltilmiş mama ve su standı.',
   P:{D:[120,300,10],H:[80,450,10]},def:()=>({}),o:{},ax:[['D',[160,200,240]],['H',[100,200,350]],['mat',['ply18','mdf18'],MATL]],lbl:{D:'Kap çapı'}});
 F3({id:'palet-sehpa',name:'Palet sehpa',cat:'Ev mobilyası',b:pallet,level:1,time:'6 saat',tags:'palet geri dönüşüm tekerlekli',desc:'Tekerlekli, palet biçimli salon sehpası.',
@@ -3667,7 +3676,7 @@ F3({id:'kus-yemligi',name:'Kuş yemliği',cat:'Bahçe ve dış mekân',b:birdFee
 F3({id:'testere-sehpasi',name:'Testere sehpası',cat:'Atölye',b:sawHorse,level:1,time:'4 saat',tags:'sawhorse kesim sehpası tezgah ayağı',desc:'Açılı ayaklı, kalın kirişli testere ve kesim sehpası; istersen çift yapılır.',
   P:{L:[600,1500,10],H:[600,900,10]},def:()=>({}),o:{},ax:[['L',[800,1000,1200]],['H',[700,800]],['pair',[true,false],{true:'çift',false:'tek'}]]});
 F3({id:'alet-panosu',name:'Alet panosu',cat:'Atölye',b:toolWall,level:1,time:'5 saat',tags:'fransız askı french cleat duvar düzen garaj',desc:'45° askı çıtalı duvar panosu; tutucular istenen yere asılır.',
-  P:{W:[600,2400,10],H:[600,1500,10]},def:()=>({}),o:{},ax:[['W',[900,1200,1800]],['H',[800,1200]],['hold',[true,false],{true:'tutuculu',false:'yalnız pano'}]]});
+  P:{W:[600,2400,10],H:[600,1200,10]},def:()=>({}),o:{},ax:[['W',[900,1200,1800]],['H',[800,1200]],['hold',[true,false],{true:'tutuculu',false:'yalnız pano'}]]});
 F3({id:'iskence-rafi',name:'İşkence rafı',cat:'Atölye',b:clampRack,level:1,time:'3 saat',tags:'kelepçe işkence askı duvar garaj',desc:'Duvara asılan, kollu işkence ve kelepçe rafı.',
   P:{W:[400,1500,10],D:[150,400,10]},def:()=>({}),o:{},ax:[['W',[600,900,1200]],['D',[250,350]],['space',[120,180],{120:'sık kollu',180:'seyrek kollu'}]],lbl:{D:'Kol uzunluğu'}});
 F3({id:'ogrenme-kulesi',name:'Öğrenme kulesi',cat:'Çocuk',b:learnTower,level:2,time:'1 gün',tags:'montessori mutfak yardımcısı basamak çocuk',desc:'Çocuğun mutfak tezgâhına güvenle yetişmesi için korkuluklu, basamaklı kule.',
@@ -3762,7 +3771,7 @@ F3({id:'sebze-masasi',name:'Yükseltilmiş sebze masası',cat:'Bahçe ve dış m
 F3({id:'cocuk-mutfagi',name:'Çocuk oyun mutfağı',cat:'Çocuk',b:playKitchen,level:2,time:'1,5 gün',tags:'oyuncak mutfak montessori evcilik çocuk odası',desc:'Fırın kapaklı, evyeli, ocaklı ve üst raflı ahşap oyuncak mutfak.',
   P:{W:[600,1000,10],D:[300,400,10],H:[850,1050,10]},def:()=>({W:800,D:340,H:950}),o:{},ax:[['W',[700,900]],['mat',['ply18','mdf18'],MATL]],lbl:{W:'Genişlik',D:'Derinlik'}});
 F3({id:'merdiven-tabure',name:'Merdiven tabure',cat:'Ev mobilyası',b:stepStool,level:2,time:'5 saat',tags:'basamak merdiven tabure mutfak kitaplık üst raf',desc:'İki ya da üç basamaklı, tutma delikli kapalı yan panelli merdiven tabure.',
-  P:{N:[2,3,1],W:[350,550,10],H:[380,700,10]},def:v=>({W:420,H:v.N>2?630:420}),o:{},ax:[['N',[2,3]],['sp',['kayin','mese'],SPL]],nl:'basamaklı',lbl:{W:'Genişlik',H:'Toplam yükseklik'}});
+  P:{N:[2,3,1],W:[350,550,10],H:[380,700,10]},def:v=>({W:420,H:v.N>2?630:420}),o:{},dflt:{N:3},ax:[['N',[2,3]],['sp',['kayin','mese'],SPL]],nl:'basamaklı',lbl:{W:'Genişlik',H:'Toplam yükseklik'}});
 /* 2026-11-05 (3): giyinme odası, bahçe çiti, evcil hayvan merdiveni/rampası, katlanır tezgâh */
 F3({id:'giyinme-odasi',name:'Giyinme odası dolap sistemi',cat:'Ev mobilyası',b:closetSystem,level:3,time:'2 gün',tags:'gardırop vestiyer açık dolap askılık ayakkabılık walk-in giyinme',desc:'Uzun ve çift askılı, raflı ve ayakkabılı açık modüllerden oluşan, duvara sabitlenen giyinme odası sistemi.',
   P:{W:[1200,3600,10],H:[2000,2600,10],D:[450,600,10]},def:()=>({W:2400,H:2400,D:550}),o:{},ax:[['W',[1800,2400,3000]],['mat',['mlam18','mdf18'],MATL]],lbl:{W:'Toplam genişlik',D:'Derinlik'}});
@@ -3941,7 +3950,7 @@ F3({id:'kaldirmali-sehpa',name:'Kaldırmalı orta sehpa',cat:'Ev mobilyası',b:l
 F3({id:'lambader',name:'Lambader',cat:'Ev mobilyası',b:floorLamp,level:2,time:'5 saat',tags:'lambader ayaklı lamba abajur üç ayaklı aydınlatma salon',desc:'Üç ayaklı, kablosu ayaktan gizli inen, kumaş abajurlu ahşap lambader.',
   P:{H:[1400,1800,10]},def:()=>({H:1600}),o:{},ax:[['H',[1500,1700]],['sp',['ceviz','mese','kayin'],SPL]],lbl:{H:'Yükseklik'}});
 F3({id:'giysi-askiligi',name:'Ayaklı giysi askılığı',cat:'Ev mobilyası',b:clothesRack,level:1,time:'5 saat',tags:'giysi askılığı elbise askısı askı rayı ayakkabı rafı antre yatak odası',desc:'Askı borulu, altı ayakkabı raflı, isteğe bağlı üst raflı ayaklı giysi askılığı.',
-  P:{W:[800,1500,10],H:[1500,1800,10]},def:()=>({W:1000,H:1650}),o:{},ax:[['W',[1000,1200]],['shelf',[true,false],{true:'üst raflı',false:'rafsız'}]],lbl:{W:'Genişlik',H:'Yükseklik'}});
+  P:{W:[800,1500,10],H:[1500,1800,10]},def:()=>({W:1000,H:1650}),o:{},dflt:{shelf:false},ax:[['W',[1000,1200]],['shelf',[true,false],{true:'üst raflı',false:'rafsız'}]],lbl:{W:'Genişlik',H:'Yükseklik'}});
 F3({id:'balkon-dolabi',name:'Balkon dolabı',cat:'Bahçe ve dış mekân',b:balconyCab,level:2,time:'1,5 gün',tags:'balkon dolabı dış mekan dolap teras depolama havalandırmalı',desc:'Taşkın çatı tablalı, havalandırma yarıklı kapaklı, yerden yükseltilmiş balkon dolabı.',
   P:{W:[600,1200,10],H:[900,1800,10],D:[350,600,10]},def:()=>({W:800,H:1400,D:450}),o:{},ax:[['H',[1200,1800]],['W',[800,1000]]],lbl:{W:'Genişlik',H:'Yükseklik',D:'Derinlik'}});
 F3({id:'ahsap-fener',name:'Ahşap fener',cat:'Bahçe ve dış mekân',b:lantern,level:2,time:'4 saat',tags:'fener mumluk lamba bahçe balkon dekor cam piramit çatı',desc:'Dört yanı camlı, piramit çatılı, ön camı kapak olarak açılan ahşap fener.',

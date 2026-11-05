@@ -38,24 +38,24 @@ const GROUPS=[
   {id:'orta-sehpa',name:'Orta sehpa',desc:'Salon sehpası: kayıtlı ve raflı, açılı ayaklı, yuvarlak ya da palet modeli.',models:[['orta-sehpa','Klasik (ayrıntılı kılavuz)'],['orta-sehpa-f','Raflı'],['acili-sehpa','Açılı ayaklı'],['yuvarlak-sehpa','Yuvarlak'],['palet-sehpa','Palet']]},
   {id:'yan-sehpa-u',name:'Yan sehpa',desc:'Koltuk ya da yatak yanı için kare veya üç ayaklı yuvarlak sehpa.',models:[['yan-sehpa','Kare'],['yuvarlak-yan-sehpa','Yuvarlak üç ayaklı']]},
   {id:'yemek-masasi-u',name:'Yemek masası',desc:'Masif tablalı, kayıtlı yemek masası; dikdörtgen, yuvarlak ya da minderle oturulan alçak yer sofrası.',models:[['yemek-masasi','Dikdörtgen'],['yuvarlak-yemek','Yuvarlak'],['yer-sofrasi','Yer sofrası']]},
-  {id:'tabure',name:'Tabure',desc:'Kare ya da yuvarlak oturaklı, ayak dayamalı tabure; alt raflı banyo taburesi.',models:[['tabure','Klasik kare (ayrıntılı kılavuz)'],['tabure-f','Ayak dayamalı kare'],['yuvarlak-tabure','Yuvarlak'],['banyo-taburesi','Banyo taburesi']]},
+  {id:'tabure',pm:'yuvarlak-tabure',name:'Tabure',desc:'Kare ya da yuvarlak oturaklı, ayak dayamalı tabure; alt raflı banyo taburesi.',models:[['tabure','Klasik kare (ayrıntılı kılavuz)'],['tabure-f','Ayak dayamalı kare'],['yuvarlak-tabure','Yuvarlak'],['banyo-taburesi','Banyo taburesi']]},
   {id:'ic-bank',name:'Bank',desc:'Antre, salon ve yemek masası için oturma bankı; raflı, açılı ayaklı, içi depolamalı sandıklı ya da kalın tablalı yemek bankı.',models:[['giris-banki','Raflı giriş bankı'],['acili-bank','Açılı ayaklı'],['sandikli-bank','Sandıklı bank'],['yemek-banki','Yemek bankı']]},
   {id:'yatak',name:'Yatak',desc:'Çıtalı bazalı, sökülebilir karyola; tek ya da çift kişilik, merdivenli ranza ya da yalnız yatak başlığı.',models:[['tek-yatak','Tek kişilik'],['cift-yatak','Çift kişilik'],['ranza','Ranza'],['yatak-basligi','Yatak başlığı']]},
-  {id:'ayna',name:'Ayna',desc:'Masif çerçeveli dikdörtgen, yuvarlak ya da destek ayaklı boy aynası.',models:[['ayna-cercevesi','Dikdörtgen çerçeveli'],['yuvarlak-ayna','Yuvarlak'],['ayakli-ayna','Ayaklı boy aynası']]},
+  {id:'ayna',pm:'ayakli-ayna',name:'Ayna',desc:'Masif çerçeveli dikdörtgen, yuvarlak ya da destek ayaklı boy aynası.',models:[['ayna-cercevesi','Dikdörtgen çerçeveli'],['yuvarlak-ayna','Yuvarlak'],['ayakli-ayna','Ayaklı boy aynası']]},
   {id:'duvar-askiligi',name:'Askılık',desc:'Kavela çubuklu duvar askılığı, raflı kısa anahtarlık ya da dört ayaklı portmanto.',models:[['askilik','Askılık'],['anahtarlik','Anahtarlık'],['portmanto','Ayaklı portmanto'],['antre-paneli','Antre askı paneli']]},
   {id:'dekor-merdiven',name:'Dekor merdiveni',desc:'Duvara yaslanan battaniye ya da havlu merdiveni.',models:[['battaniye-merdiveni','Battaniye merdiveni'],['havlu-merdiveni','Havlu merdiveni']]},
-  {id:'ayakkabilik',name:'Ayakkabılık',desc:'Kapı önü için çıtalı altlık, açık ayakkabı rafı ya da kapaklı dolap.',models:[['izgara-altlik','Çıtalı altlık (ayrıntılı kılavuz)'],['ayakkabi-rafi','Açık raf'],['ayakkabi-dolabi','Kapaklı dolap']]},
+  {id:'ayakkabilik',pm:'ayakkabi-rafi',name:'Ayakkabılık',desc:'Kapı önü için çıtalı altlık, açık ayakkabı rafı ya da kapaklı dolap.',models:[['izgara-altlik','Çıtalı altlık (ayrıntılı kılavuz)'],['ayakkabi-rafi','Açık raf'],['ayakkabi-dolabi','Kapaklı dolap']]},
   {id:'saklama-kasasi-u',name:'Saklama kasası',desc:'Battaniye, oyuncak ve dergi için açık çıtalı kasa.',models:[['citali-kasa','Klasik (ayrıntılı kılavuz)'],['saklama-kasasi','Çıtalı kasa']]},
   {id:'kesme-tahtasi',name:'Kesme tahtası',desc:'Şeritlerden tutkallanan masif kesme tahtası; dikdörtgen ya da yuvarlak.',models:[['kesme-tahtasi','Çizgili (ayrıntılı kılavuz)'],['kesme-tahtasi-f','Dikdörtgen'],['yuvarlak-kesme','Yuvarlak']]},
   {id:'sunum-tahtasi',name:'Sunum tahtası',desc:'Servis, peynir ya da pizza için ince sunum tahtası.',models:[['servis-tahtasi','Servis'],['peynir-tahtasi','Peynir'],['pizza-tahtasi','Pizza']]},
   {id:'mutfak-dolabi',name:'Mutfak dolabı',desc:'Tezgâh altı, duvar üstü ya da boy kiler dolabı.',models:[['mutfak-alt','Alt dolap'],['mutfak-ust','Üst dolap'],['kiler-dolabi','Kiler (boy)']]},
   {id:'bahce-banki-u',name:'Bahçe bankı',desc:'Dış mekân bankı; dik ya da eğik sırtlı, sırtsız veya balkon boyu.',models:[['bahce-banki','Sırtlı'],['egik-bank','Eğik sırtlı'],['piknik-banki','Sırtsız'],['balkon-banki','Balkon']]},
   {id:'bahce-koltugu-u',name:'Bahçe koltuğu',desc:'Tek kişilik kolçaklı koltuk ya da eğik sırtlı sandalye.',models:[['bahce-koltugu','Kolçaklı koltuk'],['egik-sandalye','Eğik sırtlı sandalye']]},
-  {id:'sezlong-u',name:'Şezlong',desc:'Düz ya da sırtı ayarlanan güneşlenme yatağı.',models:[['sezlong','Düz'],['ayarli-sezlong','Ayarlı sırtlı']]},
+  {id:'sezlong-u',pm:'ayarli-sezlong',name:'Şezlong',desc:'Düz ya da sırtı ayarlanan güneşlenme yatağı.',models:[['sezlong','Düz'],['ayarli-sezlong','Ayarlı sırtlı']]},
   {id:'bahce-masasi-u',name:'Bahçe masası',desc:'Dikdörtgen bahçe masası, yuvarlak bistro masası, oturaklı piknik masası ya da çocuk boyu piknik masası.',models:[['bahce-masasi','Dikdörtgen'],['bistro-masasi','Yuvarlak bistro'],['piknik-masasi','Oturaklı piknik'],['cocuk-piknik','Çocuk piknik']]},
-  {id:'kus-evi-u',name:'Kuş ve böcek evi',desc:'Düz ya da beşik çatılı kuş yuvası, açık yemlik ya da böcek oteli.',models:[['kus-evi','Düz çatılı'],['catili-kus-evi','Beşik çatılı'],['kus-yemligi','Yemlik'],['bocek-oteli','Böcek oteli']]},
+  {id:'kus-evi-u',pm:'catili-kus-evi',name:'Kuş ve böcek evi',desc:'Düz ya da beşik çatılı kuş yuvası, açık yemlik ya da böcek oteli.',models:[['kus-evi','Düz çatılı'],['catili-kus-evi','Beşik çatılı'],['kus-yemligi','Yemlik'],['bocek-oteli','Böcek oteli']]},
   {id:'saksi',name:'Saksı',desc:'Ahşap saksı kutusu, ayaklı yükseltilmiş saksı ya da tabansız bahçe yatağı.',models:[['saksi-kutusu','Saksı kutusu'],['yuksek-saksi','Ayaklı'],['bahce-yatagi','Bahçe yatağı']]},
-  {id:'saksi-standi-u',name:'Saksı standı',desc:'Kare stand, duvara yaslı merdiven, basamaklı stand ya da balkon rafı.',models:[['saksi-standi','Kare'],['saksi-merdiveni','Duvara yaslı'],['saksi-basamagi','Basamaklı'],['cicek-rafi','Balkon rafı']]},
+  {id:'saksi-standi-u',pm:'saksi-merdiveni',name:'Saksı standı',desc:'Kare stand, duvara yaslı merdiven, basamaklı stand ya da balkon rafı.',models:[['saksi-standi','Kare'],['saksi-merdiveni','Duvara yaslı'],['saksi-basamagi','Basamaklı'],['cicek-rafi','Balkon rafı']]},
   {id:'cocuk-masasi-u',name:'Çocuk masası',desc:'Kontrplak tablalı çocuk aktivite masası; dikdörtgen ya da yuvarlak.',models:[['cocuk-masasi','Dikdörtgen'],['yuvarlak-cocuk-masasi','Yuvarlak']]},
   {id:'pano-u',name:'Pano',desc:'Mantar ya da kara tahta yüzeyli duvar panosu.',models:[['pano','Dikdörtgen'],['yuvarlak-pano','Yuvarlak mantar']]},
   {id:'sovale-u',name:'Şövale',desc:'Ayaklı ya da masa üstü A çerçeve şövale.',models:[['sovale','Ayaklı'],['masa-sovalesi','Masa üstü']]},
@@ -99,14 +99,16 @@ function addProduct(id,name,desc,models){
   PRODUCTS.push(prod);PROD[id]=prod;
 }
 const grouped=new Set();
-GROUPS.forEach(g=>{g.models.forEach(([r])=>grouped.add(r));addProduct(g.id,g.name,g.desc,g.models.map(([r,l])=>mkModel(r,l)));});
+GROUPS.forEach(g=>{g.models.forEach(([r])=>grouped.add(r));addProduct(g.id,g.name,g.desc,g.models.map(([r,l])=>mkModel(r,l)));
+  if(g.pm){const P=PROD[g.id];P.pm=g.pm;P.dm=Math.max(0,P.models.findIndex(m=>m.ref===g.pm));}});
 ALLFAMS.forEach(f=>{if(!grouped.has(f.id)) addProduct(f.id,f.name,f.desc,[famModel(f,f.name)]);});
 
 /* ---------- seçim durumu ---------- */
 SAVE.cfg=SAVE.cfg||{};
-function stOf(prod){const s=SAVE.cfg[prod.id]=SAVE.cfg[prod.id]||{m:0,o:{}};if(!(s.m<prod.models.length))s.m=0;return s;}
+function stOf(prod){const s=SAVE.cfg[prod.id]=SAVE.cfg[prod.id]||{m:prod.dm||0,o:{}};if(!(s.m<prod.models.length))s.m=0;return s;}
 function optsOf(prod,mi){const m=prod.models[mi],s=stOf(prod),o=s.o[mi]=s.o[mi]||{};
-  m.optAx.forEach(([k,vals])=>{const hit=vals.find(v=>String(v)===String(o[k]));o[k]=hit!==undefined?hit:vals[0];});return o;}
+  const dv=m.kind==='fam'&&m.f.dflt||{};
+  m.optAx.forEach(([k,vals])=>{const hit=vals.find(v=>String(v)===String(o[k])), dh=vals.find(v=>String(v)===String(dv[k]));o[k]=hit!==undefined?hit:dh!==undefined?dh:vals[0];});return o;}
 function famOpt(f,m,opts,p){const vals=Object.assign({},p,opts);if(f.vd)Object.assign(vals,f.vd(vals));
   const base=Object.assign({},f.def?f.def(vals):{},vals), opt=Object.assign({},f.o);
   m.optAx.forEach(([k])=>opt[k]=opts[k]);Object.keys(base).forEach(k=>{if(!(k in f.P)&&opt[k]==null)opt[k]=base[k];});
@@ -114,7 +116,7 @@ function famOpt(f,m,opts,p){const vals=Object.assign({},p,opts);if(f.vd)Object.a
 function configure(prod,mi){
   const m=prod.models[mi], key=prod.id+'.'+mi;
   if(m.kind==='feat') return Object.assign({},m.pr,{id:key,name:prod.name,prod,mi,cat:prod.cat,sub:prod.sub});
-  const f=m.f, opts=optsOf(prod,mi), vals=Object.assign({},...m.dimAx.map(([k,v])=>({[k]:v[0]})),opts);
+  const f=m.f, opts=optsOf(prod,mi), dv=f.dflt||{}, vals=Object.assign({},...m.dimAx.map(([k,v])=>({[k]:dv[k]!=null?dv[k]:v[0]})),opts);
   if(f.vd)Object.assign(vals,f.vd(vals));
   const dd=f.def?f.def(vals):{};
   const params=Object.entries(f.P).map(([k,[min,max,step]])=>{let d=vals[k]!=null?vals[k]:dd[k]!=null?dd[k]:min;return{k,l:(f.lbl&&f.lbl[k])||PL[k],min,max,step:step||10,def:Math.max(min,Math.min(max,d))};});
