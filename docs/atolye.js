@@ -12,9 +12,15 @@ const shareIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3
 const arrowIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg>';
 const brand = `<a class="site-brand" href="#projeler" aria-label="Talaş Atölye ana sayfa"><img src="assets/app-icon-192.png" alt="" width="38" height="40"><span class="site-word">Talaş<b> Atölye</b><small>KENDİ ELLERİNLE, KENDİ HİKÂYEN.</small></span></a>`;
 document.getElementById('app').insertAdjacentHTML('beforebegin', `<header class="site-top"><div class="top-inner">${brand}<nav class="site-links" aria-label="Üst gezinme"><a href="#projeler" data-site-nav="projeler">Keşfet</a><a href="#fotograf" data-site-nav="fotograf">Fotoğraftan bul</a><a href="#rehber" data-site-nav="rehber">Rehber</a><a href="#defterim" data-site-nav="defterim">Atölyem</a></nav></div></header>`);
+const NAV_ICONS = {
+  projeler: '<circle cx="12" cy="12" r="8.75"/><path class="d" d="m15.7 8.3-2.2 5.2-5.2 2.2 2.2-5.2z"/><circle cx="12" cy="12" r=".9" class="f"/>',
+  fotograf: '<path d="M3.75 9a2 2 0 0 1 2-2h2.1l1.4-2.1h5.5l1.4 2.1h2.1a2 2 0 0 1 2 2v8.6a2 2 0 0 1-2 2H5.75a2 2 0 0 1-2-2z"/><circle class="d" cx="12" cy="13.1" r="3.7"/><circle cx="17.4" cy="9.9" r=".8" class="f"/>',
+  rehber: '<path class="d" d="M12 6.6C10.3 5.3 7.7 4.7 3.75 4.9v13.3c3.95-.2 6.55.4 8.25 1.8z"/><path d="M12 6.6C10.3 5.3 7.7 4.7 3.75 4.9v13.3c3.95-.2 6.55.4 8.25 1.8 1.7-1.4 4.3-2 8.25-1.8V4.9c-3.95-.2-6.55.4-8.25 1.7zM12 6.6V20"/><path d="M15.4 5.3v4.9l1.4-1 1.4 1V5"/>',
+  defterim: '<path class="d" d="M5.25 8.5h13.5a2 2 0 0 1 2 2V13H3.25v-2.5a2 2 0 0 1 2-2z"/><rect x="3.25" y="8.5" width="17.5" height="11" rx="2"/><path d="M9 8.5V6.3A1.3 1.3 0 0 1 10.3 5h3.4A1.3 1.3 0 0 1 15 6.3v2.2M3.25 13h17.5"/><rect x="10.3" y="11.7" width="3.4" height="2.6" rx=".8" class="f"/>'
+};
 for (const [key, name] of [['projeler', 'Keşfet'], ['fotograf', 'Fotoğraf'], ['rehber', 'Rehber'], ['defterim', 'Atölyem']]) {
   const link = document.querySelector(`.nav a[data-nav="${key}"]`);
-  if (link) { const icon = link.querySelector('svg').outerHTML; link.innerHTML = icon + name; }
+  if (link) link.innerHTML = `<span class="ni"><svg viewBox="0 0 24 24" aria-hidden="true">${NAV_ICONS[key]}</svg></span><span class="nl">${name}</span>`;
 }
 function pageMode(mode) {
   document.body.classList.toggle('project-page', mode === 'product');
