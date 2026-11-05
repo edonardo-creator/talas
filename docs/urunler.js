@@ -69,7 +69,7 @@ const GROUPS=[
   {id:'sergi-rafi',name:'Sergi rafı',desc:'Koleksiyon için sık raflı duvar rafı ya da önü camlı vitrin kutusu.',models:[['koleksiyon-rafi','Koleksiyon rafı'],['maket-vitrini','Vitrin kutusu']]},
   {id:'masa-ustu-stand',name:'Masa üstü stand',desc:'Kulaklık standı, L biçimli kitap desteği ya da laptop yükseltici.',models:[['kulaklik-standi','Kulaklık standı'],['kitap-destegi','Kitap desteği'],['laptop-yukseltici','Laptop yükseltici'],['tablet-standi','Tablet ve telefon standı']]},
   {id:'bahce-kasasi',name:'Bahçe kasası',desc:'Havalandırmalı odunluk ya da tabansız kompost kasası.',models:[['odunluk','Odunluk'],['kompost','Kompost']]},
-  {id:'cocuk-oturagi',name:'Çocuk oturağı',desc:'Üç ayaklı çocuk taburesi ya da sırtlı küçük bank.',models:[['cocuk-taburesi','Tabure'],['cocuk-banki','Bank']]},
+  {id:'cocuk-oturagi',name:'Çocuk oturağı',desc:'Üç ayaklı çocuk taburesi, sırtlı küçük bank ya da tablalı mama sandalyesi.',models:[['cocuk-taburesi','Tabure'],['cocuk-banki','Bank'],['mama-sandalyesi','Mama sandalyesi']]},
   {id:'atolye-duvari',name:'Atölye duvar düzeni',desc:'Fransız askılı alet panosu ya da kollu işkence rafı.',models:[['alet-panosu','Alet panosu'],['iskence-rafi','İşkence rafı']]},
   {id:'oyuncak-sandigi',name:'Oyuncak sandığı',desc:'Kapaklı tekerlekli sandık ya da ipli çekme arabası biçiminde oyuncak kutusu.',models:[['oyuncak-sandigi','Kapaklı sandık'],['oyuncak-arabasi','Çekme arabası']]},
   {id:'calisma-masasi',name:'Çalışma masası',desc:'Ayaklı sade çalışma masası, dar alan için duvara katlanır masa ya da bir yanı boy kitaplık olan masa.',models:[['calisma-masasi','Ayaklı'],['duvar-masasi','Duvara katlanır'],['kitaplikli-masa','Kitaplıklı']]},
