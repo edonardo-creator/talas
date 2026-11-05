@@ -196,9 +196,9 @@ document.addEventListener('click', e => {
 const viewTechnicalPhoto = viewPhoto;
 viewPhoto = function() { pageMode('fotograf'); return viewTechnicalPhoto(); };
 
-// Alet fotoğrafları: her aletin assets/alet-<id>.jpg (900 px) ve assets/kucuk/ altında 450 px kopyası var
+// Alet fotoğrafları: yalnız assets/kucuk/alet-<id>.jpg (360 px); büyük asılları kullanılmadığı için pakette yok
 function toolImg(id) {
-  return `<img src="assets/kucuk/alet-${id}.jpg" alt="${esc(TOOLS[id].n)}" loading="lazy" decoding="async" width="450" height="450">`;
+  return `<img src="assets/kucuk/alet-${id}.jpg" alt="${esc(TOOLS[id].n)}" loading="lazy" decoding="async" width="360" height="360">`;
 }
 toolCard = function(id, note) {
   const t = TOOLS[id], have = !!SAVE.have[id];

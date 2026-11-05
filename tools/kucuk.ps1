@@ -1,4 +1,5 @@
-# assets/foto-*.jpg ve alet-*.jpg dosyalarının 450 px kopyalarını assets/kucuk/ altına üretir (kartlar bunları kullanır).
+# assets/foto-*.jpg dosyalarının 450 px kopyalarını assets/kucuk/ altına üretir (kartlar bunları kullanır).
+# Alet fotoğrafları yalnız assets/kucuk/alet-<id>.jpg (360 px) olarak tutulur; yeni alet eklenirse 360 px üretip doğrudan oraya koy.
 # Kullanım: içeriği bir PowerShell oturumunda çalıştır (yalnız eksik kopyaları üretir; -Hepsi ile tümünü yeniler)
 param([switch]$Hepsi)
 Add-Type -AssemblyName System.Drawing

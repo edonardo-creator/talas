@@ -138,3 +138,4 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   - `yasal/gizlilik.html` ve `yasal/kosullar.html` (pages.py `docs/`a kopyalar; köşeli parantezli alanlar kullanıcı tarafından doldurulacak).
   - `MAGAZA.md`: hesaplar, kimlikler, ürünler, mağaza metinleri, veri güvenliği yanıtları.
   - Hizmet çalışanı (sw.js) uygulama içinde kaydolmaz.
+- 2026-11-05 Claude: Alet fotoğrafları küçültüldü: kullanılmayan 900 px asıllar (`assets/alet-*.jpg`, 4,7 MB) kaldırıldı; kartların kullandığı `assets/kucuk/alet-*.jpg` 450'den 360 px'e indi (600 → 391 KB).
