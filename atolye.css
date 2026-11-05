@@ -76,19 +76,10 @@ html{scroll-behavior:auto}
 .kit-item{display:grid;gap:6px;font-size:11px;line-height:1.35;text-align:center;color:var(--ink)}
 .kit-item img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#ecebe6;display:block}
 @media(max-width:899px){.tools,.detail-pane .tools{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tool-body{padding:10px 10px 2px}.tool.tool-ph .n{font-size:13px}.kit{grid-template-columns:repeat(3,minmax(0,1fr))}}
-/* Premium yazı ve alt menü (2026-11-05) */
-:root{--f-disp:"Fraunces",Georgia,"Times New Roman",serif;--f-body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-body{font-family:var(--f-body);font-feature-settings:"cv11","ss01";-webkit-font-smoothing:antialiased}
-h1,h2,h3,.site-word,.guide-tile strong,.mine-stats b,.completion strong,.photo-cta strong,.cmap-h b,.stepcard h3,.cost.total .q{font-family:var(--f-disp);font-optical-sizing:auto;letter-spacing:-.012em}
-h1,.welcome h1,.phead h1{font-weight:600;letter-spacing:-.022em;line-height:1.08}
-h2,.detail-pane h2,.section-copy h2{font-weight:600;line-height:1.18}
-h3,.card h3,.project-tile h3,.detail-pane h3,.mbody h3{font-weight:560;line-height:1.24}
-.site-word{font-weight:700;letter-spacing:-.02em}.site-word b{font-weight:600;font-style:italic}.site-word small{font-family:var(--f-body);font-style:normal}
-.guide-tile strong{font-weight:600}.mine-stats b{font-weight:600}
-.eyebrow{font-family:var(--f-body);font-weight:600}
+/* Alt menü ve İlham köşesi kategorileri (2026-11-05) */
 .nav{background:#fffffff2;backdrop-filter:saturate(1.6) blur(16px);-webkit-backdrop-filter:saturate(1.6) blur(16px);border-top:1px solid #ebe8df;box-shadow:0 -8px 24px #2a20100a;padding-top:6px}
-.nav a{gap:4px;font:550 11px/1.2 var(--f-body);letter-spacing:.01em;color:#8a8679;padding:6px 4px}
-.nav a[aria-current=page]{color:var(--accent);font-weight:650}
+.nav a{gap:4px;font:700 13px/1.2 var(--f-body);letter-spacing:.005em;color:#7d796c;padding:6px 4px}
+.nav a[aria-current=page]{color:var(--accent);font-weight:800}
 .nav a[aria-current=page]:after{display:none}
 .nav .ni{display:grid;place-items:center;width:56px;height:32px;border-radius:16px;transition:background-color .25s,transform .25s}
 .nav a svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -97,3 +88,6 @@ h3,.card h3,.project-tile h3,.detail-pane h3,.mbody h3{font-weight:560;line-heig
 .nav a[aria-current=page] .d{fill-opacity:.3}
 .nav a:active .ni{transform:scale(.92)}
 @media (prefers-reduced-motion:reduce){.nav .ni{transition:none}}
+.quick-cats{gap:8px}.quick-cats button{font:650 15px/1.2 var(--f-body);letter-spacing:-.005em;min-height:44px;padding:11px 18px;border-radius:22px;color:#5f5c51;background:#e9e7df}
+.quick-cats button[aria-pressed=true]{background:#303028;color:#fff}
+@media(max-width:360px){.quick-cats button{font-size:14px;padding:10px 15px}}
