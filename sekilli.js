@@ -371,7 +371,7 @@ F2({id:'catili-kus-evi',name:'Çatılı kuş evi',cat:'Bahçe ve dış mekân',b
   desc:'Beşik çatılı, temizlik için açılan kuş yuvası.',P:{W:[120,220,5],D:[120,220,5],H:[150,280,5]},def:()=>({}),o:{kind:'bird',ov:25},
   ax:[['W',[130,150,170]],['D',[140,160]],['H',[180,220]],['pitch',[35,45],{35:'35° çatı',45:'45° çatı'}],['hole',[28,32],{28:'Ø28 giriş',32:'Ø32 giriş'}]]});
 F2({id:'kopek-kulubesi',name:'Köpek kulübesi',cat:'Bahçe ve dış mekân',b:gableHouse,level:3,time:'2 gün',tags:'köpek evi beşik çatı',
-  desc:'Kızaklı yükseltilmiş tabanlı, beşik çatılı köpek kulübesi.',P:{W:[500,1300,10],D:[600,1300,10],H:[400,900,10]},def:()=>({}),o:{kind:'dog',mat:'ply18',pitch:30,ov:80},
+  desc:'Kızaklı yükseltilmiş tabanlı, beşik çatılı köpek kulübesi.',P:{W:[500,1200,10],D:[600,1200,10],H:[400,900,10]},def:()=>({}),o:{kind:'dog',mat:'ply18',pitch:30,ov:80},
   ax:[['W',[600,800,1000,1200]],['D',[700,900,1100]],['H',[500,700]]]});
 F2({id:'sokak-kitapligi',name:'Sokak kitaplığı',cat:'Bahçe ve dış mekân',b:gableHouse,level:2,time:'1 gün',tags:'kitap paylaşım küçük kütüphane',
   desc:'Akrilik kapaklı, beşik çatılı kitap paylaşım kutusu.',P:{W:[350,700,10],D:[250,400,10],H:[400,800,10]},def:()=>({}),o:{kind:'library',mat:'ply18',pitch:35,ov:40},
