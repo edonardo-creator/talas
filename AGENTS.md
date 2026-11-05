@@ -139,3 +139,4 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   - `MAGAZA.md`: hesaplar, kimlikler, ürünler, mağaza metinleri, veri güvenliği yanıtları.
   - Hizmet çalışanı (sw.js) uygulama içinde kaydolmaz.
 - 2026-11-05 Claude: Alet fotoğrafları küçültüldü: kullanılmayan 900 px asıllar (`assets/alet-*.jpg`, 4,7 MB) kaldırıldı; kartların kullandığı `assets/kucuk/alet-*.jpg` 450'den 360 px'e indi (600 → 391 KB).
+- 2026-11-05 Claude: Ürün fotoğrafları (`assets/foto-*.jpg`, 170 dosya) 900'den 600 px'e indi, %82 JPEG (36 → 9,8 MB); `photoHTML` srcset 600w. Canva'dan yeni fotoğraf 900 px iner, eklemeden önce 600 px'e küçült.
