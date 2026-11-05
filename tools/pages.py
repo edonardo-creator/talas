@@ -25,7 +25,7 @@ HEAD = """<!doctype html>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Talaş Atölye">
 <meta property="og:title" content="Talaş Atölye: ölçüsü ayarlanabilir ahşap projeler">
-<meta property="og:description" content="122 ürün, 228 model. Ölçüyü gir; kesim listesi, plaka yerleşimi, malzeme ve adım adım yapım kılavuzu hazır.">
+<meta property="og:description" content="158 ürün, 265 model. Ölçüyü gir; kesim listesi, plaka yerleşimi, malzeme ve adım adım yapım kılavuzu hazır.">
 <meta property="og:image" content="https://edonardo-creator.github.io/talas/assets/foto-kasa.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="description" content="Ölçüsü ayarlanabilir ahşap ürünler: kesim listesi, kereste ve plaka yerleşimi, ekipman, planlar ve adım adım yapım kılavuzu.">
