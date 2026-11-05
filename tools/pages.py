@@ -9,7 +9,7 @@ import shutil
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
-SCRIPTS = ("aileler.js", "sekilli.js", "katalog.js", "urunler.js", "fotograf.js", "atolye.js", "atolye.css")
+SCRIPTS = ("aileler.js", "sekilli.js", "katalog.js", "urunler.js", "fotograf.js", "atolye.js", "ticari.js", "atolye.css")
 
 HEAD = """<!doctype html>
 <html lang="tr">
@@ -65,7 +65,7 @@ self.addEventListener('fetch', e => {
   })));
 });
 """
-REGISTER = "<script>if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js')</script>\n"
+REGISTER = "<script>if('serviceWorker' in navigator&&location.protocol==='https:'&&!window.Capacitor)navigator.serviceWorker.register('sw.js')</script>\n"
 
 
 def main():
@@ -85,6 +85,8 @@ def main():
         page = page.replace(f'src="{name}"', f'src="{name}?v={ver}"').replace(f'href="{name}"', f'href="{name}?v={ver}"')
     if (ROOT / "assets").exists():
         shutil.copytree(ROOT / "assets", DOCS / "assets", dirs_exist_ok=True)
+    for f in (ROOT / "yasal").glob("*.html"):  # gizlilik ve kullanım koşulları (mağazalar herkese açık adres ister)
+        shutil.copyfile(f, DOCS / f.name)
     (DOCS / "index.html").write_text(page, encoding="utf-8")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
     (DOCS / "manifest.webmanifest").write_text(MANIFEST, encoding="utf-8")

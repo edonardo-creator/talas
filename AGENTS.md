@@ -129,3 +129,12 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   - Fotoğrafı yeniden üretilecekler (hiçbir modele uymuyor): hobi kutusu, duvar rafı, bahçe koltuğu, kaykay rampası.
   - Katalog 177 ürün, 287 model, 3.453 seçenek; hepsi hatasız, hiçbir seçenekte stoğa ya da plakaya sığmayan parça yok; 320 px'te taşma yok.
 - 2026-11-05 Claude: Ürün sayfası sekmeleri (Genel, Kesim, Malzeme, Ekipman, Planlar, Yapım) 14,5 px 700 kalınlık (seçili 800, koyu zemin); telefonda 14 px, 360 px altında 13 px (`atolye.css` sonu).
+- 2026-11-05 Claude: Ticari sürüm hazırlığı (kullanıcı kararı: reklam + ortaklık + premium; Google Play ve App Store).
+  - `ticari.js` (atolye.js'den sonra yüklenir): `TICARI` ayarları, AdMob banner (alt menü/eylem çubuğu üstü), RevenueCat Premium (`premium` yetkisi), satın alma ekranı (`openPaywall`, `data-premium`), kilitler (`partCostHTML`, `leftHTML`, `keepBtn`), Amazon ortaklık "Satın al" bağlantıları (Malzeme sekmesi sonu ve alet kartları).
+  - Web sürümünde `webAllFree:true`: her şey açık, reklam yok.
+  - `atolye.js`: `IS_NATIVE`; uygulamada PDF düğmesi gizli, paylaşım herkese açık web adresini verir; Hakkında bölümünde gizlilik ve koşullar bağlantıları.
+  - Capacitor 6: `capacitor.config.json` (`com.talasatolye.app`, webDir `docs`), `android/`, `ios/`, AdMob test uygulama kimlikleri, iOS izleme izni metni, simgeler.
+  - `.github/workflows/mobil.yml`: bulutta APK/AAB ve iOS derleme denetimi.
+  - `yasal/gizlilik.html` ve `yasal/kosullar.html` (pages.py `docs/`a kopyalar; köşeli parantezli alanlar kullanıcı tarafından doldurulacak).
+  - `MAGAZA.md`: hesaplar, kimlikler, ürünler, mağaza metinleri, veri güvenliği yanıtları.
+  - Hizmet çalışanı (sw.js) uygulama içinde kaydolmaz.
