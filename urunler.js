@@ -4,7 +4,7 @@
    (PROJECTS/BYID) eski bağlantılar ve hazır ölçüler için kaynak olarak kalır. */
 
 const ALLFAMS=[...FAMS,...FAMS2,...FAMS3], FAMBY=Object.fromEntries(ALLFAMS.map(f=>[f.id,f])), FEATBY=Object.fromEntries(FEATURED.map(p=>[p.id,p]));
-const AXL={legs:'Ayak',veranda:'Veranda',ins:'Yalıtım',slat:'Tahta yönü',tray:'Çerçeve',led:'Aydınlatma',base:'Taban',pieces:'Taşlar',low:'Taban',back:'Sırt',board:'Alet panosu',bar:'Oturma çıkıntısı',door:'Kapı',fill:'Dolgu',shade:'Gölgelik',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
+const AXL={legs:'Ayak',box:'Kutu',veranda:'Veranda',ins:'Yalıtım',slat:'Tahta yönü',tray:'Çerçeve',led:'Aydınlatma',base:'Taban',pieces:'Taşlar',low:'Taban',back:'Sırt',board:'Alet panosu',bar:'Oturma çıkıntısı',door:'Kapı',fill:'Dolgu',shade:'Gölgelik',mat:'Malzeme',sp:'Ağaç türü',pat:'Desen',top:'Tabla',doors:'Kapak',drawers:'Çekmece',tip:'Düzen',lower:'Alt raf',arms:'Kolçak',head:'Başlık',
   style:'Yazı tekniği',hole:'Giriş deliği',pitch:'Çatı eğimi',floors:'Kat sayısı',insert:'Yüzey',prof:'Çerçeve genişliği',size:'Boyut',paint:'Yüzey',
   shelf:'Üst raf',space:'Askı aralığı',set:'Set',layers:'Kat',s:'Kafes aralığı',H:'Yükseklik',glass:'Cam tabla',umb:'Şemsiye',seats:'Oturak',stand:'Tablet dayama',slots:'Kablo yarığı'};
 const INFO={
@@ -78,6 +78,7 @@ const GROUPS=[
   {id:'asma-raf',name:'Asma raf',desc:'Tavandan halatla sarkan katlı raf ya da ayaksız, duvara asılan konsol masa.',models:[['sarkit-raf','Halatlı sarkıt raf'],['duvar-konsolu','Duvar konsolu']]},
   {id:'bahce-citi',name:'Bahçe çiti ve kapısı',desc:'Dikmeli, yatay ya da dikey tahtalı gizlilik çiti ve ona uyan Z kayıtlı bahçe kapısı.',models:[['bahce-citi','Çit'],['bahce-kapisi','Bahçe kapısı']]},
   {id:'kopek-kulubesi',name:'Köpek ve kedi kulübesi',desc:'Beşik çatılı ya da verandalı, rüzgâr bölmeli köpek kulübesi ve yalıtımlı, iki girişli sokak kedisi evi.',models:[['kopek-kulubesi','Beşik çatılı köpek kulübesi'],['verandali-kulube','Verandalı köpek kulübesi'],['kedi-evi','Sokak kedisi evi']]},
+  {id:'kombi-dolabi',name:'Kombi ve makine dolabı',desc:'Havalandırmalı, baca delikli kombi dolabı ya da altı makine boşluklu, üstü kapaklı çamaşır makinesi dolabı.',models:[['kombi-dolabi','Kombi dolabı'],['makine-dolabi','Çamaşır makinesi dolabı']]},
   {id:'pergola',name:'Pergola',desc:'Dört dikmeli serbest duran ya da duvar kirişine bağlanan, istenirse gölgelik çıtalı pergola.',models:[['pergola','Serbest duran'],['duvar-pergolasi','Duvara bitişik']]},
   {id:'bisiklet-standi',name:'Bisiklet standı',desc:'Tekerlek yuvalı zemin standı ya da iki kollu duvar askısı.',models:[['bisiklet-standi','Zemin standı'],['bisiklet-askisi','Duvar askısı']]},
   {id:'salincak',name:'Salıncak',desc:'A ayaklı çerçeveli ya da tavana asılan zincirli bank, halatlı çocuk salıncağı.',models:[['bahce-salincagi','Bahçe salıncağı'],['veranda-salincagi','Veranda salıncağı'],['cocuk-salincagi','Çocuk salıncağı']]},
