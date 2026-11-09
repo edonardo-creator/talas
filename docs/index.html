@@ -398,7 +398,7 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 .model[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600}
 @media (prefers-reduced-motion:reduce){.card:hover,.cattile:hover{transform:none}}
 </style>
-<link rel="stylesheet" href="atolye.css?v=438f74fe">
+<link rel="stylesheet" href="atolye.css?v=465fc100">
 
 <div class="wrap" id="app"></div>
 <nav class="nav" aria-label="Ana gezinme">
@@ -1034,7 +1034,7 @@ function refresh(){
   if(CUR.tab==='yapim'){const si=curStep();v.innerHTML=iso(c.parts,{state:q=>q.step<si?'old':q.step===si?'new':'ghost',labels:'new',gnum:c.gnum,studio:true});}
   else v.innerHTML=iso(c.parts,{explode:CUR.view==='exp'?.55:0,labels:CUR.view==='exp',gnum:c.gnum,aria:pr.name,studio:true})+`<div class="vtoggle" role="group" aria-label="Görünüm"><button data-view="iso" aria-pressed="${CUR.view==='iso'}">Montajlı</button><button data-view="exp" aria-pressed="${CUR.view==='exp'}">Parçalara ayrılmış</button></div>`;
   const st=stock(c);
-  document.getElementById('facts').innerHTML=`<div><b>Bitmiş ölçü</b><span class="mono">${c.dims.join(' × ')} mm</span></div><div><b>Ahşap</b><span>${esc(pr.wood||woodOf(c))}</span></div><div><b>Parça</b><span class="mono">${c.parts.filter(q=>MAT[q.mat].type!=='hw').length} adet · ${c.groups.filter(g=>!g.hw).length} çeşit</span></div><div><b>Alınacak</b><span class="mono">${st.map(s=>s.count+' '+(s.type==='sheet'?'plaka':'boy')).join(' + ')}</span></div>`;
+  document.getElementById('facts').innerHTML=`<div><b>Bitmiş ölçü</b><span class="mono">${c.dims.join(' × ')} mm</span></div><div><b>Ahşap</b><span>${esc(pr.wood||woodOf(c))}</span></div><div><b>Parça</b><span class="mono">${c.parts.filter(q=>MAT[q.mat].type!=='hw').length} adet · ${c.groups.filter(g=>!g.hw).length} çeşit</span></div><div><b>Alınacak</b><span class="mono">${[['board','boy kereste'],['sheet','plaka']].map(([t,l])=>{const n=st.filter(s=>(s.type==='sheet')===(t==='sheet')).reduce((a,s)=>a+s.count,0);return n?n+' '+l:''}).filter(Boolean).join(' + ')}</span></div>`;
   const T=document.getElementById('tabbody'); T.innerHTML=TABS[CUR.tab]();
 }
 function curStep(){const s=SAVE.steps[CUR.pr.id]||[];const n=CUR.c.steps.length;if(CUR.step==null){let i=s.findIndex(x=>!x);CUR.step=i<0?0:i;}return Math.min(CUR.step,n-1);}
@@ -1175,7 +1175,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t
   if(t.dataset.clear){Object.assign(Q,{cat:'',sub:'',lvl:0,q:'',page:1});const qi=document.getElementById('q');if(qi)qi.value='';renderCatalog();return;}
   if(t.dataset.jump){e.preventDefault();document.getElementById(t.dataset.jump).scrollIntoView({behavior:'smooth'});return;}
   if(!CUR)return;
-  if(t.dataset.tab){CUR.tab=t.dataset.tab;document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===CUR.tab));refresh();if(!t.closest('.tabs'))document.querySelector('.tabs').scrollIntoView({behavior:'smooth',block:'start'});return;}
+  if(t.dataset.tab){CUR.tab=t.dataset.tab;document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===CUR.tab));refresh();{const tb=document.querySelector('.tabs'),pn=tb.closest('.detail-pane')||tb,y=pn.getBoundingClientRect().top+scrollY-(parseFloat(getComputedStyle(tb).top)||0);if(Math.abs(scrollY-y)>4)scrollTo({top:y,behavior:'smooth'});}return;}
   if(t.dataset.view){CUR.view=t.dataset.view;refresh();return;}
   if(t.dataset.step!=null){CUR.step=+t.dataset.step;refresh();return;}
   if(t.dataset.go){const a=SAVE.steps[CUR.pr.id]=SAVE.steps[CUR.pr.id]||[];const si=curStep(),n=CUR.c.steps.length;
@@ -1190,7 +1190,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t
 <script src="katalog.js?v=21b6dc9e"></script>
 <script src="urunler.js?v=041e7da1"></script>
 <script src="fotograf.js?v=a30d60ac"></script>
-<script src="atolye.js?v=c3c3c9b7"></script>
+<script src="atolye.js?v=4cf774b3"></script>
 <script src="ticari.js?v=369a7a28"></script>
 
 <script>if('serviceWorker' in navigator&&location.protocol==='https:'&&!window.Capacitor)navigator.serviceWorker.register('sw.js')</script>

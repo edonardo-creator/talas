@@ -144,3 +144,10 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
 - 2026-11-06 Claude: 5 fotoğraf eklendi (Canva 21, 26-29): çizme çıkarıcı, pizza küreği, kesim kızağı, oyuncak dükkânı, su ve kum masası; `PHOTO_OF` güncellendi. Kalan 8: yatak başlığı, bebek jimnastiği, dart dolabı, saksılama tezgâhı, sarmaşık obeliski, gönye tezgâhı, kutuyu kapat, çocuk piknik masası (Canva 30-37).
 - 2026-11-06 Claude: Kalan 8 fotoğraf eklendi (Canva 30-37): yatak başlığı ve çocuk piknik masası (model fotoğrafı), bebek oyun jimnastiği, dart dolabı, saksılama tezgâhı, sarmaşık obeliski, gönye testere tezgâhı, kutuyu kapat. 177 ürünün hepsinin fotoğrafı var. Canva'da sıradaki boş sayfa 38 (38-49 eski simge denemeleri).
 - 2026-11-09 Claude: Kendi fotoğrafı olmayan 104 modelin hepsine çizime uygun ilham fotoğrafı eklendi (Canva DAHZ4W_5SWE sayfaları yeniden kullanıldı; `PHOTO_OF` model kimliğiyle). 287 modelin 246'sı kendi fotoğrafını, 41'i ürün fotoğrafını (ilk model ya da fotoğrafın asıl sahibi) gösterir; kırık görsel yok. Claude önizlemesi (artifact) 512 dosya sınırı nedeniyle kullanıcı kararıyla eski hâlinde bırakıldı; güncel sürüm GitHub Pages'te.
+- 2026-11-09 Claude: Telefon iyileştirmeleri:
+  - Ürün özetinde "Alınacak" artık türe göre toplam ("8 boy kereste + 1 plaka"; önceden "1 boy + 3 boy + …").
+  - Birden çok modeli olan üründe "Model ve malzeme" telefonda açık gelir.
+  - Sekmeye (ya da "Kesim listesini aç" gibi düğmeye) dokununca sayfa sekme içeriğinin başına kayar; telefonda `.detail-pane` en az bir ekran boyu.
+  - Telefonda 10-11 px yazılar 12-14 px'e çıktı, özet ve model adları kalın; katalog kartlarındaki "İlham fotoğrafı" etiketi kaldırıldı (ürün sayfasında ve öne çıkanlarda duruyor).
+  - Rehber kartlarının yazı karakteri simgeleri (◫ ⌑ ⌁) alt menüyle aynı tarzda iki tonlu SVG oldu.
+  - 177 ürün 320 px'te taşmasız. Not: kaynak `index.html`'de viewport etiketi yok (Claude önizlemesi ekliyor); telefon testi `docs/` üzerinden yapılmalı.
