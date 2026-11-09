@@ -151,3 +151,8 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   - Telefonda 10-11 px yazılar 12-14 px'e çıktı, özet ve model adları kalın; katalog kartlarındaki "İlham fotoğrafı" etiketi kaldırıldı (ürün sayfasında ve öne çıkanlarda duruyor).
   - Rehber kartlarının yazı karakteri simgeleri (◫ ⌑ ⌁) alt menüyle aynı tarzda iki tonlu SVG oldu.
   - 177 ürün 320 px'te taşmasız. Not: kaynak `index.html`'de viewport etiketi yok (Claude önizlemesi ekliyor); telefon testi `docs/` üzerinden yapılmalı.
+- 2026-11-09 Claude: Telefon iyileştirmeleri (2):
+  - Kullanılmayan Google yazı tipi bağlantısı (Barlow Condensed, IBM Plex) `index.html`'den kaldırıldı; `atolye.css` üç yazı tipi değişkenini de sistem yazı tipine çeviriyordu.
+  - Maliyet tahmininde "birim TL" kutusu telefonda sığmıyordu: sütun 102 px.
+  - Sekme çubuğu opak (arkadan yazı görünüyordu).
+  - Katalog süzgeçleri telefonda yan yana büyük düğmeler (14 px kalın); alt kategoriler seçili kategorinin altında girintili satırda.

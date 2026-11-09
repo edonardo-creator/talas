@@ -138,7 +138,19 @@ body.has-ad .wrap,body.has-ad.project-page .wrap{padding-bottom:170px}
   .prm label{font-size:13.5px;font-weight:600}.kit-item{font-size:12.5px}
   .project-photo .photo-caption{font-size:11px}.card .photo-caption{display:none}
   .detail-pane{min-height:calc(100vh - 80px)}
+  .row.cost{grid-template-columns:minmax(0,1fr) 102px 62px}.row.cost input{padding:6px 7px}
 }
 .guide-tile .guide-symbol{display:grid;place-items:center;width:58px;height:58px;flex-shrink:0;border-radius:50%;background:var(--accent-soft);color:var(--accent)}
 .guide-symbol svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}.guide-symbol .d{fill:currentColor;fill-opacity:.16}.guide-symbol .f{fill:currentColor;stroke:none}
 @media(max-width:899px){.guide-tile small{font-size:13px}.guide-tile strong{font-size:20px}}
+.tabs{background:#faf9f5}
+/* Telefon: süzgeç seçenekleri yan yana büyük düğmeler; alt kategoriler seçili kategorinin altında ayrı satır */
+@media(max-width:899px){
+  .fbox .tree{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0 6px;margin:0;list-style:none}.fbox .tree li{display:contents}
+  .fbox .tree button{width:auto;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:8px 14px;border:1px solid var(--line);border-radius:22px;background:#fff;font:600 14px/1.2 var(--f-body);color:#4f4c42}
+  .fbox .tree button span{font:600 12px/1 var(--f-body);color:var(--muted)}
+  .fbox .tree button[aria-pressed=true]{background:var(--accent-soft);border-color:#edc6a3;color:var(--accent)}.fbox .tree button[aria-pressed=true] span{color:var(--accent)}
+  .fbox .tree ul{flex-basis:100%;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:2px 0 4px 12px;border-left:3px solid #f1d9c2;list-style:none}
+  .fbox .tree ul button{font-size:13.5px;padding:7px 12px;gap:5px}
+  .fbox .fgroup h4{font-size:12px;margin:12px 0 6px}.fbox .cinfo{font-size:13px}
+}
