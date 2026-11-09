@@ -233,9 +233,17 @@ function kindsOf(prod){if(prod._k)return prod._k;const k=new Set();
 function missingTools(prod){const pr=configure(prod,stOf(prod).m),p=params(pr),c=compute(pr,p);
   return [...new Set(pr.tools(p,c).filter(([,n])=>!/isteğe/.test(n||'')).map(([id])=>id))].filter(id=>!SAVE.have[id]);}
 Q.mk='';Q.ready=false;
-filtered=function(skip){const words=trl(Q.q).split(/\s+/).filter(Boolean);
-  return PRODUCTS.filter(p=>(skip==='cat'||!Q.cat||p.cat===Q.cat)&&(skip==='cat'||!Q.sub||p.sub===Q.sub)&&(skip==='lvl'||!Q.lvl||p.level===Q.lvl)
-    &&(skip==='mk'||!Q.mk||kindsOf(p).has(Q.mk))&&(!Q.ready||!missingTools(p).length)&&(!words.length||words.every(w=>p._s.includes(w))));};
+// Arama Türkçe harfsiz yazılışı da bulur (cocuk → çocuk); tam eşleşme yoksa ek almış sözcükte son iki harfi bırakır (dolabi → dola).
+const fold=s=>trl(s).replace(/[çğıöşüâîû]/g,c=>({ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u',â:'a',î:'i',û:'u'})[c]);
+filtered=function(skip){const words=fold(Q.q).split(/\s+/).filter(Boolean);
+  const base=PRODUCTS.filter(p=>(skip==='cat'||!Q.cat||p.cat===Q.cat)&&(skip==='cat'||!Q.sub||p.sub===Q.sub)&&(skip==='lvl'||!Q.lvl||p.level===Q.lvl)
+    &&(skip==='mk'||!Q.mk||kindsOf(p).has(Q.mk))&&(!Q.ready||!missingTools(p).length));
+  if(!words.length) return base;
+  const hay=p=>p._f||(p._f=fold(p._s));
+  const hit=base.filter(p=>words.every(w=>hay(p).includes(w)));
+  // Adında aranan sözcükler geçen ürün öne (Önerilen sıralamada); diğer sıralamalar bunu yeniden düzenler.
+  const nameHit=p=>words.every(w=>fold(p.name).includes(w))?0:1;
+  return hit.length?hit.sort((a,b)=>nameHit(a)-nameHit(b)):base.filter(p=>words.every(w=>hay(p).includes(w.length>=5?w.slice(0,-2):w)));};
 renderCatalog=function(){
   const F=document.getElementById('filters'); if(!F) return;
   const baseCat=filtered('cat'), baseLvl=filtered('lvl'), baseMk=filtered('mk'), cnt=(a,f)=>a.filter(f).length, desk=matchMedia('(min-width:900px)').matches;

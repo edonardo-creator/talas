@@ -43,8 +43,9 @@ html{scroll-behavior:auto}
   .cmap-row{min-height:44px}.tree button,.quick-cats button,.seg button,.text-link{min-height:44px}
   .vtoggle button,.btn.sm{min-height:44px}.print-action{min-width:44px}
   input[type=range]{height:36px}
-  .tabs{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent);scroll-padding-inline:8px}
-  .tabs.at-end{-webkit-mask-image:none;mask-image:none}
+  .tabs{scroll-padding-inline:8px}
+  .tabs:after{content:'';position:sticky;right:-5px;flex:none;width:34px;margin-left:-34px;margin-right:-5px;background:linear-gradient(90deg,#faf9f500,#faf9f5 75%);pointer-events:none}
+  .tabs.at-end:after{display:none}
   .tabs button{min-height:44px;font-size:12px}
   .feature-rail{scroll-padding-inline:20px}
   .nav{padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -153,4 +154,10 @@ body.has-ad .wrap,body.has-ad.project-page .wrap{padding-bottom:170px}
   .fbox .tree ul{flex-basis:100%;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:2px 0 4px 12px;border-left:3px solid #f1d9c2;list-style:none}
   .fbox .tree ul button{font-size:13.5px;padding:7px 12px;gap:5px}
   .fbox .fgroup h4{font-size:12px;margin:12px 0 6px}.fbox .cinfo{font-size:13px}
+}
+/* Telefon: "Kendin tarif et" seçenekleri süzgeç düğmeleriyle aynı biçimde */
+@media(max-width:899px){
+  .manual .seg{gap:8px}.manual .seg button{font:600 14px/1.2 var(--f-body);min-height:44px;padding:8px 14px;border-radius:22px;background:#fff;color:#4f4c42}
+  .manual .seg button[aria-pressed=true]{background:var(--accent-soft);border-color:#edc6a3;color:var(--accent)}
+  .manual label{font-size:13.5px;font-weight:600}.manual h4{font-size:12px}
 }

@@ -156,3 +156,8 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   - Maliyet tahmininde "birim TL" kutusu telefonda sığmıyordu: sütun 102 px.
   - Sekme çubuğu opak (arkadan yazı görünüyordu).
   - Katalog süzgeçleri telefonda yan yana büyük düğmeler (14 px kalın); alt kategoriler seçili kategorinin altında girintili satırda.
+- 2026-11-09 Claude: Telefon iyileştirmeleri (3):
+  - Arama Türkçe harfsiz yazımı bulur (`fold`, urunler.js `filtered`: cocuk → çocuk, kus evi → kuş evi); tam eşleşme yoksa 5+ harfli sözcüğün son iki harfi atılır (ayakkabi dolabi → Ayakkabılık). Önerilen sıralamada adında aranan sözcük geçen ürünler öne gelir.
+  - Plaka kesim yerleşimindeki parça yazıları parçaya sığdığı kadar büyür (önce en çok 56 birim, telefonda ~7 px).
+  - Sekme çubuğunun sağ ucundaki saydamlık maskesi yerine opak solma katmanı (`.tabs:after`); alttaki yazı sızmıyor.
+  - Fotoğraf > Kendin tarif et seçenekleri süzgeç düğmeleriyle aynı biçimde (14 px kalın, yuvarlak).

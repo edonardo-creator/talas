@@ -396,7 +396,7 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 .model[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600}
 @media (prefers-reduced-motion:reduce){.card:hover,.cattile:hover{transform:none}}
 </style>
-<link rel="stylesheet" href="atolye.css?v=1c429027">
+<link rel="stylesheet" href="atolye.css?v=ae655753">
 
 <div class="wrap" id="app"></div>
 <nav class="nav" aria-label="Ana gezinme">
@@ -942,7 +942,7 @@ function lumberHTML(s){
 }
 function sheetHTML(s){
   return s.pk.sheets.map((sh,i)=>{const SW=sh.W||s.M.SW,SH=sh.H||s.M.SH,lf=sh.left,big=lf&&lf.w>=100&&lf.h>=100;
-    return `<div class="board"><small>${sh.off?'Atölyemdeki artan':`Plaka ${i+1-s.offUsed}`} · ${SW}×${SH} mm${big?` · en büyük artan ${R(Math.max(lf.w,lf.h))}×${R(Math.min(lf.w,lf.h))} mm ${keepBtn(`${CUR.pr.id}|${s.m}|${i}|${R(lf.w)}x${R(lf.h)}`,{m:s.m,W:R(lf.w),H:R(lf.h)})}`:''}</small><div class="sheet"><svg viewBox="-10 -10 ${SW+20} ${SH+20}"><rect class="shrect" x="0" y="0" width="${SW}" height="${SH}"/>${big?`<rect class="shleft" x="${lf.x}" y="${lf.y}" width="${lf.w}" height="${lf.h}"/>`:''}${sh.items.map(it=>`<rect class="shp" x="${it.x}" y="${it.y}" width="${it.w}" height="${it.h}" fill="${partColor(s.m)}"/>${it.w>110&&it.h>70?`<text class="shtx" x="${it.x+it.w/2}" y="${it.y+it.h/2}" font-size="${Math.min(56,it.h*.32,it.w*.18)}">${it.num}${it.w>380&&it.h>120?' · '+R(Math.max(it.w,it.h))+'×'+R(Math.min(it.w,it.h)):''}</text>`:''}`).join('')}</svg></div></div>`;}).join('');
+    return `<div class="board"><small>${sh.off?'Atölyemdeki artan':`Plaka ${i+1-s.offUsed}`} · ${SW}×${SH} mm${big?` · en büyük artan ${R(Math.max(lf.w,lf.h))}×${R(Math.min(lf.w,lf.h))} mm ${keepBtn(`${CUR.pr.id}|${s.m}|${i}|${R(lf.w)}x${R(lf.h)}`,{m:s.m,W:R(lf.w),H:R(lf.h)})}`:''}</small><div class="sheet"><svg viewBox="-10 -10 ${SW+20} ${SH+20}"><rect class="shrect" x="0" y="0" width="${SW}" height="${SH}"/>${big?`<rect class="shleft" x="${lf.x}" y="${lf.y}" width="${lf.w}" height="${lf.h}"/>`:''}${sh.items.map(it=>`<rect class="shp" x="${it.x}" y="${it.y}" width="${it.w}" height="${it.h}" fill="${partColor(s.m)}"/>${it.w>110&&it.h>70?(lb=>`<text class="shtx" x="${it.x+it.w/2}" y="${it.y+it.h/2}" font-size="${Math.min(120,it.h*.42,it.w/(lb.length*.62+.6))}">${lb}</text>`)(`${it.num}${it.w>380&&it.h>120?' · '+R(Math.max(it.w,it.h))+'×'+R(Math.min(it.w,it.h)):''}`):''}`).join('')}</svg></div></div>`;}).join('');
 }
 
 /* ---------- görünümler ---------- */
@@ -1186,7 +1186,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t
 <script src="aileler.js?v=f343f796"></script>
 <script src="sekilli.js?v=49fc1276"></script>
 <script src="katalog.js?v=21b6dc9e"></script>
-<script src="urunler.js?v=041e7da1"></script>
+<script src="urunler.js?v=97d4fe94"></script>
 <script src="fotograf.js?v=a30d60ac"></script>
 <script src="atolye.js?v=4cf774b3"></script>
 <script src="ticari.js?v=369a7a28"></script>
