@@ -170,3 +170,7 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   - Telefonda küçük dokunma alanları 44 px: artan parça Sil, Artanı sakla, Satın al, gizlilik/koşullar bağlantıları.
   - Doğrulandı, sorunsuz: ölçü kaydı yenilemede korunur, Varsayılana dön, yapım akışı sonuna kadar, favori/Atölyem sayaçları, artan parça ekleme (boş eklenmez), alet çantası → "Yalnızca yapabileceklerim", kopyala düğmeleri, Kendin tarif et sonuçları, katalog geri dönüşte kaydırma ve sayfa korunur, hızlı kategoriler, masaüstü görünüm, konsol hatası yok, hizmet çalışanı güncellemeleri kendiliğinden alır.
   - Kullanıcıda bekleyen: `yasal/gizlilik.html` ve `kosullar.html` içindeki [AD SOYAD / ŞİRKET UNVANI], [ADRES] alanları.
+- 2026-11-09 Claude: Mağaza hazırlığı:
+  - Mobil derleme yeniden denendi: Android başarılı. iOS işi "macos-14 artık desteklenmiyor" diye başlamadan iptal oluyordu; `mobil.yml` iOS `runs-on: macos-latest` yapıldı, iOS derleme denetimi başarılı (çalışma 42696991302).
+  - Mağaza ekran görüntüleri (Play 1080×1920, App Store 1320×2868 ve 1284×2778; Keşfet, Ürün, Kesim yerleşimi, Yapım adımı, Atölyem) ve Play tanıtım görseli 1024×500 `Projeler/talas-magaza` klasöründe. Görünmez Chrome + DevTools protokolüyle çekildi; yeniden çekmek gerekirse sunucu 8777'de açıkken aynı yöntem.
+  - Uygulama paketi (`docs/`) yaklaşık 30 MB.
