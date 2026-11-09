@@ -1,4 +1,4 @@
-const C = 'talas-b7801eb1';
+const C = 'talas-8e0bf1a4';
 self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(['./']))); self.skipWaiting(); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== C).map(k => caches.delete(k))))); self.clients.claim(); });
 self.addEventListener('fetch', e => {
