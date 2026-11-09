@@ -167,7 +167,7 @@ viewMine = function() {
 // Telefonda sistem paylaşım menüsü; masaüstünde bağlantı panoya kopyalanır
 function shareProject(btn) {
   if (!CUR) return;
-  const data = { title: CUR.prod.name + ' · Talaş Atölye', text: CUR.prod.name + ' için ölçüsü ayarlanabilir plan, kesim listesi ve yapım adımları.', url: IS_NATIVE ? 'https://edonardo-creator.github.io/talas/' + location.hash : location.href };
+  const data = { title: CUR.prod.name + ' · Talaş Atölye', text: CUR.prod.name + ' için ölçüsü ayarlanabilir plan, kesim listesi ve yapım adımları.', url: (IS_NATIVE ? 'https://edonardo-creator.github.io/talas/' : location.href.split('#')[0]) + '#' + ((CUR.prod.models[stOf(CUR.prod).m] || {}).ref || CUR.prod.id) };
   const done = msg => { const label = btn.querySelector('span'); label.textContent = msg; setTimeout(() => { label.textContent = 'Paylaş'; }, 1800); };
   if (navigator.share) { navigator.share(data).catch(() => {}); return; }
   if (navigator.clipboard) navigator.clipboard.writeText(data.url).then(() => done('Kopyalandı'), () => done('Kopyalanamadı'));

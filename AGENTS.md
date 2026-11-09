@@ -161,3 +161,12 @@ Sahiplik, kimin dikkatle bakacağını gösterir, yasak değildir. Diğerinin al
   - Plaka kesim yerleşimindeki parça yazıları parçaya sığdığı kadar büyür (önce en çok 56 birim, telefonda ~7 px).
   - Sekme çubuğunun sağ ucundaki saydamlık maskesi yerine opak solma katmanı (`.tabs:after`); alttaki yazı sızmıyor.
   - Fotoğraf > Kendin tarif et seçenekleri süzgeç düğmeleriyle aynı biçimde (14 px kalın, yuvarlak).
+- 2026-11-09 Claude: Tam denetim (kullanıcı isteğiyle onay beklemeden):
+  - 287 model × 6 sekme: hata, NaN/undefined, 320 px taşma yok. 861 uç ölçü denemesi (her parametre en küçük/en büyük/karışık): NaN, sıfır ölçülü parça, stok hatası yok.
+  - Düzeltildi: parçalara ayrılmış çizimde süs parçalarına (`deco`, numarasız) "undefined" etiketi çiziliyordu (index.html iso etiketleri, 76 model).
+  - Düzeltildi: ölçü kutusunda sınır dışı değer (5000) kutuda kalabiliyordu; boş bırakınca sessizce varsayılana dönüyordu. Artık çıkışta geçerli değer yazılır, boşsa önceki değer kalır.
+  - Düzeltildi: telefonda "Sonraki/Önceki" adım düğmesi sayfayı en üstteki çizime kaydırıyordu; adım çizimi artık telefonda adım kartında (`.step-art`), kaydırma adım kartının başına.
+  - Paylaş bağlantısı seçili modelin kimliğini taşır (`#palet-sehpa`); alışveriş listesi kopyasında model adı var.
+  - Telefonda küçük dokunma alanları 44 px: artan parça Sil, Artanı sakla, Satın al, gizlilik/koşullar bağlantıları.
+  - Doğrulandı, sorunsuz: ölçü kaydı yenilemede korunur, Varsayılana dön, yapım akışı sonuna kadar, favori/Atölyem sayaçları, artan parça ekleme (boş eklenmez), alet çantası → "Yalnızca yapabileceklerim", kopyala düğmeleri, Kendin tarif et sonuçları, katalog geri dönüşte kaydırma ve sayfa korunur, hızlı kategoriler, masaüstü görünüm, konsol hatası yok, hizmet çalışanı güncellemeleri kendiliğinden alır.
+  - Kullanıcıda bekleyen: `yasal/gizlilik.html` ve `kosullar.html` içindeki [AD SOYAD / ŞİRKET UNVANI], [ADRES] alanları.

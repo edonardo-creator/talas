@@ -280,7 +280,7 @@ function cutText(){const {prod,c}=CUR, by={};cutRows(c).forEach(r=>(by[r.mat]=by
   let t=`${prod.name}${prod.models.length>1?' ('+m.label+')':''}: kesim listesi\nBitmiş ölçü ${c.dims.join(' × ')} mm. Parça ölçüleri mm: uzunluk × en × kalınlık\n`;
   Object.entries(by).forEach(([k,rs])=>{t+=`\n${MAT[k].n}\n`;rs.forEach(r=>{t+=`  ${r.num}. ${r.name}: ${r.n} adet, ${r.d.join(' × ')}${r.note?' ('+r.note+')':''}\n`;});});
   return t+'\nTalaş ile hazırlandı.';}
-function shopText(){const {prod,c}=CUR;let t=`${prod.name}: alışveriş listesi\n\nAhşap\n`;
+function shopText(){const {prod,c}=CUR,m=prod.models[stOf(prod).m];let t=`${prod.name}${prod.models.length>1?' ('+m.label+')':''}: alışveriş listesi\n\nAhşap\n`;
   stock(c).filter(s=>s.count).forEach(s=>{t+=`  • ${s.M.n}: ${s.count} ${s.type==='sheet'?`plaka (${s.M.SW}×${s.M.SH} mm)`:`boy (${s.L} mm)`}\n`;});
   t+='\nHırdavat ve sarf\n';c.hw.forEach(h=>{t+=`  • ${h[0]}: ${h[1]}${h[2]?' ('+h[2]+')':''}\n`;});return t;}
 function copyText(btn,text){

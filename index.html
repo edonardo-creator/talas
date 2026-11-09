@@ -787,7 +787,7 @@ function iso(parts,opt={}){
   if(opt.studio) out+='</g>';
   if(opt.labels&&opt.gnum){
     const r=span*.03, seen={}, b=bbox(solidP.map(o=>o.p)); const [ccx,ccy]=pj((b.x0+b.x1)/2,(b.y0+b.y1)/2,(b.z0+b.z1)/2);
-    solidP.forEach(o=>{const p=o.p; if(seen[p.g]) return; if(opt.labels==='new'&&o.s!=='new') return; seen[p.g]=1;
+    solidP.forEach(o=>{const p=o.p; if(seen[p.g]||!(p.g in opt.gnum)) return; if(opt.labels==='new'&&o.s!=='new') return; seen[p.g]=1;
       const [u,v]=pj(p.x+p.sx/2,p.y+p.sy,p.z+p.sz/2); let dx=u-ccx,dy=v-ccy; const d=Math.hypot(dx,dy)||1; dx/=d;dy/=d;
       const lx=u+dx*r*3.2, ly=v+dy*r*3.2-r*1.2;
       out+=`<g class="lbl ${o.s==='new'&&opt.labels==='new'?'nw':''}"><line x1="${u.toFixed(1)}" y1="${v.toFixed(1)}" x2="${lx.toFixed(1)}" y2="${ly.toFixed(1)}"/><circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="${r.toFixed(1)}"/><text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" font-size="${(r*1.15).toFixed(1)}">${opt.gnum[p.g]}</text></g>`;});
@@ -1061,6 +1061,7 @@ const TABS={
     const newG=[...new Set(s.add||[])];
     return `<div class="player"><div class="stepbar">${c.steps.map((x,i)=>`<button data-step="${i}" class="${i===si?'cur':d[i]?'done':''}" aria-label="Adım ${i+1}: ${esc(x.t)}"></button>`).join('')}</div>
     <div class="panel stepcard"><div class="eyebrow">Adım ${si+1} / ${c.steps.length}</div><h3>${esc(s.t)}</h3>
+    <figure class="step-art">${iso(c.parts,{state:q=>q.step<si?'old':q.step===si?'new':'ghost',labels:'new',gnum:c.gnum,studio:true})}</figure>
     ${newG.length?`<div class="mini">${newG.map(g=>`<span class="tag">${c.K(g)} ${esc(c.groups[c.gnum[g]-1].name)} ×${c.groups[c.gnum[g]-1].parts.length}</span>`).join('')}</div>`:''}
     <div class="txt">${s.x}</div>
     ${s.tip?`<div class="note tip"><b>İpucu</b><span>${esc(s.tip)}</span></div>`:''}
@@ -1135,7 +1136,7 @@ document.addEventListener('input',e=>{const t=e.target;
   if(CUR&&t.dataset.k&&t.type==='number'&&t.value!=='') {const q=CUR.pr.params.find(x=>x.k===t.dataset.k); if(+t.value>=q.min&&+t.value<=q.max) setParam(t.dataset.k,t.value);}
 });
 document.addEventListener('change',e=>{const t=e.target;
-  if(CUR&&t.dataset.k&&t.type==='number') setParam(t.dataset.k,t.value);
+  if(CUR&&t.dataset.k&&t.type==='number'){if(t.value!=='')setParam(t.dataset.k,t.value);t.value=CUR.p[t.dataset.k];}
   if(t.dataset.cut){const m=SAVE.cut[CUR.pr.id]=SAVE.cut[CUR.pr.id]||{};m[t.dataset.cut]=t.checked;persist();t.closest('.cl-item').classList.toggle('done',t.checked);}
   if(t.dataset.shop){const m=SAVE.shop[CUR.pr.id]=SAVE.shop[CUR.pr.id]||{};m[t.dataset.shop]=t.checked;persist();}
   if(t.dataset.have){SAVE.have[t.dataset.have]=t.checked;persist();t.closest('.tool').classList.toggle('have',t.checked);if(CUR&&CUR.tab==='ekipman')refresh();}
@@ -1158,7 +1159,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('button,a');if(!t
   if(t.dataset.step!=null){CUR.step=+t.dataset.step;refresh();return;}
   if(t.dataset.go){const a=SAVE.steps[CUR.pr.id]=SAVE.steps[CUR.pr.id]||[];const si=curStep(),n=CUR.c.steps.length;
     if(+t.dataset.go>0){a[si]=true;persist();CUR.step=Math.min(n-1,si+1);} else CUR.step=Math.max(0,si-1);
-    refresh(); if(window.matchMedia('(max-width:860px)').matches) document.getElementById('viewer').scrollIntoView({behavior:'smooth'}); return;}
+    refresh(); if(window.matchMedia('(max-width:899px)').matches){const tb=document.querySelector('.tabs'),pn=tb.closest('.detail-pane')||tb;scrollTo({top:pn.getBoundingClientRect().top+scrollY-(parseFloat(getComputedStyle(tb).top)||0),behavior:'smooth'});} return;}
   if(t.id==='reset'){delete SAVE.params[CUR.pr.id];persist();CUR.pr.params.forEach(q=>{CUR.p[q.k]=q.def;document.getElementById('r-'+q.k).value=q.def;document.getElementById('n-'+q.k).value=q.def;});CUR.c=compute(CUR.pr,CUR.p);refresh();}
 });
 
