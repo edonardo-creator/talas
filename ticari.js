@@ -26,6 +26,10 @@ const plug = n => NATIVE && CAP.Plugins ? CAP.Plugins[n] : null;
 /* ---------- premium durumu ---------- */
 let PREMIUM = !NATIVE && TICARI.webAllFree;
 try { if (NATIVE && localStorage.getItem('talas_premium') === '1') PREMIUM = true; } catch (e) {}
+/* Google Play inceleme kodu: yalnız Android'de, Premium'u o cihazda açar. Kodun kendisi Play Console'daki erişim notunda; burada yalnız SHA-256 özeti var. */
+const REVIEW_HASH = '3fd93fa35eab0c474a948b5b1035b695266fab57519e2bcf2a4d4452a42ef848';
+let CODE_OK = false;
+try { CODE_OK = localStorage.getItem('talas_kod') === '1'; if (CODE_OK) PREMIUM = true; } catch (e) {}
 const isPremium = () => PREMIUM;
 function setPremium(v) {
   if (v === PREMIUM) return;
@@ -47,7 +51,7 @@ const Store = {
       P.addCustomerInfoUpdateListener && P.addCustomerInfoUpdateListener(info => this.apply(info));
     } catch (e) { console.warn('RevenueCat', e); }
   },
-  apply(res) { const info = res && (res.customerInfo || res); if (info && info.entitlements) setPremium(!!info.entitlements.active[TICARI.entitlement]); },
+  apply(res) { const info = res && (res.customerInfo || res); if (info && info.entitlements) setPremium(CODE_OK || !!info.entitlements.active[TICARI.entitlement]); },
   async sync() { const P = plug('Purchases'); if (this.ready) this.apply(await P.getCustomerInfo()); },
   async packages() {
     const P = plug('Purchases'); if (!this.ready) return [];
@@ -99,7 +103,8 @@ async function openPaywall() {
   const head = `<button class="pw-close" data-pwclose="1" aria-label="Kapat">×</button><p class="eyebrow">TALAŞ PREMIUM</p><h2>Atölyeni bir üst seviyeye taşı</h2>
     <ul class="pw-perks">${PERKS.map(([t, s]) => `<li><b>${esc(t)}</b><span>${esc(s)}</span></li>`).join('')}</ul>`;
   const foot = `<p class="pw-legal">Abonelik, dönem bitmeden en az 24 saat önce iptal edilmezse aynı ücretle yenilenir; ${PLATFORM === 'ios' ? 'App Store' : 'Google Play'} hesap ayarlarından yönetip iptal edebilirsin. <a href="${TICARI.termsUrl}" target="_blank" rel="noopener">Kullanım koşulları</a> · <a href="${TICARI.privacyUrl}" target="_blank" rel="noopener">Gizlilik</a></p>`;
-  dlg.innerHTML = head + '<div class="pw-plans"><p class="muted">Yükleniyor…</p></div>' + foot;
+  const code = PLATFORM === 'android' && !PREMIUM ? '<details class="pw-code"><summary>Kodum var</summary><form data-code="1"><input name="kod" aria-label="Kod" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn sm">Uygula</button></form></details>' : '';
+  dlg.innerHTML = head + '<div class="pw-plans"><p class="muted">Yükleniyor…</p></div>' + code + foot;
   if (!dlg.open) dlg.showModal();
   const box = dlg.querySelector('.pw-plans');
   if (PREMIUM) { box.innerHTML = '<p class="pw-ok">Premium açık. Teşekkürler!</p>'; return; }
@@ -164,3 +169,15 @@ viewMine = function() {
 };
 
 Store.init().then(() => Ads.init());
+document.addEventListener('submit', async e => {
+  const f = e.target.closest('[data-code]'); if (!f) return;
+  e.preventDefault();
+  const v = f.kod.value.trim().toUpperCase(), old = f.querySelector('.pw-msg'); if (old) old.remove();
+  let hex = '';
+  try { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(v)); hex = [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); } catch (err) {}
+  if (hex && hex === REVIEW_HASH) {
+    CODE_OK = true; try { localStorage.setItem('talas_kod', '1'); } catch (err) {}
+    setPremium(true);
+    const dlg = document.getElementById('paywall'); dlg.querySelector('.pw-plans').innerHTML = '<p class="pw-ok">Premium açık. Teşekkürler!</p>'; f.closest('details').remove();
+  } else f.insertAdjacentHTML('beforeend', '<p class="pw-msg muted">Kod geçerli değil.</p>');
+});

@@ -172,3 +172,4 @@ body.has-ad .wrap,body.has-ad.project-page .wrap{padding-bottom:170px}
   .keep{min-height:44px;padding:8px 12px}.buy-link,.tool.tool-ph .buy-link{min-height:44px}
   a[href$='gizlilik.html'],a[href$='kosullar.html']{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
 }
+.pw-code{margin:10px 0 2px;font-size:13px}.pw-code summary{cursor:pointer;color:var(--muted);min-height:44px;display:flex;align-items:center}.pw-code form{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.pw-code input{flex:1;min-width:0;font-size:16px;padding:9px 10px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--ink);text-transform:uppercase}.pw-code .pw-msg{flex-basis:100%;margin:0}
