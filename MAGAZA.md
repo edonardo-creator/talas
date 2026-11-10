@@ -4,6 +4,20 @@ Uygulama kimliği (paket adı): `com.talasatolye.app`. İlk yüklemeden sonra de
 
 Gelir üç yoldan gelir: **reklam** (AdMob, yalnız mağaza uygulamasında, Premium'da yok), **Premium abonelik** (RevenueCat ile Google Play ve App Store satın alması), **ortaklık bağlantıları** (malzeme ve alet listelerinde Amazon "Satın al"). Web sürümü şimdilik ücretsiz ve reklamsızdır (`ticari.js` → `TICARI.webAllFree`).
 
+## Paintline ile ortak hesaplar (2026-11-10)
+
+Paintline için açılan hesaplar Talaş'ta da kullanılır; yeni hesap değil, aynı hesapta yeni uygulama açılır.
+
+| Hesap | Talaş için durum | Yapılacak |
+|---|---|---|
+| Google Play Console (EB Design TR) | Ortak, hazır | "Uygulama oluştur" → Talaş Atölye, paket `com.talasatolye.app`. Ödeme profili, satıcı adı, %15 ücret programı hesap düzeyinde geçerli. Kişisel hesap kuralı her yeni uygulama için yine 12 test kullanıcısı / 14 gün ister; Paintline'ın test listesi yeniden kullanılabilir. |
+| Apple Developer (Team ID `775SY2VSNK`) | Ortak, hazır | Yeni paket kimliği `com.talasatolye.app` kaydı (In-App Purchase açık) ve App Store Connect'te yeni uygulama kaydı. Paid Apps sözleşmesi, banka, W-8BEN ve Küçük İşletme Programı hesap düzeyinde, yeniden yapılmaz. |
+| App Store Connect API anahtarı | Ortak (paintline-ios deposunda gizli değer olarak) | Aynı anahtar talas deposunun gizli değerlerine de eklenmeli (`.p8` dosyası sende); GitHub gizli değerleri geri okunamaz. |
+| AdSense (PUB-6247665234607957) | Ortak ödeme hesabı | AdMob, aynı Google hesabıyla açılınca bu yayıncı kimliğine ve ödeme profiline bağlanır; AdMob'a ilk girişte kayıt formu çıkar. |
+| Android yükleme anahtarı | Paintline'ınki `boya-yolu/android/paintline-upload.jks` | Aynı anahtar Talaş'ta da kullanılabilir (Google izin verir); daha güvenlisi Talaş için ayrı anahtar. Şifreleri GitHub gizli değerlerine sen girersin. |
+| RevenueCat | Paintline kullanmıyor | Yeni ücretsiz hesap gerekir. |
+| Amazon Ortaklık | Paintline kullanmıyor | Yeni başvuru gerekir (isteğe bağlı). |
+
 ## Senin yapacakların (sırayla)
 
 1. **Hesaplar**
