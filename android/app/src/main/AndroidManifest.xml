@@ -10,7 +10,7 @@
         <!-- AdMob uygulama kimliği: yayından önce kendi kimliğinle değiştir (şu an Google test kimliği) -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"
+            android:value="ca-app-pub-6247665234607957~3537180394"
         />
 
         <activity

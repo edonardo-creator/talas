@@ -28,7 +28,7 @@ Paintline için açılan hesaplar Talaş'ta da kullanılır; yeni hesap değil, 
    - AdMob hesabı (admob.google.com), RevenueCat hesabı (ücretsiz başlangıç), Amazon Ortaklık Programı (ortaklik.amazon.com.tr).
    - Gelir alacağın için vergi mükellefiyeti gerekir (şahıs şirketi ya da mevcut şirket); mali müşavirine danış.
 2. **Yasal metinler:** ✓ Dolduruldu (2026-11-10): EB DESİGN TR, Ortaca/Muğla adresi, mobilyaaser@gmail.com. Mağaza kayıtlarında "iletişim e-postası" ve "gizlilik politikası" olarak bunları kullan. Adresler: `https://edonardo-creator.github.io/talas/gizlilik.html` ve `.../kosullar.html`.
-3. **AdMob:** Android ve iOS için iki uygulama oluştur, her birinde bir "Uyarlanabilir banner" reklam birimi aç.
+3. **AdMob:** ✓ 2026-11-10 kuruldu (Android `~3537180394` / banner `/1453767529`, iOS `~7364744769` / banner `/9719445366`; koda yazıldı). Kalan: Play yayını sonrası AdMob'da "Mağaza ekle" ile uygulamayı bağla, onay gelince `testAds: false`; GDPR mesajı. Eski not: Android ve iOS için iki uygulama oluştur, her birinde bir "Uyarlanabilir banner" reklam birimi aç.
    - Uygulama kimliklerini `android/app/src/main/AndroidManifest.xml` (`APPLICATION_ID`) ve `ios/App/App/Info.plist` (`GADApplicationIdentifier`) dosyalarına yaz; şu an Google test kimlikleri var.
    - Banner kimliklerini `ticari.js` → `TICARI.admob` içine yaz, yayından önce `testAds: false` yap.
    - AdMob > Gizlilik ve mesajlaşma bölümünde GDPR onay mesajını ve iOS izleme açıklamasını oluştur.

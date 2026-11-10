@@ -9,8 +9,8 @@ const TICARI = {
   webAllFree: true,                       // web sürümünde premium özellikler açık, reklam yok
   testAds: true,                          // yayından önce false yap ve gerçek reklam birimlerini gir
   admob: {
-    android: { banner: '' },              // ca-app-pub-XXXX/YYYY (AdMob > Uygulamalar > Reklam birimleri)
-    ios: { banner: '' }
+    android: { banner: 'ca-app-pub-6247665234607957/1453767529' },
+    ios: { banner: 'ca-app-pub-6247665234607957/9719445366' }
   },
   revenuecat: { android: '', ios: '' },   // RevenueCat genel SDK anahtarları (goog_... / appl_...)
   entitlement: 'premium',
