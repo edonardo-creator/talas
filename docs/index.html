@@ -59,14 +59,14 @@ p{margin:0}
 
 /* brand */
 .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.brand h1 span{color:var(--accent)}
+.brand h1 span{color:var(--accent-text)}
 .brand .rule{flex:1;min-width:60px;height:10px;align-self:center;background:repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 10px);opacity:.35;mask:linear-gradient(#000 0 0) bottom/100% 100% no-repeat}
 
 /* gezinme */
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--panel);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .nav a{flex:1;max-width:200px;min-height:var(--nav-h);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);text-decoration:none;font-size:12.5px;font-weight:500}
 .nav a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6}
-.nav a[aria-current="page"]{color:var(--accent)}
+.nav a[aria-current="page"]{color:var(--accent-text)}
 
 /* proje kartları */
 .chips{display:flex;gap:8px;flex-wrap:wrap}
@@ -126,7 +126,7 @@ p{margin:0}
 .prose{max-width:65ch;display:grid;gap:10px}
 .note{padding:10px 14px;border-radius:6px;font-size:14px;display:flex;gap:10px}
 .note.warn{background:var(--warn-soft);color:var(--ink)} .note.warn b{color:var(--warn)}
-.note.tip{background:var(--accent-soft)} .note.tip b{color:var(--accent)}
+.note.tip{background:var(--accent-soft)} .note.tip b{color:var(--accent-text)}
 .note.ok{background:var(--ok-soft)} .note.ok b{color:var(--ok)}
 
 .pn{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 5px;border-radius:999px;border:1.5px solid currentColor;font:600 12px/1 var(--f-mono);vertical-align:1px}
@@ -250,7 +250,7 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
   .nav a svg{width:18px;height:18px}
   .navbrand{display:flex!important;margin-right:auto;font:700 26px/1 var(--f-disp)!important;color:var(--ink)!important;letter-spacing:.01em}
   .navbrand{gap:0!important}
-  .navbrand span{color:var(--accent)}
+  .navbrand span{color:var(--accent-text)}
   .wrap{padding-block:88px 56px}
 }
 
@@ -281,7 +281,7 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 .cattile .pic svg{width:100%;height:100%}
 .ct-body{display:grid;gap:4px;min-width:0}
 .ct-body b{font:700 22px/1.05 var(--f-disp)}
-.ct-n{color:var(--accent);font-size:13px}
+.ct-n{color:var(--accent-text);font-size:13px}
 .ct-subs{font-size:12.5px;color:var(--muted);line-height:1.4}
 
 /* katalog haritası */
@@ -317,8 +317,8 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 .tree button{width:100%;display:flex;justify-content:space-between;gap:8px;align-items:center;border:0;background:none;padding:7px 8px;border-radius:6px;text-align:left;font-size:14px;min-height:36px}
 .tree button span{font:12.5px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
 .tree button:hover{background:var(--sunk)}
-.tree button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
-.tree button[aria-pressed="true"] span{color:var(--accent)}
+.tree button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+.tree button[aria-pressed="true"] span{color:var(--accent-text)}
 .search{width:100%;padding:12px 16px;border:0;border-radius:12px;background:var(--panel);box-shadow:var(--lift);min-height:48px;margin-bottom:14px;font-size:15px}
 .rbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px}
 .rbar label{display:flex;gap:8px;align-items:center;color:var(--muted)}
@@ -393,10 +393,10 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 .model .pic{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;padding:4px}
 .model .pic svg{width:100%;height:100%}
 .model:hover{border-color:var(--line)}
-.model[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600}
+.model[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-text);font-weight:600}
 @media (prefers-reduced-motion:reduce){.card:hover,.cattile:hover{transform:none}}
 </style>
-<link rel="stylesheet" href="atolye.css?v=c7f7881b">
+<link rel="stylesheet" href="atolye.css?v=7de3c2f3">
 
 <div class="wrap" id="app"></div>
 <nav class="nav" aria-label="Ana gezinme">
