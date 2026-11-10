@@ -11,7 +11,7 @@ Gelir üç yoldan gelir: **reklam** (AdMob, yalnız mağaza uygulamasında, Prem
    - Apple Developer Program: yıllık 99 USD.
    - AdMob hesabı (admob.google.com), RevenueCat hesabı (ücretsiz başlangıç), Amazon Ortaklık Programı (ortaklik.amazon.com.tr).
    - Gelir alacağın için vergi mükellefiyeti gerekir (şahıs şirketi ya da mevcut şirket); mali müşavirine danış.
-2. **Yasal metinler:** `yasal/gizlilik.html` ve `yasal/kosullar.html` içindeki `[AD SOYAD / ŞİRKET UNVANI]`, `[ADRES]`, `[İLETİŞİM E-POSTASI]` alanlarını doldur. Adresler: `https://edonardo-creator.github.io/talas/gizlilik.html` ve `.../kosullar.html`.
+2. **Yasal metinler:** ✓ Dolduruldu (2026-11-10): EB DESİGN TR, Ortaca/Muğla adresi, mobilyaaser@gmail.com. Mağaza kayıtlarında "iletişim e-postası" ve "gizlilik politikası" olarak bunları kullan. Adresler: `https://edonardo-creator.github.io/talas/gizlilik.html` ve `.../kosullar.html`.
 3. **AdMob:** Android ve iOS için iki uygulama oluştur, her birinde bir "Uyarlanabilir banner" reklam birimi aç.
    - Uygulama kimliklerini `android/app/src/main/AndroidManifest.xml` (`APPLICATION_ID`) ve `ios/App/App/Info.plist` (`GADApplicationIdentifier`) dosyalarına yaz; şu an Google test kimlikleri var.
    - Banner kimliklerini `ticari.js` → `TICARI.admob` içine yaz, yayından önce `testAds: false` yap.
