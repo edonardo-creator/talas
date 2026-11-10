@@ -79,7 +79,7 @@ const GROUPS=[
   {id:'bahce-citi',name:'Bahçe çiti ve kapısı',desc:'Dikmeli, yatay ya da dikey tahtalı gizlilik çiti ve ona uyan Z kayıtlı bahçe kapısı.',models:[['bahce-citi','Çit'],['bahce-kapisi','Bahçe kapısı']]},
   {id:'kopek-kulubesi',name:'Köpek ve kedi kulübesi',desc:'Beşik çatılı ya da verandalı, rüzgâr bölmeli köpek kulübesi ve yalıtımlı, iki girişli sokak kedisi evi.',models:[['kopek-kulubesi','Beşik çatılı köpek kulübesi'],['verandali-kulube','Verandalı köpek kulübesi'],['kedi-evi','Sokak kedisi evi']]},
   {id:'kombi-dolabi',name:'Kombi ve makine dolabı',desc:'Havalandırmalı, baca delikli kombi dolabı ya da altı makine boşluklu, üstü kapaklı çamaşır makinesi dolabı.',models:[['kombi-dolabi','Kombi dolabı'],['makine-dolabi','Çamaşır makinesi dolabı']]},
-  {id:'pergola',name:'Pergola',desc:'Dört dikmeli serbest duran ya da duvar kirişine bağlanan, istenirse gölgelik çıtalı pergola.',models:[['pergola','Serbest duran'],['duvar-pergolasi','Duvara bitişik']]},
+  {id:'pergola',name:'Pergola',desc:'Dört dikmeli serbest duran ya da duvar kirişine bağlanan, istenirse gölgelik çıtalı pergola.',models:[['pergola','Serbest duran'],['duvar-pergolasi','Duvara bitişik'],['kamelya','Kamelya (masalı)']]},
   {id:'bisiklet-standi',name:'Bisiklet standı',desc:'Tekerlek yuvalı zemin standı ya da iki kollu duvar askısı.',models:[['bisiklet-standi','Zemin standı'],['bisiklet-askisi','Duvar askısı']]},
   {id:'salincak',name:'Salıncak',desc:'A ayaklı çerçeveli ya da tavana asılan zincirli bank, halatlı çocuk salıncağı.',models:[['bahce-salincagi','Bahçe salıncağı'],['veranda-salincagi','Veranda salıncağı'],['cocuk-salincagi','Çocuk salıncağı']]},
   {id:'oturma-grubu',name:'Oturma grubu',desc:'Çıtalı gövdeli, minderli tekli koltuk, kanepe ve köşe kanepe; bahçe için emprenye, salon için meşe.',models:[['tekli-koltuk','Tekli koltuk'],['kanepe','Kanepe'],['kose-kanepe','Köşe kanepe']]},
@@ -235,7 +235,10 @@ function missingTools(prod){const pr=configure(prod,stOf(prod).m),p=params(pr),c
 Q.mk='';Q.ready=false;
 // Arama Türkçe harfsiz yazılışı da bulur (cocuk → çocuk); tam eşleşme yoksa ek almış sözcükte son iki harfi bırakır (dolabi → dola).
 const fold=s=>trl(s).replace(/[çğıöşüâîû]/g,c=>({ç:'c',ğ:'g',ı:'i',ö:'o',ş:'s',ü:'u',â:'a',î:'i',û:'u'})[c]);
-filtered=function(skip){const words=fold(Q.q).split(/\s+/).filter(Boolean);
+// Eşanlamlılar: halkın kullandığı ad katalogdaki ada çevrilir (dresuar → konsol). Anahtarlar harfsiz yazılır, sözcük başından eşleşir.
+const SYN=[['televizyon sehpa','tv'],['tv sehpa','tv'],['duvar unitesi','tv'],['televizyon','tv'],['dresuar','konsol'],['sebzelik','sebze kasa'],['bar sandalye','bar taburesi'],['kedi kumu','kum kabi'],['mini bar','bar dolabi'],['siselik','sarap'],['koridor','antre'],['baraka','kulube'],['nihale','servis']];
+const synQ=q=>{let t=' '+q+' ';for(const [a,b] of SYN)t=t.replace(new RegExp(' '+a+'[a-z]*(?= )','g'),' '+b);return t.trim();};
+filtered=function(skip){const words=synQ(fold(Q.q)).split(/\s+/).filter(Boolean);
   const base=PRODUCTS.filter(p=>(skip==='cat'||!Q.cat||p.cat===Q.cat)&&(skip==='cat'||!Q.sub||p.sub===Q.sub)&&(skip==='lvl'||!Q.lvl||p.level===Q.lvl)
     &&(skip==='mk'||!Q.mk||kindsOf(p).has(Q.mk))&&(!Q.ready||!missingTools(p).length));
   if(!words.length) return base;

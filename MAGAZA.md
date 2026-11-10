@@ -37,7 +37,7 @@ Gelir üç yoldan gelir: **reklam** (AdMob, yalnız mağaza uygulamasında, Prem
 
 **Uzun açıklama:**
 
-Talaş Atölye, ahşapla bir şey yapmak isteyen herkes için ölçüsü ayarlanabilir proje kütüphanesidir. Kitaplıktan bahçe bankına, çocuk mobilyasından atölye tezgâhına 177 ürün ve 287 model seni bekliyor.
+Talaş Atölye, ahşapla bir şey yapmak isteyen herkes için ölçüsü ayarlanabilir proje kütüphanesidir. Kitaplıktan bahçe bankına, çocuk mobilyasından atölye tezgâhına 177 ürün ve 288 model seni bekliyor.
 
 Ölçüyü değiştir, gerisini Talaş hesaplasın:
 • Parça parça kesim listesi ve numaralı çizimler

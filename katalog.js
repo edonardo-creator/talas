@@ -840,6 +840,25 @@ function pergola(p,o){
   return c;
 }
 
+/* 2026-11-10: Kamelya = gölgelikli pergola + ortasında oturakları bağlı masa (pergola ve piknik masası hesaplarından) */
+function kamelya(p,o){
+  const L=p.L, W=p.W, sp=o.sp||'emp';
+  const a=pergola({L,W,H:p.H},{sp,shade:true});
+  const Lp=Math.max(1500,Math.min(2400,R((L-790)/10)*10)), b=picnic({L:Lp},{sp});
+  const dx=R((L-Lp)/2), dz=R(W/2-900), mv=q=>Object.assign({},q,{g:'t'+q.g,x:q.x+dx,z:q.z+dz},q.rings?{rings:q.rings.map(r=>r.map(v=>[v[0]+dx,v[1],v[2]+dz]))}:{});
+  const parts=[...a.parts,...b.parts.map(mv)];
+  const hw=[...a.hw.filter(h=>!/yağı/.test(h[0])),...b.hw.filter(h=>!/yağı/.test(h[0])),['Dış mekân ahşap yağı',Math.ceil(L*W/1e6/3)+2+' L','2-3 kat']];
+  const c={parts,hw,join:a.join,
+    notes:[...a.notes,{t:'tip',x:`Masa ${Lp} mm boyunda, 6-8 kişilik; oturaklar dikmelerin arasında. Girişler masanın iki ucundan.`}]};
+  const seen=new Set(); c.tools=[...a.tools,...b.tools].filter(t=>!seen.has(t[0])&&seen.add(t[0]));
+  c.mkSteps=K=>{const Kt=g=>K('t'+g);a.groups=b.groups=[];
+    const sa=a.mkSteps(K), sb=b.mkSteps(Kt).filter(st=>st.add&&st.add.length).map(st=>Object.assign({},st,{add:st.add.map(g=>'t'+g)}));
+    return [{t:'Parçaları kes',tools:['daire','gonyeT','aciOlcer','metre'],x:cutUL(c,K)},...sa.slice(1,-1),
+      ...sb.map((st,i)=>i?st:Object.assign({},st,{x:'<p>Masayı pergolanın içinde kur; iki uç çerçeve dikmelerden eşit uzaklıkta olsun.</p>'+st.x})),
+      finishStep({outdoor:1})];};
+  return c;
+}
+
 /* 37) Paravan (oda bölücü) */
 function screen(p,o){
   const parts=[], N=p.N, PW=p.W, H=p.H, sp=o.sp||'kayin', st=LM(sp,28,45), lt=LM(sp,12,30), rattan=o.fill==='rattan';
@@ -3738,6 +3757,8 @@ F3({id:'epoksi-sehpa',name:'Epoksi orta sehpa',cat:'Ev mobilyası',b:riverTable,
 /* 2026-11-04 (3): pergola, paravan, servis arabası, oyun çadırı, bisiklet standı, ranza */
 F3({id:'pergola',name:'Pergola',cat:'Bahçe ve dış mekân',b:pergola,level:3,time:'3 gün',tags:'çardak gölgelik teras veranda bahçe yapısı',desc:'Dört dikmeli, payandalı, istenirse gölgelik çıtalı bahçe pergolesi.',
   P:{L:[2000,4500,10],W:[2000,4000,10],H:[2300,2800,10]},def:()=>({L:3000,W:3000,H:2500}),o:{},ax:[['L',[2500,3000,3600]],['shade',[false,true],{false:'açık',true:'gölgelikli'}],['sp',['emp','cam'],SPL]],lbl:{L:'Genişlik',W:'Derinlik',H:'Yükseklik'}});
+F3({id:'kamelya',name:'Kamelya',cat:'Bahçe ve dış mekân',b:kamelya,level:3,time:'4 gün',tags:'kamelya kameriye çardak masalı pergola oturma grubu bahçe',desc:'Gölgelikli pergolanın içine oturakları bağlı piknik masası kurulmuş bahçe kamelyası.',
+  P:{L:[2400,3600,10],W:[2000,3000,10],H:[2300,2700,10]},def:()=>({L:3000,W:2400,H:2400}),o:{},ax:[['L',[2600,3000,3400]],['sp',['emp','cam'],SPL]],lbl:{L:'Genişlik',W:'Derinlik',H:'Yükseklik'}});
 F3({id:'duvar-pergolasi',name:'Duvara bitişik pergola',cat:'Bahçe ve dış mekân',b:pergola,level:3,time:'2,5 gün',tags:'çardak gölgelik teras veranda balkon duvar',desc:'Bir tarafı duvar kirişine bağlanan, iki dikmeli teras pergolesi.',
   P:{L:[2000,4500,10],W:[1500,3500,10],H:[2300,2800,10]},def:()=>({L:3000,W:2500,H:2500}),o:{wall:true},ax:[['L',[2500,3000,3600]],['shade',[false,true],{false:'açık',true:'gölgelikli'}],['sp',['emp','cam'],SPL]],lbl:{L:'Genişlik',W:'Derinlik',H:'Yükseklik'}});
 F3({id:'paravan',name:'Paravan',cat:'Ev mobilyası',b:screen,level:2,time:'1 gün',tags:'oda bölücü bölme ekran katlanır hasır',desc:'Menteşeli panellerden oluşan, çıtalı ya da hasır dolgulu katlanır oda bölücü.',
