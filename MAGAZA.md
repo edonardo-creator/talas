@@ -18,6 +18,8 @@ Paintline için açılan hesaplar Talaş'ta da kullanılır; yeni hesap değil, 
 | RevenueCat | Paintline kullanmıyor | Yeni ücretsiz hesap gerekir. |
 | Amazon Ortaklık | Paintline kullanmıyor | Yeni başvuru gerekir (isteğe bağlı). |
 
+**Play Console (2026-11-10):** Uygulama oluşturuldu: "Talaş Atölye: Ahşap Projeler", `com.talasatolye.app`, varsayılan dil tr-TR, uygulama, ücretsiz (uygulama kimliği 4972176167883117271). Sırada: uygulama içeriği formları ve mağaza kaydı, sonra imzalı AAB ile kapalı test (12 kişi / 14 gün).
+
 ## Senin yapacakların (sırayla)
 
 1. **Hesaplar**
