@@ -243,10 +243,12 @@ filtered=function(skip){const words=synQ(fold(Q.q)).split(/\s+/).filter(Boolean)
     &&(skip==='mk'||!Q.mk||kindsOf(p).has(Q.mk))&&(!Q.ready||!missingTools(p).length));
   if(!words.length) return base;
   const hay=p=>p._f||(p._f=fold(p._s));
-  const hit=base.filter(p=>words.every(w=>hay(p).includes(w)));
+  // 3 harf ve altı sözcük yalnız sözcük başında eşleşir (tv → cetveli içindeki tv değil).
+  const has=(h,w)=>w.length>3?h.includes(w):(' '+h).includes(' '+w);
+  const hit=base.filter(p=>words.every(w=>has(hay(p),w)));
   // Adında aranan sözcükler geçen ürün öne (Önerilen sıralamada); diğer sıralamalar bunu yeniden düzenler.
   const nameHit=p=>words.every(w=>fold(p.name).includes(w))?0:1;
-  return hit.length?hit.sort((a,b)=>nameHit(a)-nameHit(b)):base.filter(p=>words.every(w=>hay(p).includes(w.length>=5?w.slice(0,-2):w)));};
+  return hit.length?hit.sort((a,b)=>nameHit(a)-nameHit(b)):base.filter(p=>words.every(w=>has(hay(p),w.length>=5?w.slice(0,-2):w)));};
 renderCatalog=function(){
   const F=document.getElementById('filters'); if(!F) return;
   const baseCat=filtered('cat'), baseLvl=filtered('lvl'), baseMk=filtered('mk'), cnt=(a,f)=>a.filter(f).length, desk=matchMedia('(min-width:900px)').matches;
