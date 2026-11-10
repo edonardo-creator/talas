@@ -35,7 +35,7 @@ Paintline için açılan hesaplar Talaş'ta da kullanılır; yeni hesap değil, 
 4. **Satın alma ürünleri** (Play Console > Abonelikler ve App Store Connect > Abonelikler, aynı kimliklerle):
    - `talas_premium_aylik` (aylık), `talas_premium_yillik` (yıllık); istersen `talas_premium_omur` (tek seferlik, ömür boyu).
    - Önerilen fiyat: aylık 49,99 TL, yıllık 349,99 TL (yaklaşık %40 indirim), ömür boyu 899,99 TL.
-5. **RevenueCat:** Projeye Play ve App Store uygulamalarını bağla, ürünleri içe aktar, `premium` adlı yetki (entitlement) oluşturup ürünleri ona ekle, `default` teklifine paketleri koy. Genel SDK anahtarlarını (`goog_...`, `appl_...`) `ticari.js` → `TICARI.revenuecat` içine yaz.
+5. **RevenueCat:** ✓ Android kısmı 2026-11-11 kuruldu (abonelik `talas_premium` aylık 49,99 / yıllık 349,99 TL; yetki `premium`; `default` teklif; anahtar koda yazıldı). Kalan: Play hizmet hesabı JSON'u, iOS. Eski not: Projeye Play ve App Store uygulamalarını bağla, ürünleri içe aktar, `premium` adlı yetki (entitlement) oluşturup ürünleri ona ekle, `default` teklifine paketleri koy. Genel SDK anahtarlarını (`goog_...`, `appl_...`) `ticari.js` → `TICARI.revenuecat` içine yaz.
 6. **Amazon takip kimliği:** `ticari.js` → `TICARI.affiliate.amazonTag`.
 7. **Android imza anahtarı** (bir kez; dosyayı ve şifreyi güvenli sakla, kaybedersen güncelleme yayınlayamazsın):
    - Android Studio > Build > Generate Signed Bundle ile oluştur, ya da Java kuruluysa: `keytool -genkey -v -keystore upload.jks -alias talas -keyalg RSA -keysize 2048 -validity 10000`.

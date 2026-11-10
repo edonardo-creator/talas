@@ -12,7 +12,7 @@ const TICARI = {
     android: { banner: 'ca-app-pub-6247665234607957/1453767529' },
     ios: { banner: 'ca-app-pub-6247665234607957/9719445366' }
   },
-  revenuecat: { android: '', ios: '' },   // RevenueCat genel SDK anahtarları (goog_... / appl_...)
+  revenuecat: { android: 'goog_ATGAhLmgtBPiDVqHGBsmDwaloQz', ios: '' },   // RevenueCat genel SDK anahtarları (goog_... / appl_...)
   entitlement: 'premium',
   affiliate: { amazonTag: '' },           // Amazon Ortaklık takip kimliği (ör. talas-21)
   privacyUrl: 'https://edonardo-creator.github.io/talas/gizlilik.html',
