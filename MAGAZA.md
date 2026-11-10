@@ -74,9 +74,9 @@ Talaş Premium ile reklamsız kullan, kesimden artan parçaları sakla ve yeni p
 
 - **Gereken boyutlar:**
   - Play: en az 2 telefon görüntüsü (1080×1920), 512×512 simge (`assets/app-icon-512.png`), 1024×500 tanıtım görseli.
-  - App Store: 6,9" (1320×2868) ve 6,5" (1284×2778) iPhone görüntüleri.
+  - App Store: 6,9" (1320×2868) ve 6,5" (1284×2778) iPhone görüntüleri; uygulama iPad'de de çalıştığı için 13" iPad (2064×2752) görüntüleri de zorunlu.
 - **Önerilen ekranlar:** Ana sayfa, bir ürün sayfası (fotoğraf + çizim), Kesim sekmesi (plaka yerleşimi), Yapım adımı, Atölyem.
-- **Hazır (2026-11-09):** `Projeler/talas-magaza` klasöründe (depoya alınmadı): `play-1080x1920/`, `appstore-6.9-1320x2868/`, `appstore-6.5-1284x2778/` içinde beşer ekran (1-kesfet … 5-atolyem) ve `play-tanitim-1024x500.png`. Tanıtım görselinin kaynağı `tanitim.html`.
+- **Hazır (2026-11-09):** `Projeler/talas-magaza` klasöründe (depoya alınmadı): `play-1080x1920/`, `appstore-6.9-1320x2868/`, `appstore-6.5-1284x2778/`, `appstore-ipad-13-2064x2752/` içinde beşer ekran (1-kesfet … 5-atolyem) ve `play-tanitim-1024x500.png`. Tanıtım görselinin kaynağı `tanitim.html`.
 
 ## Kod tarafı (hazır)
 
