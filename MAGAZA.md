@@ -45,6 +45,8 @@ Paintline için açılan hesaplar Talaş'ta da kullanılır; yeni hesap değil, 
    - iOS: bulutta yalnız derleme denetimi yapılır. App Store'a yüklemek için Mac'te Xcode (`npx cap open ios` > Product > Archive) ya da Codemagic gibi bir bulut hizmeti ve Apple sertifikası gerekir.
 9. **Mağaza kayıtları:** Aşağıdaki metinleri, ekran görüntülerini, veri güvenliği ve yaş derecelendirmesi yanıtlarını gir; önce kapalı testte dene, sonra yayına al.
 
+**App Store (2026-11-11):** Kayıt "Talaş Atölye: Ahşap Projeler" (Apple ID 6833600302). Doldurulanlar: tanıtım metni, açıklama, anahtar kelimeler, destek/pazarlama adresi, telif "2026 EB Design TR", alt başlık "Kesim listesi ve yapım planı", kategori Yaşam Tarzı, yaş 4+ (reklam: evet), fiyat ücretsiz, 148 ülke (AB'nin 27 ülkesi yok, Paintline gibi), gizlilik URL ve 7 veri türü (konum, cihaz kimliği, reklam verisi: izleme; ürün etkileşimi, satın alma, çökme, performans: izleme yok; hiçbiri kimliğe bağlı değil). Ekran görüntüleri: 6,3" iPhone (1206×2622, `talas-magaza/appstore-6.3-1206x2622/`) ve 13" iPad, beşer. Kullanıcıda: gizlilik etiketini Publish, içerik hakları beyanı, inceleme iletişim bilgisi. Sırada: ilk derleme (Actions > iOS App Store), abonelik ürünleri, RevenueCat iOS (uygulama içi satın alma anahtarı), incelemeye gönderme.
+
 ## Mağaza metinleri
 
 **Ad (30 karakter):** Talaş Atölye: Ahşap Projeler
