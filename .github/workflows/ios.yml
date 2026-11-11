@@ -1,0 +1,47 @@
+# Talaş Atölye iPhone/iPad derlemesi ve App Store Connect'e (TestFlight) yükleme (GitHub'ın Mac makinesinde).
+# Actions > "iOS App Store" > Run workflow. Paintline'daki tarifin aynısı.
+# Gerekli gizli değerler (Settings > Secrets > Actions): APPLE_TEAM_ID, ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (.p8 dosyasının içeriği).
+name: iOS App Store
+on:
+  workflow_dispatch:
+    inputs:
+      makine:
+        description: "Mac makinesi (macos-26 doluysa macos-15)"
+        default: "macos-26"
+
+jobs:
+  yukle:
+    runs-on: ${{ github.event.inputs.makine || 'macos-26' }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: python3 tools/pages.py
+      - run: npx cap sync ios
+      - name: Xcode 26 seç
+        run: |
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          if [ -n "$X" ]; then sudo xcode-select -s "$X"; fi
+          xcodebuild -version | grep -q '^Xcode 26' || { echo "Bu makinede Xcode 26 yok"; ls -d /Applications/Xcode*; exit 1; }
+      - name: İmzalı derleme ve App Store Connect'e yükleme
+        env:
+          TEAM: ${{ secrets.APPLE_TEAM_ID }}
+          KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ISSUER: ${{ secrets.ASC_ISSUER_ID }}
+          KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          set -o pipefail
+          test -n "$KEY_P8" || { echo "ASC_KEY_P8 gizli değeri eksik"; exit 1; }
+          KEY="$RUNNER_TEMP/AuthKey_$KEY_ID.p8"; printf '%s' "$KEY_P8" > "$KEY"
+          AUTH="-allowProvisioningUpdates -authenticationKeyPath $KEY -authenticationKeyID $KEY_ID -authenticationKeyIssuerID $ISSUER"
+          xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            DEVELOPMENT_TEAM=$TEAM CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY="-" PROVISIONING_PROFILE_SPECIFIER="" \
+            CODE_SIGNING_REQUIRED=NO AD_HOC_CODE_SIGNING_ALLOWED=YES CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            $AUTH archive | tail -40
+          sed "s/TEAM_ID/$TEAM/" ios/ExportOptions.plist > "$RUNNER_TEMP/ExportOptions.plist"
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" -exportPath "$RUNNER_TEMP/out" $AUTH | tail -40
+          rm -f "$KEY"

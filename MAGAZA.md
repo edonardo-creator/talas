@@ -11,8 +11,8 @@ Paintline için açılan hesaplar Talaş'ta da kullanılır; yeni hesap değil, 
 | Hesap | Talaş için durum | Yapılacak |
 |---|---|---|
 | Google Play Console (EB Design TR) | Ortak, hazır | "Uygulama oluştur" → Talaş Atölye, paket `com.talasatolye.app`. Ödeme profili, satıcı adı, %15 ücret programı hesap düzeyinde geçerli. Kişisel hesap kuralı her yeni uygulama için yine 12 test kullanıcısı / 14 gün ister; Paintline'ın test listesi yeniden kullanılabilir. |
-| Apple Developer (Team ID `775SY2VSNK`) | Ortak, hazır | Yeni paket kimliği `com.talasatolye.app` kaydı (In-App Purchase açık) ve App Store Connect'te yeni uygulama kaydı. Paid Apps sözleşmesi, banka, W-8BEN ve Küçük İşletme Programı hesap düzeyinde, yeniden yapılmaz. |
-| App Store Connect API anahtarı | Ortak (paintline-ios deposunda gizli değer olarak) | Aynı anahtar talas deposunun gizli değerlerine de eklenmeli (`.p8` dosyası sende); GitHub gizli değerleri geri okunamaz. |
+| Apple Developer (Team ID `775SY2VSNK`) | Ortak, hazır | 2026-11-11: paket kimliği `com.talasatolye.app` kaydedildi (In-App Purchase varsayılan açık); App Store Connect kaydı "Talaş Atölye: Ahşap Projeler" (Apple ID 6833600302, SKU talas-ios, ana dil Türkçe). Paid Apps, banka, W-8BEN ve Küçük İşletme hesap düzeyinde, yeniden yapılmaz. |
+| App Store Connect API anahtarı | Ortak | Key ID `UM5XAZ929H`, Issuer ID `197b8898-eade-4118-9bb4-08a9436a3483`, Team ID `775SY2VSNK`. Talaş deposuna `APPLE_TEAM_ID`, `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8` gizli değerlerini kullanıcı ekler (`.p8` dosyası kullanıcıda). Yükleme: Actions > "iOS App Store" (`.github/workflows/ios.yml`). |
 | AdSense (PUB-6247665234607957) | Ortak ödeme hesabı | AdMob, aynı Google hesabıyla açılınca bu yayıncı kimliğine ve ödeme profiline bağlanır; AdMob'a ilk girişte kayıt formu çıkar. |
 | Android yükleme anahtarı | Paintline'ınki `boya-yolu/android/paintline-upload.jks` | Aynı anahtar Talaş'ta da kullanılabilir (Google izin verir); daha güvenlisi Talaş için ayrı anahtar. Şifreleri GitHub gizli değerlerine sen girersin. |
 | RevenueCat | Paintline kullanmıyor | Yeni ücretsiz hesap gerekir. |
