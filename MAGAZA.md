@@ -72,6 +72,14 @@ Talaş Premium ile reklamsız kullan, kesimden artan parçaları sakla ve yeni p
 
 Ürün fotoğrafları yapay zekâ ile üretilmiş ilham görselleridir; yapım için çizim ve ölçüler esas alınır.
 
+Talaş Premium aylık ve yıllık, otomatik yenilenen abonelik olarak sunulur. Ödeme Apple hesabından alınır; abonelik, dönem bitmeden en az 24 saat önce iptal edilmezse yenilenir. Aboneliği App Store hesap ayarlarından yönetip iptal edebilirsin.
+
+Kullanım Koşulları (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Talaş kullanım koşulları: https://edonardo-creator.github.io/talas/kosullar.html
+Gizlilik politikası: https://edonardo-creator.github.io/talas/gizlilik.html
+
+> App Store açıklamasının sonundaki abonelik paragrafı ve bağlantılar zorunludur (Apple 3.1.2: otomatik yenilenen abonelikte açıklamada EULA bağlantısı). Play açıklamasında "Apple hesabından" yerine "Google Play hesabından" yazılabilir ya da bu kısım çıkarılabilir.
+
 **Kategori:** Ev ve Bahçe (Play) · Yaşam Tarzı (App Store). **Etiketler:** ahşap, marangoz, kendin yap, mobilya, kesim listesi.
 
 ## Veri güvenliği (Play) ve gizlilik etiketi (App Store) yanıtları
