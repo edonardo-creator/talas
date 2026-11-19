@@ -47,6 +47,10 @@
     <true/>
     <key>GADApplicationIdentifier</key>
     <string>ca-app-pub-6247665234607957~7364744769</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Ürün fotoğrafı çekip ölçülerini ve parçalarını çıkarmak için kamera kullanılır.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Galeriden ürün fotoğrafı seçmek için fotoğraflarına erişim istenir.</string>
     <key>NSUserTrackingUsageDescription</key>
     <string>Reklamların sana daha uygun olması için izin verebilirsin. İzin vermesen de uygulamanın tamamını kullanabilirsin.</string>
     <key>SKAdNetworkItems</key>
