@@ -173,3 +173,15 @@ body.has-ad .wrap,body.has-ad.project-page .wrap{padding-bottom:170px}
   a[href$='gizlilik.html'],a[href$='kosullar.html']{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
 }
 .pw-code{margin:10px 0 2px;font-size:13px}.pw-code summary{cursor:pointer;color:var(--muted);min-height:44px;display:flex;align-items:center}.pw-code form{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.pw-code input{flex:1;min-width:0;font-size:16px;padding:9px 10px;border:1px solid var(--line-2);border-radius:7px;background:var(--panel);color:var(--ink);text-transform:uppercase}.pw-code .pw-msg{flex-basis:100%;margin:0}
+
+/* Yapım adımı vida yerleri (index.html screwJoints/screwHTML, iso opt.screws) */
+.scr-ar line{stroke:var(--accent);stroke-linecap:round}
+.scr-ar polygon{fill:var(--accent);stroke:var(--accent);stroke-width:.5px;stroke-linejoin:round}
+.scr-halo line{stroke:#fff;stroke-linecap:round;opacity:.92}
+.scr-halo polygon{fill:#fff;stroke:#fff;stroke-linejoin:round;opacity:.92}
+.scr-dot circle{fill:var(--accent);stroke:#fff}
+.screws{border-top:1px solid var(--line);padding-top:10px}
+.scr-row{display:flex;gap:10px;align-items:flex-start;padding:6px 0}
+.scr-row+.scr-row{border-top:1px dashed var(--line)}
+.scr-row .s{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.45}
+.scr-ic{color:var(--accent-text);font-weight:800;font-size:18px;line-height:1.2}

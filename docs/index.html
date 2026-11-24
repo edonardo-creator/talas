@@ -398,7 +398,7 @@ svg.studio .f{stroke:var(--edge-soft);stroke-width:.7}
 .model[aria-pressed="true"]{border-color:var(--accent);color:var(--accent-text);font-weight:600}
 @media (prefers-reduced-motion:reduce){.card:hover,.cattile:hover{transform:none}}
 </style>
-<link rel="stylesheet" href="atolye.css?v=d66274cc">
+<link rel="stylesheet" href="atolye.css?v=181e5b2b">
 
 <div class="wrap" id="app"></div>
 <nav class="nav" aria-label="Ana gezinme">
@@ -807,6 +807,24 @@ function iso(parts,opt={}){
   ghost.forEach(o=>out+=draw(o.p,'n',true));
   order.forEach(i=>{const o=solidP[i];out+=`<g class="${o.s==='new'?'nw':''}"><title>${esc(o.p.name)}</title>${draw(o.p,o.s)}</g>`;});
   if(opt.studio) out+='</g>';
+  if(opt.screws&&opt.screws.length){
+    // Vida okları: ok, vidanın girdiği yüzün dışından vida yönünde gelir; noktalar her vidanın yeri
+    const al=span*.075, hw=span*.016, sw=span*.0055, dr=span*.0075, f=v=>v.toFixed(1);
+    let ar='', dots='';
+    opt.screws.forEach((J,ji)=>{
+      const off=J.kind==='cep'||J.kind==='kav'?0:J.t, E=J.pts.map(P=>P.map((v,i)=>v-J.dir[i]*off));
+      E.forEach(Q=>{const [u,v]=pj(...Q);dots+=`<circle cx="${f(u)}" cy="${f(v)}" r="${f(dr)}"/>`;});
+      if(ji>=14) return; // çok birleşimli adımda oklar çizimi boğmasın; noktalar hepsinde var
+      const m=E.reduce((a,Q)=>a.map((v,i)=>v+Q[i]/E.length),[0,0,0]);
+      const [x1,y1]=pj(...m), [x0,y0]=pj(...m.map((v,i)=>v-J.dir[i]*al*1.6));
+      let dx=x1-x0,dy=y1-y0; const d=Math.hypot(dx,dy);
+      // ok bakış yönünde kısalıyorsa (yön ekrana dik) çapraz bir doğrultuya çevir
+      if(d<al*.35){dx=-al*.7;dy=-al*.7;} else {dx=dx/d*al;dy=dy/d*al;}
+      const tx=x1-dx*.12, ty=y1-dy*.12, L=Math.hypot(dx,dy), ux=dx/L, uy=dy/L;
+      const bx=tx-ux*hw*1.6, by=ty-uy*hw*1.6;
+      ar+=`<line x1="${f(tx-dx)}" y1="${f(ty-dy)}" x2="${f(bx)}" y2="${f(by)}"/><polygon points="${f(tx)},${f(ty)} ${f(bx-uy*hw)},${f(by+ux*hw)} ${f(bx+uy*hw)},${f(by-ux*hw)}"/>`;});
+    out+=`<g class="scr" aria-hidden="true"><g class="scr-halo" stroke-width="${f(sw*2.6)}">${ar}</g><g class="scr-ar" stroke-width="${f(sw)}">${ar}</g><g class="scr-dot" stroke-width="${f(sw*.6)}">${dots}</g></g>`;
+  }
   if(opt.labels&&opt.gnum){
     const r=span*.03, seen={}, b=bbox(solidP.map(o=>o.p)); const [ccx,ccy]=pj((b.x0+b.x1)/2,(b.y0+b.y1)/2,(b.z0+b.z1)/2);
     solidP.forEach(o=>{const p=o.p; if(seen[p.g]||!(p.g in opt.gnum)) return; if(opt.labels==='new'&&o.s!=='new') return; seen[p.g]=1;
@@ -831,6 +849,123 @@ function depthSort(ps){
     if(q<0){for(let i=0;i<n;i++)if(!done[i]&&(q<0||key(i)<key(q)))q=i;}
     done[q]=true;out.push(q);adj[q].forEach(j=>deg[j]--);}
   return out;
+}
+
+/* ---------- vida yerleri ----------
+   Her adımda yeni takılan parçanın, o ana kadar kurulmuş (ya da aynı adımda takılan) parçalara değdiği yüzeyler bulunur.
+   Vida, temas yüzü geniş yüzü olan (içinden geçilen) parçadan karşı parçaya girer. Cinsi ve ölçüsü ürünün hırdavat
+   listesinden seçilir (listede uygun boy yoksa o birleşim gösterilmez). Listede vida yoksa birleşim adındaki kavela,
+   cıvata ya da çivi gösterilir; hiçbiri yoksa (yalnız tutkal) adımda bağlantı bölümü çıkmaz. */
+function screwStock(c){
+  if(c._sst) return c._sst;
+  const out=[];
+  (c.hw||[]).forEach(h=>{const n=String(h[0]); if(/kapa[ğg]|dübel|köşebent|kelebe|menteşe|ray/i.test(n)) return; // duvar dübeli, kapak, menteşe/ray vidası sayılmaz
+    const m=n.match(/(\d+(?:,\d+)?)\s*[×x]\s*(\d+)/);
+    if(/konfirmat/i.test(n)) out.push({kind:'konf',n:'Konfirmat vidası 7×50',d:7,L:50});
+    else if(/cep vidas/i.test(n)){const l=n.match(/(\d+)\s*mm/);out.push({kind:'cep',n,d:0,L:l?+l[1]:32});}
+    else if(/vida/i.test(n)&&m) out.push({kind:'vida',n,d:+m[1].replace(',','.'),L:+m[2]});
+    else if(/cıvata/i.test(n)){const b=n.match(/M(\d+)\s*[×x]\s*(\d+)/);if(b)out.push({kind:'civ',n,d:+b[1],L:+b[2]});}
+    else if(/kavela/i.test(n)&&m) out.push({kind:'kav',n,d:+m[1].replace(',','.'),L:+m[2]});
+    else if(/çivi/i.test(n)&&m) out.push({kind:'civi',n,d:+m[1].replace(',','.'),L:+m[2]});});
+  // Vida varsa vida birleşimi esas; yoksa ürünün birleşim adındaki ilk eleman (cıvata, kavela, çivi)
+  const scr=out.filter(s=>['konf','cep','vida'].includes(s.kind));
+  if(scr.length) return c._sst=scr;
+  const j=(c.join||'').toLowerCase(), pos=k=>{const w={civ:'cıvata',kav:'kavela',civi:'çivi'}[k];const i=j.indexOf(w);return i<0?99:i;};
+  const alt=['kav','civ','civi'].filter(k=>out.some(s=>s.kind===k)).sort((a,b)=>pos(a)-pos(b));
+  return c._sst=alt.length?out.filter(s=>s.kind===alt[0]):[];
+}
+function screwJoints(c,si){
+  c._scr=c._scr||{}; if(c._scr[si]) return c._scr[si];
+  const stock=screwStock(c), res=c._scr[si]={joints:[],rows:[]};
+  if(!stock.length) return res;
+  // Eğri parçalar (halkalı katılar) yalnız düz kapak yüzlerinden temas eder: iki halka bir eksende sabitse o eksen
+  const capAx=q=>{if(!q.rings) return -1; const [r0,r1]=q.rings; for(let k=0;k<3;k++){const v0=r0[0][k],v1=r1[0][k];
+    if(Math.abs(v0-v1)>1&&r0.every(p=>Math.abs(p[k]-v0)<.01)&&r1.every(p=>Math.abs(p[k]-v1)<.01)) return k;} return -2;};
+  const ok=q=>!q.deco&&(!q.rings||capAx(q)>=0)&&MAT[q.mat]&&MAT[q.mat].type!=='hw'&&q.step>=0&&q.step<=si;
+  const ps=c.parts.filter(ok), e=0.6, AX=['x','y','z'], SZ=['sx','sy','sz'];
+  const hasKonf=stock.some(s=>s.kind==='konf'), hasCep=stock.some(s=>s.kind==='cep');
+  const dims=q=>[q.sx,q.sy,q.sz], mn=q=>Math.min(...dims(q)), mx=q=>Math.max(...dims(q));
+  for(let i=0;i<ps.length;i++)for(let j=i+1;j<ps.length;j++){
+    const A=ps[i],B=ps[j]; if(A.step!==si&&B.step!==si) continue;
+    for(let k=0;k<3;k++){
+      if((A.rings&&capAx(A)!==k)||(B.rings&&capAx(B)!==k)) continue;
+      const a0=A[AX[k]],a1=a0+A[SZ[k]],b0=B[AX[k]],b1=b0+B[SZ[k]];
+      let sgn=0; if(Math.abs(a1-b0)<e) sgn=1; else if(Math.abs(b1-a0)<e) sgn=-1; else continue; // sgn: A'dan B'ye yön
+      const o=[0,1,2].filter(t=>t!==k), lo=[],hi=[]; let fine=true;
+      o.forEach(t=>{const l=Math.max(A[AX[t]],B[AX[t]]),h=Math.min(A[AX[t]]+A[SZ[t]],B[AX[t]]+B[SZ[t]]); if(h-l<12) fine=false; lo.push(l);hi.push(h);});
+      if(!fine) continue;
+      const broad=q=>q[SZ[k]]<=mn(q)*1.05+0.5, endg=q=>q[SZ[k]]>=mx(q)-0.5&&mx(q)>=2*mn(q);
+      let T=null,dir=sgn;
+      if(endg(A)&&!endg(B)&&!broad(A)) T=B; // ucu dayanan parçaya yandan girilir
+      else if(endg(B)&&!endg(A)&&!broad(B)) T=A;
+      else if(broad(A)&&broad(B)){const ta=A[SZ[k]],tb=B[SZ[k]];
+        T= ta<tb*0.8?A: tb<ta*0.8?B: A.step===si&&B.step!==si?A: B.step===si&&A.step!==si?B: (k===1?(A[AX[1]]>B[AX[1]]?A:B):A);}
+      else if(broad(A)) T=A; else if(broad(B)) T=B; else continue; // kenar kenara: tutkal ya da kavela
+      const R=T===A?B:A; if(T===B) dir=-sgn;
+      let t=T[SZ[k]], depth=R[SZ[k]];
+      // Cep vidası: çerçeve/kayıt birleşiminde vida, ucu dayanan kayıttan açılı girer
+      const alt=stock[0]&&['kav','civ','civi'].includes(stock[0].kind)?stock[0].kind:null;
+      let kind=alt||'vida';
+      if(!alt&&hasCep&&endg(R)&&MAT[R.mat].type==='lumber'){kind='cep';}
+      else if(!alt&&hasKonf&&MAT[T.mat].type==='sheet'&&MAT[R.mat].type==='sheet'&&t>=15&&t<=19.5) kind='konf';
+      if(kind==='vida'&&(t<6||t>60||depth<10)) continue;
+      if(kind==='kav'&&(t<12||depth<12)) continue;
+      if(kind==='civi'&&(t>25||depth<8)) continue;
+      if(kind==='civ'&&t<15) continue;
+      // ölçü
+      let spec;
+      if(kind==='cep') spec=stock.find(s=>s.kind==='cep');
+      else if(kind==='konf') spec=stock.find(s=>s.kind==='konf');
+      else if(alt){const c2=stock.slice().sort((a,b)=>Math.abs(a.L-t*2.5)-Math.abs(b.L-t*2.5)); spec=c2[0];}
+      else{const cap=t+depth-3, ideal=Math.min(t+Math.min(t*1.5,50),cap);
+        // Yalnız ürünün hırdavat listesindeki vidalar: karşı parçaya en az 10 mm (ya da kalınlığın yarısı) girmeli, öbür yüzden çıkmamalı
+        const cands=stock.filter(s=>s.kind==='vida'&&s.L>=t+Math.max(10,t*.5)&&s.L<=cap);
+        cands.sort((a,b)=>Math.abs(a.L-ideal)-Math.abs(b.L-ideal));
+        if(!cands.length) continue;
+        spec=cands[0];}
+      // vida sayısı ve yerleri (temas dikdörtgeni üzerinde)
+      const len=[hi[0]-lo[0],hi[1]-lo[1]], li=len[0]>=len[1]?0:1, si2=1-li, L0=len[li], S0=len[si2];
+      let n= L0<60?1: Math.max(2,Math.round(L0/200)+1); if(kind==='cep') n=Math.max(2,Math.min(n,3)); if(kind==='konf') n=Math.max(2,Math.round(L0/250)+1); if(kind==='civ') n=L0<150?1:2;
+      if(n===1&&S0>=60) n=2;
+      const pts=[];
+      for(let m=0;m<n;m++){const fr=n===1?.5:(Math.min(30,L0/4)+m*(L0-2*Math.min(30,L0/4))/(n-1))/L0;
+        const u=[0,0]; u[li]=lo[li]+fr*L0; u[si2]=n===2&&L0<60?lo[si2]+(m?.7:.3)*S0:lo[si2]+S0/2;
+        const P=[0,0,0]; P[o[0]]=u[0]; P[o[1]]=u[1];
+        // temas düzlemi
+        P[k]= dir>0? T[AX[k]]+T[SZ[k]] : T[AX[k]];
+        pts.push(P);}
+      const dv=[0,0,0]; dv[k]=kind==='cep'?-dir:dir; // cep vidası kayıttan dikmeye girer
+      res.joints.push({T,R,kind,spec,n,pts,dir:dv,k,t:kind==='cep'?R[SZ[k]]:t});
+    }
+  }
+  // satırlar: aynı (geçen grup, karşı grup, vida) birleşir
+  const rows={};
+  res.joints.forEach(J=>{const key=J.T.g+'|'+J.R.g+'|'+J.spec.n+'|'+J.kind;
+    (rows[key]=rows[key]||{a:J.T.g,b:J.R.g,spec:J.spec,kind:J.kind,n:0,j:0}); rows[key].n+=J.n; rows[key].j++;});
+  res.rows=Object.values(rows);
+  return res;
+}
+function screwHow(r){
+  const s=r.spec;
+  if(r.kind==='konf') return 'Kademeli konfirmat ucuyla (Ø5/7) tek seferde del, sonra sık.';
+  if(r.kind==='cep') return 'Cep deliğini aparatla iç ya da alt yüzden aç; vida açılı girer, dışarıdan görünmez.';
+  if(r.kind==='kav') return `İki parçaya karşılıklı Ø${String(s.d).replace('.',',')} mm, ${Math.round(s.L/2)+2} mm derin delik aç (kavela merkezleme pimiyle hizala); deliğe tutkal sür, kavelayı çak, birleştir.`;
+  if(r.kind==='civ') return `İki parçayı birlikte Ø${s.d+1} mm del, cıvatayı geçir; karşı uca gömme somun ya da pullu somun tak, sıkı ama ezmeden sık.`;
+  if(r.kind==='civi') return 'Birleşime tutkal sür, çiviyi çak, başını çivi zımbasıyla yüzeyin biraz altına göm.';
+  const pd=s.d<=3.5?2.5:s.d<=4?3:s.d<=5?3.5:4;
+  return `Önce Ø${String(pd).replace('.',',')} mm kılavuz delik, sonra havşa, sonra vida.`;
+}
+function screwHTML(c,si){
+  const S=screwJoints(c,si); if(!S.rows.length) return '';
+  const nm=g=>c.gnum[g]?c.K(g):'';
+  const allScr=S.rows.every(r=>['vida','konf','cep'].includes(r.kind));
+  const ttl=allScr?'Vidalar':S.rows[0].kind==='kav'?'Kavelalar':S.rows[0].kind==='civ'?'Cıvatalar':'Çiviler';
+  return `<div class="screws"><div class="eyebrow" style="margin-bottom:6px">${ttl}</div>${S.rows.map(r=>{const s=r.spec;
+    const D=String(s.d).replace('.',',');
+    const size=r.kind==='cep'?s.L+' mm':r.kind==='civ'?'M'+D+'×'+s.L+' mm':r.kind==='kav'?'Ø'+D+'×'+s.L+' mm':D+'×'+s.L+' mm';
+    const dir=r.kind==='cep'?`${nm(r.b)} parçasından ${nm(r.a)} parçasına`:`${nm(r.a)} parçasından ${nm(r.b)} parçasına`;
+    return `<div class="scr-row"><span class="scr-ic" aria-hidden="true">➘</span><div><b>${r.n} adet ${esc(size)}</b> <span class="muted">${esc(s.n.replace(/\s*M?\d+(?:,\d+)?\s*[×x]\s*\d+.*$/,'').replace(/\s*\d+\s*mm.*$/,''))}</span><div class="s">${dir}${r.j>1?` · ${r.j} birleşim`:''}. ${esc(screwHow(r))}</div></div></div>`;}).join('')}
+    <p class="muted" style="font-size:12px;margin:4px 0 0">Çizimdeki turuncu oklar ${allScr?'vidanın girdiği yeri ve yönü':'bağlantının yerini ve yönünü'}, noktalar ${allScr?'vida':'delik'} yerlerini gösterir. Delikleri kenardan en az 20 mm içeride tut.</p></div>`;
 }
 
 /* ---------- plan görünüşleri ---------- */
@@ -1031,7 +1166,7 @@ function viewProject(id){
 function refresh(){
   const {pr,c}=CUR;
   const v=document.getElementById('viewer');
-  if(CUR.tab==='yapim'){const si=curStep();v.innerHTML=iso(c.parts,{state:q=>q.step<si?'old':q.step===si?'new':'ghost',labels:'new',gnum:c.gnum,studio:true});}
+  if(CUR.tab==='yapim'){const si=curStep();v.innerHTML=iso(c.parts,{state:q=>q.step<si?'old':q.step===si?'new':'ghost',labels:'new',gnum:c.gnum,studio:true,screws:screwJoints(c,si).joints});}
   else v.innerHTML=iso(c.parts,{explode:CUR.view==='exp'?.55:0,labels:CUR.view==='exp',gnum:c.gnum,aria:pr.name,studio:true})+`<div class="vtoggle" role="group" aria-label="Görünüm"><button data-view="iso" aria-pressed="${CUR.view==='iso'}">Montajlı</button><button data-view="exp" aria-pressed="${CUR.view==='exp'}">Parçalara ayrılmış</button></div>`;
   const st=stock(c);
   document.getElementById('facts').innerHTML=`<div><b>Bitmiş ölçü</b><span class="mono">${c.dims.join(' × ')} mm</span></div><div><b>Ahşap</b><span>${esc(pr.wood||woodOf(c))}</span></div><div><b>Parça</b><span class="mono">${c.parts.filter(q=>MAT[q.mat].type!=='hw').length} adet · ${c.groups.filter(g=>!g.hw).length} çeşit</span></div><div><b>Alınacak</b><span class="mono">${[['board','boy kereste'],['sheet','plaka']].map(([t,l])=>{const n=st.filter(s=>(s.type==='sheet')===(t==='sheet')).reduce((a,s)=>a+s.count,0);return n?n+' '+l:''}).filter(Boolean).join(' + ')}</span></div>`;
@@ -1083,9 +1218,10 @@ const TABS={
     const newG=[...new Set(s.add||[])];
     return `<div class="player"><div class="stepbar">${c.steps.map((x,i)=>`<button data-step="${i}" class="${i===si?'cur':d[i]?'done':''}" aria-label="Adım ${i+1}: ${esc(x.t)}"></button>`).join('')}</div>
     <div class="panel stepcard"><div class="eyebrow">Adım ${si+1} / ${c.steps.length}</div><h3>${esc(s.t)}</h3>
-    <figure class="step-art">${iso(c.parts,{state:q=>q.step<si?'old':q.step===si?'new':'ghost',labels:'new',gnum:c.gnum,studio:true})}</figure>
+    <figure class="step-art">${iso(c.parts,{state:q=>q.step<si?'old':q.step===si?'new':'ghost',labels:'new',gnum:c.gnum,studio:true,screws:screwJoints(c,si).joints})}</figure>
     ${newG.length?`<div class="mini">${newG.map(g=>`<span class="tag">${c.K(g)} ${esc(c.groups[c.gnum[g]-1].name)} ×${c.groups[c.gnum[g]-1].parts.length}</span>`).join('')}</div>`:''}
     <div class="txt">${s.x}</div>
+    ${screwHTML(c,si)}
     ${s.tip?`<div class="note tip"><b>İpucu</b><span>${esc(s.tip)}</span></div>`:''}
     ${s.warn?`<div class="note warn"><b>Dikkat</b><span>${esc(s.warn)}</span></div>`:''}
     ${s.tools&&s.tools.length?`<div><div class="eyebrow" style="margin-bottom:6px">Bu adımda</div><div class="mini">${s.tools.map(t=>`<span class="tag">${esc(TOOLS[t].n)}</span>`).join('')}</div></div>`:''}
